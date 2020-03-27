@@ -15,7 +15,6 @@ build:
   before_script:
     - export GRADLE_USER_HOME=$PWD/.gradle
   script:
-    - ./gradlew clean build -x test
     - mv build/libs/*.jar build/app.jar
     - mv sql-scripts build/sql-scripts
   artifacts:
