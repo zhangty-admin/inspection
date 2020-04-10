@@ -3,20 +3,33 @@ server:
 spring:
   application:
     name: inspection
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.102.200.238:30411/inspection?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: readonly
+    password: whir123!@#
   main:
     allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
 # redis:
 #  host: 192.168.200.128
 # Swagger界面内容配置
 swagger:
-  title: TMax API接口文档
-  description: TMax Api Documentation
+  title: 安康专属API接口文档
+  description: Safety Inspection Api Documentation
   version: 1.0.0
   termsOfServiceUrl: https://github.com/zuyunbo
   contact:
     name: 2u
     url: https://github.com/zuyunbo
     email: sy829322@163.com
+mybatis:
+  mapperLocations: classpath:mapper/*.xml #映射位置
+  type-aliases-package: net.whir.hos.inspection.pc.bean  #对应实体类的路径
+  configuration:
+    mapUnderscoreToCamelCase: true #自动转驼峰
+logging:
+  level:
+    net.whir.hos.inspection.pc.dao: DEBUG
 #eureka:
 # client:
 #  service-url:

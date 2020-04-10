@@ -20,6 +20,11 @@ import java.util.List;
 @Slf4j
 @Configuration
 @EnableSwagger2
+
+/**
+ * @Author: zty
+ * @Date: 2020/4/7 10:14 上午
+ */
 public class Swagger2Config {
 
     @Value("${swagger.title}")
