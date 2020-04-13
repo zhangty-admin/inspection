@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -30,6 +31,7 @@ public class Employee implements Serializable {
     @Id
     @ApiModelProperty(value = "ID")
     @Excel(name = "工号", orderNum = "6")
+    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     @ApiModelProperty(value = "名称")

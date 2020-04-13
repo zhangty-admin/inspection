@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,6 +26,7 @@ public class Inspection implements Serializable {
 
     @Id
     @ApiModelProperty(value = "ID")
+    @GeneratedValue(generator = "JDBC")
     private Long id;
 
     @ApiModelProperty(value = "巡检计划名称")

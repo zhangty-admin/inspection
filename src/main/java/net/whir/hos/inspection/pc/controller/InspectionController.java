@@ -46,7 +46,7 @@ public class InspectionController {
         try {
             inspectionService.update(inspectionItemIds);
         } catch (Exception e) {
-            log.warn("新增失败:" + e.getMessage());
+            log.warn("修改失败:" + e.getMessage());
             return new Result(false, StatusCode.ERROR, "修改失败");
         }
         return new Result(true, StatusCode.OK, "修改成功");

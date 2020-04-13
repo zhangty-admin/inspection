@@ -55,12 +55,14 @@ public class InspectionServiceImpl implements InspectionService {
     public void update(InspectionItemIds inspectionItemIds) {
         List<Long> itemIds = inspectionItemIds.getItemIds();
         Inspection inspection = inspectionItemIds.getInspection();
+        Long id = inspectionItemIds.getInspection().getId();
+
+        Example example = new Example(InspectionItem.class);
+        example.createCriteria().andEqualTo("inspectionId", id);
+        inspectionItemDao.deleteByExample(example);
         if (!StringUtils.isEmpty(itemIds)) {
-            for (Long itemId : itemIds) {
-                inspectionItemDao.deleteByPrimaryKey(itemId);
-            }
             InspectionItem inspectionItem = new InspectionItem();
-            relateAndInsertList(inspectionDao, inspectionItem, inspection.getId(), itemIds, "insert");
+            relateAndInsertList(inspectionItemDao, inspectionItem, inspection.getId(), itemIds, "insert");
         }
         inspectionDao.updateByPrimaryKeySelective(inspection);
     }
