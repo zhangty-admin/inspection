@@ -11,6 +11,7 @@ import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
  * @Date: 2020/4/10 9:34 上午
  */
 @Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
 
     @Autowired

@@ -5,9 +5,9 @@ spring:
     name: inspection
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://47.102.200.238:30411/inspection?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
-    username: readonly
-    password: whir123!@#
+    url: jdbc:mysql://47.111.237.66:3306/inspection?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: 123456
   main:
     allow-bean-definition-overriding: true #当遇到同样名字的时候，是否允许覆盖注册
 # redis:

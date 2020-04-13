@@ -1,6 +1,5 @@
 package net.whir.hos.inspection.pc.service;
 
-import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
 
 import java.util.List;
@@ -20,4 +19,16 @@ public interface InspectionService {
     void add(InspectionItemIds inspectionItemIds);
 
 
+    /**
+     * 修改巡检计划
+     *
+     * @param inspectionItemIds
+     */
+    void update(InspectionItemIds inspectionItemIds);
+
+    /**
+     * 删除巡检计划
+     * @param ids
+     */
+    void delete(List<Long> ids);
 }
