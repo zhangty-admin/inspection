@@ -39,6 +39,6 @@ public class Building implements Serializable {
     private Date createTime;
 
     @ApiModelProperty(name = "楼层")
-    private List<floor> floors;
+    private List<Floor> floors;
 
 }

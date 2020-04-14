@@ -23,7 +23,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Table(name = "FLOOR")
 @ApiModel(description = "楼层")
-public class floor implements Serializable {
+public class Floor implements Serializable {
 
     @Id
     @GeneratedValue(generator = "JDBC")
