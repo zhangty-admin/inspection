@@ -2,8 +2,10 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private ItemDao itemDao;
+
+    @Autowired
+    private InspectionItemDao inspectionItemDao;
 
     /**
      * 导入检查项数据
@@ -60,6 +65,9 @@ public class ItemServiceImpl implements ItemService {
     public void deleteByIds(List<Long> ids) {
         for (Long id : ids) {
             itemDao.deleteByPrimaryKey(id);
+            Example example = new Example(InspectionItem.class);
+            example.createCriteria().andEqualTo("itemId", id);
+            inspectionItemDao.deleteByExample(example);
         }
     }
 
@@ -89,7 +97,7 @@ public class ItemServiceImpl implements ItemService {
 
         //createTime
         if (item.getCreateTime() != null && !"".equals(item.getCreateTime())) {
-            criteria.andEqualTo("create_time", item.getCreateTime());
+            criteria.andEqualTo("createTime", item.getCreateTime());
         }
 
         return example;

@@ -17,10 +17,10 @@ import lombok.NoArgsConstructor;
 public  class PageRequest<T> {
 
     @ApiModelProperty(value = "当前页码")
-    private int pageNum;
+    private int pageNum = 1;
 
     @ApiModelProperty(value = "每页数量")
-    private int pageSize;
+    private int pageSize = 10;
 
     @ApiModelProperty(value = "查询条件")
     private T obj;

@@ -87,7 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //createTime
         if (employee.getCreateTime() != null && !"".equals(employee.getCreateTime())) {
-            criteria.andEqualTo("create_time", employee.getCreateTime());
+            criteria.andEqualTo("createTime", employee.getCreateTime());
         }
 
         //sex

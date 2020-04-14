@@ -47,7 +47,7 @@ public class User implements Serializable {
      * 创建时间
      */
     @ApiModelProperty(value = "创建时间")
-    private Date create_time;
+    private Date createTime;
 
     /**
      * 用户ID
