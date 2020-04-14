@@ -2,9 +2,6 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import lombok.extern.slf4j.Slf4j;
-import net.whir.hos.inspection.commons.entity.Result;
-import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.pc.bean.PageRequest;
 import net.whir.hos.inspection.pc.dao.ItemDao;
@@ -30,11 +27,13 @@ public class ItemServiceImpl implements ItemService {
     /**
      * 导入检查项数据
      *
-     * @param item
+     * @param items
      */
     @Override
-    public void add(Item item) {
-        itemDao.insert(item);
+    public void add(List<Item> items) {
+        for (Item item : items) {
+            itemDao.insertSelective(item);
+        }
     }
 
     /**
@@ -75,8 +74,8 @@ public class ItemServiceImpl implements ItemService {
 
 
     //分页查询条件
-    public Example createExample(PageRequest pageRequest) {
-        Item item = pageRequest.getItem();
+    public Example createExample(PageRequest<Item> pageRequest) {
+        Item item = pageRequest.getObj();
         Example example = new Example(Item.class);
         Example.Criteria criteria = example.createCriteria();
         if (item == null) {

@@ -1,9 +1,12 @@
 package net.whir.hos.inspection.pc.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
+import net.whir.hos.inspection.pc.bean.PageRequest;
 import net.whir.hos.inspection.pc.dao.InspectionDao;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.service.InspectionService;
@@ -78,9 +81,22 @@ public class InspectionServiceImpl implements InspectionService {
             inspectionDao.deleteByPrimaryKey(id);
             Example example = new Example(InspectionItem.class);
             Example.Criteria criteria = example.createCriteria();
-            criteria.andEqualTo("inspection_id", id);
+            criteria.andEqualTo("inspectionId", id);
             inspectionItemDao.deleteByExample(example);
         }
+    }
+
+    /**
+     * 分页查询巡检计划
+     *
+     * @param pageRequest
+     */
+    @Override
+    public Page<Inspection> findPage(PageRequest<Inspection> pageRequest) {
+        PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
+        Inspection obj = pageRequest.getObj();
+        List<Inspection> inspections = inspectionDao.selectInspectionPage(obj);
+        return (Page<Inspection>) inspections;
     }
 
 

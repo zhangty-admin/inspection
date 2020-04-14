@@ -1,6 +1,9 @@
 package net.whir.hos.inspection.pc.service;
 
+import com.github.pagehelper.Page;
+import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
+import net.whir.hos.inspection.pc.bean.PageRequest;
 
 import java.util.List;
 
@@ -28,7 +31,15 @@ public interface InspectionService {
 
     /**
      * 删除巡检计划
+     *
      * @param ids
      */
     void delete(List<Long> ids);
+
+    /**
+     * 分页查询巡检计划
+     *
+     * @param pageRequest
+     */
+    Page<Inspection> findPage(PageRequest<Inspection> pageRequest);
 }

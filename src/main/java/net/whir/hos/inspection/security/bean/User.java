@@ -53,5 +53,5 @@ public class User implements Serializable {
      * 用户ID
      */
     @ApiModelProperty(value = "用户ID")
-    private Long employee_id;
+    private String nickName;
 }

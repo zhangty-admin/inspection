@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.whir.hos.inspection.pc.dao.InspectionDao">
+    <resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
+        <id column="id" property="id"/>
+        <id column="building_id" property="buildingId"/>
+        <id column="department_id" property="departmentId"/>
+        <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
+                     select="queryDepartment" column="department_id">
+        </association>
+        <association property="building" javaType="net.whir.hos.inspection.pc.bean.Building"
+                     select="queryBuilding" column="building_id">
+        </association>
+        <collection property="item" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Item"
+                    autoMapping="true" select="queryItems" column="id">
+            <id column="inspection_id" property="id"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectInspectionPage" parameterType="net.whir.hos.inspection.pc.bean.Inspection" resultMap="InspectionMap">
+        select * from inspection
+        <where>
+            <if test="name != null and name != '' ">
+                and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="departmentId >-1 and departmentId !=null">
+                and department_id = #{departmentId}
+            </if>
+            <if test="heaven > -1 and heaven!=null">
+                and heaven = #{heaven}
+            </if>
+            <if test="buildingId > -1 and buildingId != null">
+                and building_id = #{buildingId}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
+        select * from department where id = #{department_id}
+    </select>
+
+    <select id="queryBuilding" resultType="net.whir.hos.inspection.pc.bean.Building">
+        select * from building where id = #{building_id}
+    </select>
+
+    <select id="queryItems" resultType="net.whir.hos.inspection.pc.bean.Item" parameterType="map">
+        select * from inspection_item ii inner join item i on ii.item_id = i.id where ii.inspection_id = #{id}
+    </select>
+
+</mapper>

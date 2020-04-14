@@ -39,10 +39,7 @@ public class Inspection implements Serializable {
     private String numbering;
 
     @ApiModelProperty(value = "楼宇")
-    private String building;
-
-    @ApiModelProperty(value = "楼层")
-    private String floor;
+    private Integer buildingId;
 
     @ApiModelProperty(value = "应查天数")
     private Integer heaven;
@@ -56,6 +53,12 @@ public class Inspection implements Serializable {
     @ApiModelProperty(value = "负责人ID")
     private Long employeeId;
 
-    @ApiModelProperty(value = "检查项ID")
-    private Long itemId;
+    @ApiModelProperty(value = "科室")
+    private Department department;
+
+    @ApiModelProperty(value = "检查项")
+    private List<Item> item;
+
+    @ApiModelProperty(value = "楼宇")
+    private Building building;
 }

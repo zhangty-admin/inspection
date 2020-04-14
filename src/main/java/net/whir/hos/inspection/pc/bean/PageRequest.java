@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "分页请求")
-public class PageRequest {
+public  class PageRequest<T> {
 
     @ApiModelProperty(value = "当前页码")
     private int pageNum;
@@ -23,6 +23,6 @@ public class PageRequest {
     private int pageSize;
 
     @ApiModelProperty(value = "查询条件")
-    private Item item;
+    private T obj;
 
 }

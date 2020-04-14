@@ -17,7 +17,7 @@ public interface ItemService {
      * 导入检查项数据
      * @param item
      */
-    void add(Item item);
+    void add(List<Item> item);
 
     /**
      * 分页查询检查项信息

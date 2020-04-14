@@ -2,7 +2,6 @@ package net.whir.hos.inspection.pc.controller;
 
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageResult;
@@ -21,9 +20,10 @@ import java.util.List;
  * @Date: 2020/4/10 9:18 上午
  */
 
-@RequestMapping("/item")
+@CrossOrigin
 @RestController
 @Slf4j
+@RequestMapping("/item")
 @Api(description = "检查项目库")
 public class ItemController {
 
@@ -32,7 +32,7 @@ public class ItemController {
 
     @PostMapping("/add")
     @ApiOperation(value = "导入检查项数据")
-    private Result add(@RequestBody Item item) {
+    private Result add(@RequestBody List<Item> item) {
         try {
             itemService.add(item);
         } catch (Exception e) {
@@ -44,8 +44,8 @@ public class ItemController {
 
     @ApiOperation(value = "分页查询检查项信息")
     @PostMapping("/findPage")
-    private Result findPage(@RequestBody PageRequest pageRequest) {
-         Page<Item> page = itemService.findPage(pageRequest);
+    private Result findPage(@RequestBody PageRequest<Item> pageRequest) {
+        Page<Item> page = itemService.findPage(pageRequest);
         PageResult<Item> pageResult = new PageResult<>(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult());
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }
@@ -75,3 +75,4 @@ public class ItemController {
     }
 
 }
+
