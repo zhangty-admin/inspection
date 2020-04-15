@@ -4,13 +4,9 @@
 <mapper namespace="net.whir.hos.inspection.pc.dao.InspectionDao">
     <resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
         <id column="id" property="id"/>
-        <id column="building_id" property="buildingId"/>
         <id column="department_id" property="departmentId"/>
         <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
                      select="queryDepartment" column="department_id">
-        </association>
-        <association property="building" javaType="net.whir.hos.inspection.pc.bean.Building"
-                     select="queryBuilding" column="building_id">
         </association>
         <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
                      select="queryEmployee" column="employee_id">
@@ -20,7 +16,6 @@
         </association>
         <collection property="item" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Item"
                     autoMapping="true" select="queryItems" column="id">
-            <id column="inspection_id" property="id"/>
         </collection>
     </resultMap>
 
@@ -37,20 +32,12 @@
             <if test="heaven > -1 and heaven!=null">
                 and heaven = #{heaven}
             </if>
-            <if test="buildingId > -1 and buildingId != null">
-                and building_id = #{buildingId}
-            </if>
         </where>
     </select>
 
     <!--一对一-->
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
         select * from department where id = #{department_id}
-    </select>
-
-    <!--一对一-->
-    <select id="queryBuilding" resultType="net.whir.hos.inspection.pc.bean.Building">
-        select * from building where id = #{building_id}
     </select>
 
     <!--一对一-->

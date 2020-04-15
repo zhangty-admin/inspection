@@ -19,6 +19,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentDao departmentDao;
 
+    /**
+     * 查询全部部门
+     *
+     * @return
+     */
     @Override
     public List<Department> findAll() {
         return departmentDao.selectAll();

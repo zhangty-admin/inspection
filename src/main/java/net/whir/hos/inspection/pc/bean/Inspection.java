@@ -27,7 +27,7 @@ public class Inspection implements Serializable {
 
     @Id
     @ApiModelProperty(value = "ID")
-    @GeneratedValue(generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ApiModelProperty(value = "巡检计划名称")
@@ -40,7 +40,10 @@ public class Inspection implements Serializable {
     private String numbering;
 
     @ApiModelProperty(value = "楼宇")
-    private Integer buildingId;
+    private String building;
+
+    @ApiModelProperty(value = "楼层")
+    private String floor;
 
     @ApiModelProperty(value = "应查天数")
     private Integer heaven;
@@ -62,9 +65,6 @@ public class Inspection implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private List<Item> item;
-
-    @ApiModelProperty(hidden = true)
-    private Building building;
 
     @ApiModelProperty(hidden = true)
     private Employee employee;

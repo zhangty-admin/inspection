@@ -7,11 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: zty
@@ -28,7 +26,7 @@ import java.io.Serializable;
 public class Remind implements Serializable {
 
     @Id
-    @GeneratedValue(generator = "JDBC")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value = "id")
     private Long id;
 
@@ -37,4 +35,7 @@ public class Remind implements Serializable {
 
     @ApiModelProperty(value = "用户ID")
     private Long userId;
+
+    @ApiModelProperty(hidden = true)
+    private List<Department> departmentList;
 }

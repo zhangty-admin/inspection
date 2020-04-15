@@ -2,6 +2,8 @@ package net.whir.hos.inspection.pc.controller;
 
 import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageResult;
@@ -9,9 +11,11 @@ import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.excel.ItemDB;
 import net.whir.hos.inspection.pc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,9 +36,9 @@ public class ItemController {
 
     @PostMapping("/add")
     @ApiOperation(value = "导入检查项数据")
-    private Result add(@RequestBody List<Item> item) {
+    private Result add(MultipartFile excel, @RequestParam(defaultValue = "1") int headLineNum, @RequestParam long empId) {
         try {
-            itemService.add(item);
+            itemService.add(excel, new ItemDB(), headLineNum, empId);
         } catch (Exception e) {
             log.warn("导入失败: " + e.getMessage());
             return new Result(false, StatusCode.ERROR, "导入失败");
@@ -44,6 +48,9 @@ public class ItemController {
 
     @ApiOperation(value = "分页查询检查项信息")
     @PostMapping("/findPage")
+    /*@ApiImplicitParams(
+            @ApiImplicitParam(name = "ID", value = "检查项ID", dataType = "Long")
+    )*/
     private Result findPage(@RequestBody PageRequest<Item> pageRequest) {
         Page<Item> page = itemService.findPage(pageRequest);
         PageResult<Item> pageResult = new PageResult<>(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult());
@@ -72,6 +79,13 @@ public class ItemController {
             return new Result(false, StatusCode.ERROR, "修改失败");
         }
         return new Result(true, StatusCode.OK, "修改成功");
+    }
+
+    @ApiOperation(value = "查询全部检查项信息")
+    @GetMapping("/findAll")
+    private Result findAllItem() {
+        List<Item> items = itemService.findAll();
+        return new Result(true, StatusCode.OK, "查询成功", items);
     }
 
 }

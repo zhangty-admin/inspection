@@ -3,6 +3,7 @@ package net.whir.hos.inspection.pc.service;
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.pc.bean.Employee;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,4 +35,11 @@ public interface EmployeeService {
      * @param employee
      */
     void updateByEmployee(Employee employee);
+
+    /**
+     * 查询全部用户
+     *
+     * @return
+     */
+    List<Employee> findAll();
 }

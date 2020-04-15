@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.whir.hos.inspection.pc.dao.RemindDao">
+
+    <resultMap id="RemindMap" type="net.whir.hos.inspection.pc.bean.Remind" autoMapping="true">
+        <id column="id" property="id"/>
+        <collection property="departmentList" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
+                    select="queryDepartment" column="id" autoMapping="true">
+        </collection>
+    </resultMap>
+
+
+    <select id="selectRemindPage" parameterType="net.whir.hos.inspection.pc.bean.Remind"
+            resultMap="RemindMap">
+            select * from remind
+    </select>
+
+    <!--一对多-->
+    <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department" parameterType="map">
+        select d.* from department d inner join department_remind dr on d.id = dr.department_id where dr.remind_id = #{id}
+    </select>
+
+</mapper>

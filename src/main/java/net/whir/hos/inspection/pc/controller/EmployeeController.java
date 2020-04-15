@@ -13,6 +13,8 @@ import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 /**
  * @Author: zty
@@ -30,7 +32,7 @@ public class EmployeeController {
 
 
     @ApiOperation(value = "分页条件查询用户信息")
-    @GetMapping("/page")
+    @PostMapping("/page")
     public Result findPage(@RequestBody PageRequest<Employee> pageRequest) {
         Page<Employee> auditPage = employeeService.findPage(pageRequest.getObj(), pageRequest.getPageNum(), pageRequest.getPageSize());
         PageResult pageResult = new PageResult(auditPage.getTotal(), auditPage.getPages(), auditPage.getPageNum(), auditPage.getPageSize(), auditPage.getResult());
@@ -56,6 +58,13 @@ public class EmployeeController {
     public Result delete(@PathVariable Long id) {
         employeeService.deleteById(id);
         return new Result(true, StatusCode.OK, "删除成功");
+    }
+
+    @ApiOperation(value = "查询全部用户")
+    @GetMapping("/findAll")
+    private Result findAllEmployee() {
+        List<Employee> employees = employeeService.findAll();
+        return new Result(true, StatusCode.OK, "查询成功", employees);
     }
 
 }

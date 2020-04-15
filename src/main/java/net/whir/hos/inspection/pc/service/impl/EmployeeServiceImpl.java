@@ -65,6 +65,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDao.updateByPrimaryKeySelective(employee);
     }
 
+    /**
+     * 查询全部用户
+     *
+     * @return
+     */
+    @Override
+    public List<Employee> findAll() {
+        return employeeDao.selectAll();
+    }
+
     //分页查询条件
     public Example createExample(Map<String, Object> map) {
         Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);

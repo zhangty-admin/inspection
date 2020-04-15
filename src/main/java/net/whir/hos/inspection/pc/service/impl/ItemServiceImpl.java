@@ -1,18 +1,24 @@
 package net.whir.hos.inspection.pc.service.impl;
 
+import com.alibaba.excel.metadata.BaseRowModel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.excel.ItemDB;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;
+import net.whir.hos.inspection.utils.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +26,7 @@ import java.util.List;
  * @Date: 2020/4/10 9:34 上午
  */
 @Service
+@Slf4j
 @Transactional
 public class ItemServiceImpl implements ItemService {
 
@@ -30,15 +37,30 @@ public class ItemServiceImpl implements ItemService {
     private InspectionItemDao inspectionItemDao;
 
     /**
-     * 导入检查项数据
+     * 导入 Excel（一个 sheet）到数据库
+     * 这里可以处理很多业务逻辑,比如传入的id不能重复,或者把插入失败的数据返回给客户端
      *
-     * @param items
+     * @param excel       需要导入的excel
+     * @param headLineNum
+     * @return
      */
     @Override
-    public void add(List<Item> items) {
-        for (Item item : items) {
-            itemDao.insertSelective(item);
+    public void add(MultipartFile excel, BaseRowModel rowModel, int headLineNum, long empId) {
+        if (excel == null) {
+            log.error("请传入正确的excel格式");
         }
+
+        List<Object> list = ExcelUtil.readExcel(excel, rowModel, headLineNum);
+        Item item = new Item();
+        for (int i = 0; i < list.size(); i++) {
+            ItemDB itemDB = (ItemDB) list.get(i);
+            item.setName(itemDB.getName());
+            item.setCreateTime(new Date().toString());
+            item.setFounder(empId);
+            itemDao.insert(item);
+            item.setId(null);
+        }
+
     }
 
     /**
@@ -73,11 +95,22 @@ public class ItemServiceImpl implements ItemService {
 
     /**
      * 修改检查项
+     *
      * @param item
      */
     @Override
     public void update(Item item) {
         itemDao.updateByPrimaryKeySelective(item);
+    }
+
+    /**
+     * 查询全部检查项信息
+     *
+     * @return
+     */
+    @Override
+    public List<Item> findAll() {
+        return itemDao.selectAll();
     }
 
 
