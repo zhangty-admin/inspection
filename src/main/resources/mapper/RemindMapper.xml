@@ -13,7 +13,12 @@
 
     <select id="selectRemindPage" parameterType="net.whir.hos.inspection.pc.bean.Remind"
             resultMap="RemindMap">
-            select * from remind
+            select * from remind 
+            <where>
+                <if test="remindType != null and remindType !='' ">
+                    and remindType = #{remindType}
+                </if>
+            </where>
     </select>
 
     <!--一对多-->

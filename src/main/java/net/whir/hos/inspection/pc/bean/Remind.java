@@ -33,8 +33,8 @@ public class Remind implements Serializable {
     @ApiModelProperty(value = "提醒时间")
     private String remindTime;
 
-    @ApiModelProperty(value = "用户ID")
-    private Long userId;
+    @ApiModelProperty(value = "类型")
+    private RemindType remindType;
 
     @ApiModelProperty(hidden = true)
     private List<Department> departmentList;

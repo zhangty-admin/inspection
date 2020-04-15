@@ -7,6 +7,7 @@ import net.whir.hos.inspection.pc.dao.RemindDao;
 import net.whir.hos.inspection.pc.service.RemindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class RemindServiceImpl implements RemindService {
 
     @Autowired
@@ -31,5 +33,15 @@ public class RemindServiceImpl implements RemindService {
     public List<Remind> findPage(PageRequest<Remind> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
         return remindDao.selectRemindPage(remindPageRequest.getObj());
+    }
+
+    /**
+     * 新增统一提醒
+     *
+     * @param remind
+     */
+    @Override
+    public void add(Remind remind) {
+        remindDao.insertSelective(remind);
     }
 }

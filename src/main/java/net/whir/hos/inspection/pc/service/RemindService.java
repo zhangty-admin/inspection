@@ -18,4 +18,11 @@ public interface RemindService {
      * @return
      */
     List<Remind> findPage(PageRequest<Remind> remindPageRequest);
+
+    /**
+     * 新增统一提醒
+     *
+     * @param remind
+     */
+    void add(Remind remind);
 }

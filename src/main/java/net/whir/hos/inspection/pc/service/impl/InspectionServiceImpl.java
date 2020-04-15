@@ -60,6 +60,9 @@ public class InspectionServiceImpl implements InspectionService {
         Inspection inspection = inspectionItemIds.getInspection();
         Long id = inspectionItemIds.getInspection().getId();
 
+        if (StringUtils.isEmpty(inspectionItemIds.getInspection().getId())) {
+            return;
+        }
         Example example = new Example(InspectionItem.class);
         example.createCriteria().andEqualTo("inspectionId", id);
         inspectionItemDao.deleteByExample(example);

@@ -52,7 +52,7 @@
 
     <!--一对多-->
     <select id="queryItems" resultType="net.whir.hos.inspection.pc.bean.Item" parameterType="map">
-        select * from inspection_item ii inner join item i on ii.item_id = i.id where ii.inspection_id = #{id}
+        select i.* from inspection_item ii inner join item i on ii.item_id = i.id where ii.inspection_id = #{id}
     </select>
 
 </mapper>

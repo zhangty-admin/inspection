@@ -5,6 +5,7 @@ import net.whir.hos.inspection.pc.dao.BuildDao;
 import net.whir.hos.inspection.pc.service.BuildService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class BuildServiceImpl implements BuildService {
 
     @Autowired
