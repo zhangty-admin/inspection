@@ -17,13 +17,13 @@
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.Employee" resultMap="employeeMap">
         select * from Employee
         <where>
-            <if test=" id > -1 and id!=null">
+            <if test=" id > -1 and id != null">
                 and id = #{id}
             </if>
-            <if test=" name!=null and name!='' ">
+            <if test=" name!=null and name != '' ">
                 and name LIKE CONCAT('%',#{name},'%')
             </if>
-            <if test=" createTime!=null and createTime!='' ">
+            <if test=" createTime!=null and createTime != '' ">
                 and create_time = #{createTime}
             </if>
             <if test=" departmentId!=null and departmentId!='' ">

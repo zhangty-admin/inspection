@@ -3,7 +3,7 @@ package net.whir.hos.inspection.pc.service;
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 
 import java.util.List;
 

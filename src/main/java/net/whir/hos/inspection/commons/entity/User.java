@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.security.bean;
+package net.whir.hos.inspection.commons.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,6 +13,12 @@ import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
+
+/**
+ * @Author: zty
+ * @Date: 2020/4/7 10:14 上午
+ */
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -20,11 +26,6 @@ import java.util.Date;
 @Builder
 @Table(name = "user")
 @ApiModel(value = "账号信息")
-
-/**
- * @Author: zty
- * @Date: 2020/4/7 10:14 上午
- */
 public class User implements Serializable {
 
     @Id

@@ -1,6 +1,8 @@
 package net.whir.hos.inspection.pc.bean;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,9 +29,12 @@ public class InspectionItem implements Serializable {
 
     @Id
     @GeneratedValue(generator = "JDBC")
+    @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "巡检计划ID")
     private Long inspectionId;
 
+    @ApiModelProperty(value = "检查项ID")
     private Long itemId;
 }

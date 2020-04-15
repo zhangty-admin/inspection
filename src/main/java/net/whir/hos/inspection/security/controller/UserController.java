@@ -4,7 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
-import net.whir.hos.inspection.security.bean.User;
+import net.whir.hos.inspection.commons.entity.User;
 import net.whir.hos.inspection.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;

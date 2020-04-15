@@ -1,6 +1,5 @@
 package net.whir.hos.inspection.pc.bean;
 
-import cn.afterturn.easypoi.excel.annotation.Excel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -24,25 +23,22 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Table(name = "employee")
-@ApiModel(value = "Employee/人员信息")
+@Table(name = "EMPLOYEE")
+@ApiModel(value = "人员信息")
 public class Employee implements Serializable {
 
     @Id
     @ApiModelProperty(value = "ID")
-    @Excel(name = "工号", orderNum = "6")
     @GeneratedValue(generator = "JDBC")
     private Long id;
 
     @ApiModelProperty(value = "名称")
-    @Excel(name = "姓名", orderNum = "1")
     private String name;
 
     @ApiModelProperty(value = "创建时间")
     private String createTime;
 
     @ApiModelProperty(value = "性别（0/男，1/女）")
-    @Excel(name = "性别", replace = {"男_0", "女_1"}, orderNum = "2")
     private Integer sex;
 
     @ApiModelProperty(value = "联系电话")
@@ -60,10 +56,10 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "是否通过")
     private Integer review;
 
-    @ApiModelProperty(value = "部门信息")
+    @ApiModelProperty(hidden = true)
     private Department department;
 
-    @ApiModelProperty(value = "巡检计划")
+    @ApiModelProperty(hidden = true)
     private Inspection inspection;
 
 }

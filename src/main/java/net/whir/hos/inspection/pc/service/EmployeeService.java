@@ -14,12 +14,12 @@ public interface EmployeeService {
     /**
      * 分页条件查询用户信息
      *
-     * @param map
+     * @param obj
      * @param page
      * @param size
      * @return
      */
-    Page<Employee> findPage(Map<String, Object> map, int page, int size);
+    Page<Employee> findPage(Employee obj, int page, int size);
 
     /**
      * 删除用户

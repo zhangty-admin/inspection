@@ -12,6 +12,12 @@ import java.util.List;
  */
 public interface EmployeeDao extends Mapper<Employee> {
 
+    /**
+     * 分页条件查询用户信息
+     *
+     * @param employee
+     * @return
+     */
     List<Employee> findPage(Employee employee);
 
 }

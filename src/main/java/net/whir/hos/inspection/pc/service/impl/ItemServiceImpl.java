@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.Item;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.whir.hos.inspection.commons.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -21,7 +22,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Table(name = "INSPECTION")
-@ApiModel(value = "Inspection/巡检计划")
+@ApiModel(value = "巡检计划")
 public class Inspection implements Serializable {
 
     @Id
@@ -53,12 +54,22 @@ public class Inspection implements Serializable {
     @ApiModelProperty(value = "负责人ID")
     private Long employeeId;
 
-    @ApiModelProperty(value = "科室")
+    @ApiModelProperty(value = "创建人ID")
+    private Long founder;
+
+    @ApiModelProperty(hidden = true)
     private Department department;
 
-    @ApiModelProperty(value = "检查项")
+    @ApiModelProperty(hidden = true)
     private List<Item> item;
 
-    @ApiModelProperty(value = "楼宇")
+    @ApiModelProperty(hidden = true)
     private Building building;
+
+    @ApiModelProperty(hidden = true)
+    private Employee employee;
+
+    @ApiModelProperty(hidden = true)
+    private User user;
+
 }

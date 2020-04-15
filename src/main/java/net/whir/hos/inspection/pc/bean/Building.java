@@ -26,19 +26,20 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "BUILDING")
-@ApiModel(description = "楼宇")
+@ApiModel(value = "楼宇")
 public class Building implements Serializable {
     @Id
     @GeneratedValue(generator = "JDBC")
+    @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(name = "楼宇名称")
+    @ApiModelProperty(value = "楼宇名称")
     private String name;
 
-    @ApiModelProperty(name = "创建时间")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(name = "楼层")
+    @ApiModelProperty(hidden = true)
     private List<Floor> floors;
 
 }

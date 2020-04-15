@@ -16,5 +16,5 @@ public interface FloorService {
      *
      * @return
      */
-    List<Floor> findFloorAll();
+    List<Floor> findFloorByBuild(Integer buildId);
 }

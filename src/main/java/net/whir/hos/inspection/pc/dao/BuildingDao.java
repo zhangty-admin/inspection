@@ -8,5 +8,4 @@ import tk.mybatis.mapper.common.Mapper;
  * @Date: 2020/4/13 5:25 下午
  */
 public interface BuildingDao extends Mapper<Building> {
-    Building queryBuilding(Long id);
 }

@@ -8,11 +8,10 @@ import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Employee;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 
 /**
@@ -31,9 +30,9 @@ public class EmployeeController {
 
 
     @ApiOperation(value = "分页条件查询用户信息")
-    @GetMapping("/page/{page}/{size}")
-    public Result findPage(@RequestParam Map map, @PathVariable int page, @PathVariable int size) {
-        Page<Employee> auditPage = employeeService.findPage(map, page, size);
+    @GetMapping("/page")
+    public Result findPage(@RequestBody PageRequest<Employee> pageRequest) {
+        Page<Employee> auditPage = employeeService.findPage(pageRequest.getObj(), pageRequest.getPageNum(), pageRequest.getPageSize());
         PageResult pageResult = new PageResult(auditPage.getTotal(), auditPage.getPages(), auditPage.getPageNum(), auditPage.getPageSize(), auditPage.getResult());
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }

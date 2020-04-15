@@ -8,6 +8,4 @@ import tk.mybatis.mapper.common.Mapper;
  * @Date: 2020/4/8 2:31 下午
  */
 public interface DepartmentDao extends Mapper<Department> {
-
-    Department queryDepartment(Long id);
 }

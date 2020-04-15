@@ -12,13 +12,20 @@
         <association property="building" javaType="net.whir.hos.inspection.pc.bean.Building"
                      select="queryBuilding" column="building_id">
         </association>
+        <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
+                     select="queryEmployee" column="employee_id">
+        </association>
+        <association property="user" javaType="net.whir.hos.inspection.commons.entity.User"
+                     select="queryUser" column="founder">
+        </association>
         <collection property="item" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Item"
                     autoMapping="true" select="queryItems" column="id">
             <id column="inspection_id" property="id"/>
         </collection>
     </resultMap>
 
-    <select id="selectInspectionPage" parameterType="net.whir.hos.inspection.pc.bean.Inspection" resultMap="InspectionMap">
+    <select id="selectInspectionPage" parameterType="net.whir.hos.inspection.pc.bean.Inspection"
+            resultMap="InspectionMap">
         select * from inspection
         <where>
             <if test="name != null and name != '' ">
@@ -36,14 +43,27 @@
         </where>
     </select>
 
+    <!--一对一-->
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
         select * from department where id = #{department_id}
     </select>
 
+    <!--一对一-->
     <select id="queryBuilding" resultType="net.whir.hos.inspection.pc.bean.Building">
         select * from building where id = #{building_id}
     </select>
 
+    <!--一对一-->
+    <select id="queryEmployee" resultType="net.whir.hos.inspection.pc.bean.Employee">
+        select * from employee where id = #{employee_id}
+    </select>
+
+    <!--一对一-->
+    <select id="queryUser" resultType="net.whir.hos.inspection.commons.entity.User">
+        select * from user where id = #{founder}
+    </select>
+
+    <!--一对多-->
     <select id="queryItems" resultType="net.whir.hos.inspection.pc.bean.Item" parameterType="map">
         select * from inspection_item ii inner join item i on ii.item_id = i.id where ii.inspection_id = #{id}
     </select>

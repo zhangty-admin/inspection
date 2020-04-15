@@ -1,6 +1,6 @@
 package net.whir.hos.inspection.security.service.impl;
 
-import net.whir.hos.inspection.security.bean.User;
+import net.whir.hos.inspection.commons.entity.User;
 import net.whir.hos.inspection.security.dao.UserDao;
 import net.whir.hos.inspection.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -9,7 +9,7 @@ import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.InspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -74,6 +74,5 @@ public class InspectionController {
         PageResult<Inspection> pageResult = new PageResult<>(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult());
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }
-
 
 }

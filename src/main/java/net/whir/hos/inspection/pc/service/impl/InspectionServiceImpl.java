@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.dao.InspectionDao;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.service.InspectionService;
@@ -98,7 +98,6 @@ public class InspectionServiceImpl implements InspectionService {
         List<Inspection> inspections = inspectionDao.selectInspectionPage(obj);
         return (Page<Inspection>) inspections;
     }
-
 
     /**
      * 建立和插入关系表操作

@@ -22,20 +22,21 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "FLOOR")
-@ApiModel(description = "楼层")
+@ApiModel(value = "楼层")
 public class Floor implements Serializable {
 
     @Id
     @GeneratedValue(generator = "JDBC")
+    @ApiModelProperty(value = "id")
     private Integer id;
 
-    @ApiModelProperty(name = "楼层名称")
+    @ApiModelProperty(value = "楼层名称")
     private String name;
 
-    @ApiModelProperty(name = "创建时间")
+    @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
-    @ApiModelProperty(name = "楼宇ID")
+    @ApiModelProperty(value = "楼宇ID")
     private Integer building;
 
 }

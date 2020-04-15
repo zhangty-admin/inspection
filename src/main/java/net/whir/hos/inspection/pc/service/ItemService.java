@@ -1,9 +1,8 @@
 package net.whir.hos.inspection.pc.service;
 
 import com.github.pagehelper.Page;
-import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.pc.bean.Item;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 
 import java.util.List;
 

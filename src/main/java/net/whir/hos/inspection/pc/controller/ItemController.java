@@ -8,7 +8,7 @@ import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Item;
-import net.whir.hos.inspection.pc.bean.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

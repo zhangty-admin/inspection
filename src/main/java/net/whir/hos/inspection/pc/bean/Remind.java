@@ -15,28 +15,26 @@ import java.io.Serializable;
 
 /**
  * @Author: zty
- * @Date: 2020/4/10 9:22 上午
+ * @Date: 2020/4/14 2:35 下午
  */
+
+@Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Entity
-@Table(name = "ITEM")
-@ApiModel(value = "检查项")
-public class Item implements Serializable {
+@Table(name = "REMIND")
+@ApiModel(value = "提醒时间")
+public class Remind implements Serializable {
+
     @Id
-    @ApiModelProperty(value = "ID")
     @GeneratedValue(generator = "JDBC")
+    @ApiModelProperty(value = "id")
     private Long id;
 
-    @ApiModelProperty(value = "检查项名称")
-    private String name;
+    @ApiModelProperty(value = "提醒时间")
+    private String remindTime;
 
-    @ApiModelProperty(value = "创建时间")
-    private String createTime;
-
-    @ApiModelProperty(value = "创建人ID")
-    private Long founder;
-
+    @ApiModelProperty(value = "用户ID")
+    private Long userId;
 }

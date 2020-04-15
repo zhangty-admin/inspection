@@ -5,6 +5,7 @@ import net.whir.hos.inspection.pc.dao.FloorDao;
 import net.whir.hos.inspection.pc.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -25,7 +26,9 @@ public class FloorServiceImpl implements FloorService {
      * @return
      */
     @Override
-    public List<Floor> findFloorAll() {
-        return floorDao.selectAll();
+    public List<Floor> findFloorByBuild(Integer buildId) {
+        Example example = new Example(Floor.class);
+        example.createCriteria().andEqualTo("building", buildId);
+        return floorDao.selectByExample(example);
     }
 }

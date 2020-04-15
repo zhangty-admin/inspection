@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.pc.bean;
+package net.whir.hos.inspection.commons.entity;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "分页请求")
+@ApiModel(value = "分页请求")
 public  class PageRequest<T> {
 
     @ApiModelProperty(value = "当前页码")

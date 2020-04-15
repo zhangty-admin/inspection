@@ -8,10 +8,7 @@ import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Floor;
 import net.whir.hos.inspection.pc.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,10 +27,10 @@ public class FloorController {
     @Autowired
     private FloorService floorService;
 
-    @GetMapping
-    @ApiOperation(value = "查询全部楼层")
-    private Result findFloorAll() {
-        List<Floor> floors = floorService.findFloorAll();
+    @GetMapping("/{buildId}")
+    @ApiOperation(value = "根据楼宇ID查询相关楼层")
+    private Result findFloorByBuild(@PathVariable Integer buildId) {
+        List<Floor> floors = floorService.findFloorByBuild(buildId);
         return new Result(true, StatusCode.OK, "查询成功", floors);
     }
 

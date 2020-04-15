@@ -28,8 +28,8 @@ import java.util.Date;
 public class Department implements Serializable {
 
     @Id
-    @ApiModelProperty(value = "ID")
     @GeneratedValue(generator = "JDBC")
+    @ApiModelProperty(value = "ID")
     private Long id;
 
     @ApiModelProperty(value = "部门名称")

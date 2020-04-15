@@ -33,16 +33,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * 分页条件查询用户信息
      *
-     * @param map
+     * @param obj
      * @param page
      * @param size
      * @return
      */
     @Override
-    public Page<Employee> findPage(Map<String, Object> map, int page, int size) {
+    public Page<Employee> findPage(Employee obj, int page, int size) {
         PageHelper.startPage(page, size);
-        Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);
-        List<Employee> employees = employeeDao.findPage(employee);
+        List<Employee> employees = employeeDao.findPage(obj);
         return (Page<Employee>) employees;
     }
 

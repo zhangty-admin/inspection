@@ -1,6 +1,6 @@
 package net.whir.hos.inspection.security.dao;
 
-import net.whir.hos.inspection.security.bean.User;
+import net.whir.hos.inspection.commons.entity.User;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
