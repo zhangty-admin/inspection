@@ -19,6 +19,7 @@
                     and remindType = #{remindType}
                 </if>
             </where>
+            order by id desc
     </select>
 
     <!--一对多-->

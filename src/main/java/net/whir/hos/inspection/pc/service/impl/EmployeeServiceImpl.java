@@ -72,7 +72,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Employee> findAll() {
-        return employeeDao.selectAll();
+        Example example = new Example(Employee.class);
+        example.setOrderByClause("ID DESC");
+        return employeeDao.selectByExample(example);
     }
 
     //分页查询条件

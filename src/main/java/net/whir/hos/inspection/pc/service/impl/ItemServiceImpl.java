@@ -110,7 +110,9 @@ public class ItemServiceImpl implements ItemService {
      */
     @Override
     public List<Item> findAll() {
-        return itemDao.selectAll();
+        Example example = new Example(Item.class);
+        example.setOrderByClause("id desc");
+        return itemDao.selectByExample(example);
     }
 
 
@@ -118,6 +120,7 @@ public class ItemServiceImpl implements ItemService {
     public Example createExample(PageRequest<Item> pageRequest) {
         Item item = pageRequest.getObj();
         Example example = new Example(Item.class);
+        example.setOrderByClause("id desc");
         Example.Criteria criteria = example.createCriteria();
         if (item == null) {
             return example;

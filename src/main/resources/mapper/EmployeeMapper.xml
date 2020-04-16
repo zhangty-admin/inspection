@@ -36,6 +36,7 @@
                 and review = #{review}
             </if>
         </where>
+        order by id desc
     </select>
 
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
