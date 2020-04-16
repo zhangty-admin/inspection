@@ -44,10 +44,9 @@ public class InspectionServiceImpl implements InspectionService {
         List<Long> itemIds = inspectionItemIds.getItemIds();
         Inspection inspection = inspectionItemIds.getInspection();
 
-        InspectionItem inspectionItem = new InspectionItem();
         inspectionDao.insert(inspection);
         //建立和插入关系表操作
-        MappingTableUtil.relateMapping(inspectionItemDao, inspectionItem, inspection.getId(), itemIds, "insert");
+        MappingTableUtil.relateMapping(inspectionItemDao, new InspectionItem(), inspection.getId(), itemIds, "insert");
     }
 
     /**

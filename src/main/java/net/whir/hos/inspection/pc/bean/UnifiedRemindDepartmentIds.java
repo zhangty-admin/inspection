@@ -7,9 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -22,18 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "DEPARTMENT_UNIFIEDREMIND")
-@ApiModel(value = "统一提醒和部门人员中间表")
-public class UnifiedRemindDepartment {
+@ApiModel(value = "统一提醒和部门人ID")
+public class UnifiedRemindDepartmentIds {
 
-    @ApiModelProperty(value = "ID")
-    private Long id;
-
-    @ApiModelProperty(value = "统一提醒ID")
-    @Column(name = "unifiedremind_id")
-    private Long unifiedRemindId;
+    @ApiModelProperty(value = "统一提醒")
+    private UnifiedRemind unifiedRemind;
 
     @ApiModelProperty(value = "部门ID")
-    private Long departmentId;
+    private List<Long> departmentIds;
 
 }

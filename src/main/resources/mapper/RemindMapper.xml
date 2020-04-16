@@ -18,7 +18,7 @@
 
     <!--一对多-->
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department" parameterType="map">
-        select d.* from department d inner join department_remind dr on d.id = dr.department_id where dr.remind_id = #{id}
+        select d.* from department d inner join department_unifiedremind dr on d.id = dr.department_id where dr.unifiedremind_id = #{id}
     </select>
 
 </mapper>

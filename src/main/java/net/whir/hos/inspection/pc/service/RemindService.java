@@ -2,7 +2,7 @@ package net.whir.hos.inspection.pc.service;
 
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.UnifiedRemind;
-import net.whir.hos.inspection.pc.bean.UnifiedRemindDepartment;
+import net.whir.hos.inspection.pc.bean.UnifiedRemindDepartmentIds;
 
 import java.util.List;
 
@@ -25,19 +25,19 @@ public interface RemindService {
      *
      * @param unifiedRemindDepartment
      */
-    void add(UnifiedRemindDepartment unifiedRemindDepartment);
+    void add(UnifiedRemindDepartmentIds unifiedRemindDepartment);
 
     /**
      * 删除统一新增提醒
      *
      * @param unifiedRemindDepartment
      */
-    void deleteRemindById(UnifiedRemindDepartment unifiedRemindDepartment);
+    void deleteRemindById(UnifiedRemindDepartmentIds unifiedRemindDepartment);
 
     /**
      * 修改统一新增提醒
      *
      * @param unifiedRemindDepartment
      */
-    void updateRemind(UnifiedRemindDepartment unifiedRemindDepartment);
+    void updateRemind(UnifiedRemindDepartmentIds unifiedRemindDepartment);
 }
