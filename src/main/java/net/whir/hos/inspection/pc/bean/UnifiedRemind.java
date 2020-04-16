@@ -21,9 +21,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "REMIND")
-@ApiModel(value = "提醒时间")
-public class Remind implements Serializable {
+@Table(name = "UNIFIEDREMIND")
+@ApiModel(value = "统一提醒时间")
+public class UnifiedRemind implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,9 +32,6 @@ public class Remind implements Serializable {
 
     @ApiModelProperty(value = "提醒时间")
     private String remindTime;
-
-    @ApiModelProperty(value = "类型")
-    private RemindType remindType;
 
     @ApiModelProperty(hidden = true)
     private List<Department> departmentList;

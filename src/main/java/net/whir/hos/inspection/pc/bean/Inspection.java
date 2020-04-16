@@ -51,6 +51,9 @@ public class Inspection implements Serializable {
     @ApiModelProperty(value = "每天应查频率")
     private Integer frequency;
 
+    @ApiModelProperty(value = "二维码路径")
+    private String codeUrl;
+
     @ApiModelProperty(value = "科室ID")
     private Long departmentId;
 

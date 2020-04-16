@@ -32,6 +32,9 @@
             <if test="heaven > -1 and heaven!=null">
                 and heaven = #{heaven}
             </if>
+            <if test="building != null and building != ''">
+                and building like CONCAT('%',#{building},'%')
+            </if>
         </where>
         order by id desc
     </select>
