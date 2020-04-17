@@ -9,7 +9,7 @@ import java.util.List;
  * @Author: zty
  * @Date: 2020/4/15 10:10 上午
  */
-public interface RemindDao extends Mapper<UnifiedRemind> {
+public interface UnifiedRemindDao extends Mapper<UnifiedRemind> {
 
     /**
      * 分页查询提醒
@@ -17,5 +17,5 @@ public interface RemindDao extends Mapper<UnifiedRemind> {
      * @param obj
      * @return
      */
-    List<UnifiedRemind> selectRemindPage(UnifiedRemind obj);
+    List<UnifiedRemind> selectUnifiedRemindPage(UnifiedRemind obj);
 }

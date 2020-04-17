@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.whir.hos.inspection.pc.dao.AdminRemindDao">
+
+    <resultMap id="AdmindRemindMap" type="net.whir.hos.inspection.pc.bean.AdminRemind" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
+                     select="queryEmployee" column="employee_id">
+        </association>
+    </resultMap>
+
+    <select id="findPageAdminRemind" parameterType="net.whir.hos.inspection.pc.bean.AdminRemind" resultMap="AdmindRemindMap">
+        select * from remind_admin order by id desc
+    </select>
+
+    <select id="queryEmployee" resultType="net.whir.hos.inspection.pc.bean.Employee">
+        select * from employee where id = #{employee_id}
+    </select>
+
+</mapper>

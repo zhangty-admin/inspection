@@ -1,11 +1,7 @@
 package net.whir.hos.inspection.pc.controller;
 
 import com.github.pagehelper.Page;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +16,7 @@ import net.whir.hos.inspection.utils.QRCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Hashtable;
 import java.util.List;
 
 
@@ -91,18 +80,17 @@ public class InspectionController {
 
     @ApiOperation(value = "下载")
     @PostMapping("/code")
-    private Result a() {
-
+    private Result generateQRCode() {
         try {
             boolean flag = QRCodeUtil.generateCode("https://www.baidu.com/?uudi=", "518", "巡检计划");
             if (flag) {
                 System.out.println("成功生成二维码");
             }
         } catch (WriterException | IOException e) {
-            System.err.println("生成二维码失败");
-            e.printStackTrace();
+            log.warn("生成二维码失败: /r/n" + e.getMessage());
+            return new Result(false, StatusCode.ERROR, "生成二维码失败");
         }
-        return new Result();
+        return new Result(true, StatusCode.OK, "成功生成二维码");
     }
 
 }

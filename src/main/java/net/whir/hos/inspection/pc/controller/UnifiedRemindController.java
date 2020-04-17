@@ -8,7 +8,7 @@ import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.UnifiedRemind;
 import net.whir.hos.inspection.pc.bean.UnifiedRemindDepartmentIds;
-import net.whir.hos.inspection.pc.service.RemindService;
+import net.whir.hos.inspection.pc.service.UnifiedRemindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,11 +23,11 @@ import java.util.List;
 @Slf4j
 @CrossOrigin
 @Api(description = "提醒时间")
-@RequestMapping("/remind")
-public class RemindController {
+@RequestMapping("/unifiedRemind")
+public class UnifiedRemindController {
 
     @Autowired
-    private RemindService remindService;
+    private UnifiedRemindService remindService;
 
     @ApiOperation(value = "分页查询统一提醒")
     @PostMapping("/findPage")

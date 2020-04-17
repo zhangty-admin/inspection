@@ -5,9 +5,9 @@ import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.UnifiedRemind;
 import net.whir.hos.inspection.pc.bean.UnifiedRemindDepartment;
 import net.whir.hos.inspection.pc.bean.UnifiedRemindDepartmentIds;
-import net.whir.hos.inspection.pc.dao.RemindDao;
+import net.whir.hos.inspection.pc.dao.UnifiedRemindDao;
 import net.whir.hos.inspection.pc.dao.UnifiedRemindDepartmentDao;
-import net.whir.hos.inspection.pc.service.RemindService;
+import net.whir.hos.inspection.pc.service.UnifiedRemindService;
 import net.whir.hos.inspection.utils.MappingTableUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,10 +24,10 @@ import java.util.List;
 
 @Service
 @Transactional
-public class RemindServiceImpl implements RemindService {
+public class UnifiedRemindServiceImpl implements UnifiedRemindService {
 
     @Autowired
-    private RemindDao remindDao;
+    private UnifiedRemindDao remindDao;
     @Autowired
     private UnifiedRemindDepartmentDao unifiedRemindDepartmentDao;
 
@@ -40,7 +40,7 @@ public class RemindServiceImpl implements RemindService {
     @Override
     public List<UnifiedRemind> findPage(PageRequest<UnifiedRemind> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
-        return remindDao.selectRemindPage(remindPageRequest.getObj());
+        return remindDao.selectUnifiedRemindPage(remindPageRequest.getObj());
     }
 
     /**

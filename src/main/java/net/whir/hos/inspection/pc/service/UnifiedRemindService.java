@@ -10,7 +10,7 @@ import java.util.List;
  * @Author: zty
  * @Date: 2020/4/15 10:09 上午
  */
-public interface RemindService {
+public interface UnifiedRemindService {
 
     /**
      * 分页查询提醒
