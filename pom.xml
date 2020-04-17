@@ -102,6 +102,13 @@
             <scope>test</scope>
         </dependency>
 
+        <!--二维码生成-->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
