@@ -1,5 +1,6 @@
 package net.whir.hos.inspection.pc.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.*;
@@ -36,9 +37,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
      * @return
      */
     @Override
-    public List<RemindOmission> findPage(PageRequest<RemindOmission> remindPageRequest) {
+    public Page<RemindOmission> findPage(PageRequest<RemindOmission> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
-        return remindOmissionDao.findPageRemindOmission(remindPageRequest.getObj());
+        return (Page<RemindOmission>) remindOmissionDao.findPageRemindOmission(remindPageRequest.getObj());
     }
 
     /**

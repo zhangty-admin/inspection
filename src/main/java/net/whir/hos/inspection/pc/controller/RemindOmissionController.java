@@ -1,9 +1,11 @@
 package net.whir.hos.inspection.pc.controller;
 
+import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.RemindOmission;
@@ -32,11 +34,12 @@ public class RemindOmissionController {
     @ApiOperation(value = "分页查询漏检提醒")
     @PostMapping("/findPage")
     private Result findPageRemindOmission(@RequestBody PageRequest<RemindOmission> remindPageRequest) {
-        List<RemindOmission> unifiedRemindList = remindOmissionService.findPage(remindPageRequest);
-        return new Result(true, StatusCode.OK, "查询成功", unifiedRemindList);
+        Page<RemindOmission> page = remindOmissionService.findPage(remindPageRequest);
+        return new Result(true, StatusCode.OK, "查询成功",
+                new PageResult<RemindOmission>(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult()));
     }
 
-   @ApiOperation(value = "新增漏检提醒")
+    @ApiOperation(value = "新增漏检提醒")
     @PostMapping("/add")
     private Result addRemind(@RequestBody RemindOmissionDepartmentIds remindOmissionDepartmentIds) {
         try {
@@ -71,5 +74,5 @@ public class RemindOmissionController {
         }
         return new Result(true, StatusCode.OK, "修改成功");
     }
-    
+
 }

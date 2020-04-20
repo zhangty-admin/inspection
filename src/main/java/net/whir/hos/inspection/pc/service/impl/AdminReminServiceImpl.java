@@ -1,6 +1,7 @@
 package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.RemindAdmin;
 import net.whir.hos.inspection.pc.dao.RemindAdminDao;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * @Author: zty
@@ -30,9 +30,9 @@ public class AdminReminServiceImpl implements AdminRemindService {
      * @return
      */
     @Override
-    public List<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest) {
+    public Page<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
-        return adminRemindDao.findPageAdminRemind(remindPageRequest.getObj());
+        return (Page<RemindAdmin>)adminRemindDao.findPageAdminRemind(remindPageRequest.getObj());
     }
 
     /**

@@ -1,7 +1,9 @@
 package net.whir.hos.inspection.pc.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartment;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
@@ -38,9 +40,9 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
      * @return
      */
     @Override
-    public List<RemindUnified> findPage(PageRequest<RemindUnified> remindPageRequest) {
+    public Page<RemindUnified> findPage(PageRequest<RemindUnified> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
-        return remindDao.selectUnifiedRemindPage(remindPageRequest.getObj());
+        return (Page<RemindUnified>)remindDao.selectUnifiedRemindPage(remindPageRequest.getObj());
     }
 
     /**

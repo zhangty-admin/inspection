@@ -1,9 +1,9 @@
 package net.whir.hos.inspection.pc.service;
 
+import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.RemindAdmin;
 
-import java.util.List;
 
 /**
  * @Author: zty
@@ -17,7 +17,7 @@ public interface AdminRemindService {
      * @param remindPageRequest
      * @return
      */
-    List<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest);
+    Page<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest);
 
     /**
      * 新增提醒管理员

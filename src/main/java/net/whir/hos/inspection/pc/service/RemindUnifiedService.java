@@ -1,6 +1,8 @@
 package net.whir.hos.inspection.pc.service;
 
+import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
 
@@ -18,7 +20,7 @@ public interface RemindUnifiedService {
      * @param remindPageRequest
      * @return
      */
-    List<RemindUnified> findPage(PageRequest<RemindUnified> remindPageRequest);
+    Page<RemindUnified>findPage(PageRequest<RemindUnified> remindPageRequest);
 
     /**
      * 新增统一提醒

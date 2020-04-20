@@ -1,5 +1,6 @@
 package net.whir.hos.inspection.pc.service;
 
+import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.RemindOmission;
 import net.whir.hos.inspection.pc.bean.RemindOmissionDepartmentIds;
@@ -19,7 +20,7 @@ public interface RemindOmissionService {
      * @param remindPageRequest
      * @return
      */
-    List<RemindOmission> findPage(PageRequest<RemindOmission> remindPageRequest);
+    Page<RemindOmission> findPage(PageRequest<RemindOmission> remindPageRequest);
 
     /**
      * 新增漏检提醒
