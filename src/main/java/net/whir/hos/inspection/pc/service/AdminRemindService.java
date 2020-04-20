@@ -1,7 +1,7 @@
 package net.whir.hos.inspection.pc.service;
 
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.AdminRemind;
+import net.whir.hos.inspection.pc.bean.RemindAdmin;
 
 import java.util.List;
 
@@ -17,12 +17,12 @@ public interface AdminRemindService {
      * @param remindPageRequest
      * @return
      */
-    List<AdminRemind> findPage(PageRequest<AdminRemind> remindPageRequest);
+    List<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest);
 
     /**
      * 新增提醒管理员
      *
      * @param adminRemind
      */
-    void add(AdminRemind adminRemind);
+    void add(RemindAdmin adminRemind);
 }

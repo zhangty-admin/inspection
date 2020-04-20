@@ -24,13 +24,13 @@ import java.util.List;
 @Builder
 @Table(name = "DEPARTMENT_UNIFIEDREMIND")
 @ApiModel(value = "统一提醒和部门人员中间表")
-public class UnifiedRemindDepartment {
+public class RemindUnifiedDepartment {
 
     @ApiModelProperty(value = "ID")
     private Long id;
 
     @ApiModelProperty(value = "统一提醒ID")
-    @Column(name = "unifiedremind_id")
+    @Column(name = "unifiedRemind_id")
     private Long unifiedRemindId;
 
     @ApiModelProperty(value = "部门ID")

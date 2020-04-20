@@ -9,30 +9,32 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @Author: zty
- * @Date: 2020/4/14 2:35 下午
+ * @Date: 2020/4/17 11:47 上午
  */
 
 @Entity
-@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "REMIND_UNIFIED")
-@ApiModel(value = "统一提醒时间")
-public class UnifiedRemind implements Serializable {
+@Builder
+@Table(name = "REMIND_ADMIN")
+@ApiModel(value = "管理员提醒")
+public class RemindAdmin implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(value = "id")
-    private Long id;
+    @ApiModelProperty(value = "ID")
+    private Integer id;
 
-    @ApiModelProperty(value = "提醒时间")
-    private String remindTime;
+    @ApiModelProperty(value = "创建时间")
+    private String createTime;
+
+    @ApiModelProperty(value = "管理员人ID")
+    private Long employeeId;
 
     @ApiModelProperty(hidden = true)
-    private List<Department> departmentList;
+    private Employee employee;
 }

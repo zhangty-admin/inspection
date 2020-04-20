@@ -7,6 +7,7 @@ import net.whir.hos.inspection.commons.entity.PageRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: zty
@@ -21,7 +22,15 @@ public interface ItemService {
      * @param headLineNum
      * @return
      */
-    void add(MultipartFile excel, BaseRowModel rowModel, int headLineNum, long empId);
+//    void add(MultipartFile excel, BaseRowModel rowModel, int headLineNum, long empId);
+
+    /**
+     * 导入 Excel（一个 sheet）到数据库
+     *
+     * @param items
+     * @return
+     */
+    void add(List<Item> items);
 
     /**
      * 分页查询检查项信息
@@ -52,4 +61,5 @@ public interface ItemService {
      * @return
      */
     List<Item> findAll();
+
 }

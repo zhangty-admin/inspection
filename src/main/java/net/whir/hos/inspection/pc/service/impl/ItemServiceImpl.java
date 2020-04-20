@@ -20,6 +20,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @Author: zty
@@ -36,6 +38,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     private InspectionItemDao inspectionItemDao;
 
+
     /**
      * 导入 Excel（一个 sheet）到数据库
      * 这里可以处理很多业务逻辑,比如传入的id不能重复,或者把插入失败的数据返回给客户端
@@ -44,7 +47,7 @@ public class ItemServiceImpl implements ItemService {
      * @param headLineNum
      * @return
      */
-    @Override
+    /*@Override
     public void add(MultipartFile excel, BaseRowModel rowModel, int headLineNum, long empId) {
         if (excel == null) {
             log.error("请传入正确的excel格式");
@@ -60,7 +63,17 @@ public class ItemServiceImpl implements ItemService {
             itemDao.insert(item);
             item.setId(null);
         }
+    }*/
 
+    /**
+     * 导入的EXCle
+     * @param items
+     */
+    @Override
+    public void add(List<Item> items) {
+        for (Item item : items) {
+            itemDao.insert(item);
+        }
     }
 
     /**

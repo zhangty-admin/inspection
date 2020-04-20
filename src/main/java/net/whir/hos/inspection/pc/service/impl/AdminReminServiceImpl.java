@@ -2,11 +2,12 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.AdminRemind;
-import net.whir.hos.inspection.pc.dao.AdminRemindDao;
+import net.whir.hos.inspection.pc.bean.RemindAdmin;
+import net.whir.hos.inspection.pc.dao.RemindAdminDao;
 import net.whir.hos.inspection.pc.service.AdminRemindService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,10 +17,11 @@ import java.util.List;
  */
 
 @Service
+@Transactional
 public class AdminReminServiceImpl implements AdminRemindService {
 
     @Autowired
-    private AdminRemindDao adminRemindDao;
+    private RemindAdminDao adminRemindDao;
 
     /**
      * 分页查询管理员提醒
@@ -28,7 +30,7 @@ public class AdminReminServiceImpl implements AdminRemindService {
      * @return
      */
     @Override
-    public List<AdminRemind> findPage(PageRequest<AdminRemind> remindPageRequest) {
+    public List<RemindAdmin> findPage(PageRequest<RemindAdmin> remindPageRequest) {
         PageHelper.startPage(remindPageRequest.getPageNum(), remindPageRequest.getPageSize());
         return adminRemindDao.findPageAdminRemind(remindPageRequest.getObj());
     }
@@ -39,7 +41,7 @@ public class AdminReminServiceImpl implements AdminRemindService {
      * @param adminRemind
      */
     @Override
-    public void add(AdminRemind adminRemind) {
+    public void add(RemindAdmin adminRemind) {
         adminRemindDao.insert(adminRemind);
     }
 }

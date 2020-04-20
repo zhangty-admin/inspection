@@ -8,11 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: zty
- * @Date: 2020/4/17 11:47 上午
+ * @Date: 2020/4/17 2:43 下午
  */
 
 @Entity
@@ -20,21 +20,25 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "REMIND_ADMIN")
-@ApiModel(value = "管理员提醒")
-public class AdminRemind implements Serializable {
+@ApiModel(value = "遗漏消息提醒")
+@Table(name = "REMIND_OMISSION")
+public class RemindOmission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @ApiModelProperty(value = "ID")
     private Integer id;
 
-    @ApiModelProperty(value = "创建时间")
-    private String createTime;
+    @ApiModelProperty(value = "提醒时间")
+    private String reminderTime;
 
-    @ApiModelProperty(value = "管理员人ID")
+    @ApiModelProperty(value = "人员ID")
     private Long employeeId;
 
     @ApiModelProperty(hidden = true)
+    private List<Department> departments;
+
+    @ApiModelProperty(hidden = true)
     private Employee employee;
+
 }

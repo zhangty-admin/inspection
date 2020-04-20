@@ -17,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: zty
@@ -36,7 +38,7 @@ public class ItemController {
 
     @PostMapping("/add")
     @ApiOperation(value = "导入检查项数据")
-    private Result add(MultipartFile excel, @RequestParam(defaultValue = "1") int headLineNum, @RequestParam long empId) {
+    /*private Result add(@RequestParam MultipartFile excel, @RequestParam(defaultValue = "1") int headLineNum, @RequestParam(defaultValue = "1") Long empId) {
         try {
             itemService.add(excel, new ItemDB(), headLineNum, empId);
         } catch (Exception e) {
@@ -44,7 +46,17 @@ public class ItemController {
             return new Result(false, StatusCode.ERROR, "导入失败");
         }
         return new Result(true, StatusCode.OK, "导入成功");
+    }*/
+    private Result add(@RequestBody List<Item> items) {
+        try {
+            itemService.add(items);
+        } catch (Exception e) {
+            log.warn("导入失败: " + e.getMessage());
+            return new Result(false, StatusCode.ERROR, "导入失败");
+        }
+        return new Result(true, StatusCode.OK, "导入成功");
     }
+
 
     @ApiOperation(value = "分页查询检查项信息")
     @PostMapping("/findPage")

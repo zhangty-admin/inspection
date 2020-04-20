@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.whir.hos.inspection.pc.dao.UnifiedRemindDao">
+<mapper namespace="net.whir.hos.inspection.pc.dao.RemindUnifiedDao">
 
-    <resultMap id="UnifiedRemindMap" type="net.whir.hos.inspection.pc.bean.UnifiedRemind" autoMapping="true">
+    <resultMap id="UnifiedRemindMap" type="net.whir.hos.inspection.pc.bean.RemindUnified" autoMapping="true">
         <id column="id" property="id"/>
         <collection property="departmentList" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
                     select="queryDepartment" column="id" autoMapping="true">
@@ -11,14 +11,14 @@
     </resultMap>
 
 
-    <select id="selectUnifiedRemindPage" parameterType="net.whir.hos.inspection.pc.bean.UnifiedRemind"
+    <select id="selectUnifiedRemindPage" parameterType="net.whir.hos.inspection.pc.bean.RemindUnified"
             resultMap="UnifiedRemindMap">
             select * from remind_unified order by id desc
     </select>
 
     <!--一对多-->
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department" parameterType="map">
-        select d.* from department d inner join department_unifiedremind dr on d.id = dr.department_id where dr.unifiedremind_id = #{id}
+        select d.* from department d inner join department_unifiedRemind dr on d.id = dr.department_id where dr.unifiedRemind_id = #{id}
     </select>
 
 </mapper>
