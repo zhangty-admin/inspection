@@ -23,8 +23,14 @@
             resultMap="InspectionMap">
         select * from inspection
         <where>
+            <if test="id != null and id != '' ">
+                and id = #{id}
+            </if>
             <if test="name != null and name != '' ">
                 and name like CONCAT('%',#{name},'%')
+            </if>
+            <if test="createTime != null and createTime != '' ">
+                and create_time = #{createTime}
             </if>
             <if test="departmentId >-1 and departmentId !=null">
                 and department_id = #{departmentId}
