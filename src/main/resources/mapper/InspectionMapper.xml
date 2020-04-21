@@ -29,8 +29,8 @@
             <if test="name != null and name != '' ">
                 and name like CONCAT('%',#{name},'%')
             </if>
-            <if test="createTime != null and createTime != '' ">
-                and create_time = #{createTime}
+            <if test="createTime != null and createTime != '' and endTime != null and endTime != ''">
+                and create_time &gt;= STR_TO_DATE('createTime','%Y-%m-%d') and create_time &lt;= STR_TO_DATE(endTime,'%Y-%m-%d')
             </if>
             <if test="departmentId >-1 and departmentId !=null">
                 and department_id = #{departmentId}
@@ -40,6 +40,18 @@
             </if>
             <if test="building != null and building != ''">
                 and building like CONCAT('%',#{building},'%')
+            </if>
+            <if test="numbering != null and numbering != ''">
+                and numbering = #{numbering}
+            </if>
+            <if test="employeeId != null and employeeId != ''">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="frequency != null and frequency != ''">
+                and frequency = #{frequency}
+            </if>
+            <if test="floor != null and floor != ''">
+                and floor = #{floor}
             </if>
         </where>
         order by id desc

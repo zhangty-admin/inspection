@@ -50,8 +50,11 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "照片ID")
     private Long photoId;
 
-    @ApiModelProperty(value = "是否通过")
+    @ApiModelProperty(value = "审核（0/false，1/true）")
     private Integer review;
+
+    @ApiModelProperty(value = "是否是负责人（0/false，1/true）")
+    private Integer isPrincipal;
 
     @ApiModelProperty(hidden = true)
     private Department department;

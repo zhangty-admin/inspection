@@ -61,9 +61,9 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "查询全部用户")
-    @GetMapping("/findAll")
-    private Result findAllEmployee() {
-        List<Employee> employees = employeeService.findAll();
+    @PostMapping("/findAll")
+    private Result findAllEmployee(@RequestBody Employee employee) {
+        List<Employee> employees = employeeService.findAll(employee);
         return new Result(true, StatusCode.OK, "查询成功", employees);
     }
 

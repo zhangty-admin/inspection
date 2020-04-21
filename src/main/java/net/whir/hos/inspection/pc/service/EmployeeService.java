@@ -41,5 +41,5 @@ public interface EmployeeService {
      *
      * @return
      */
-    List<Employee> findAll();
+    List<Employee> findAll(Employee employee);
 }

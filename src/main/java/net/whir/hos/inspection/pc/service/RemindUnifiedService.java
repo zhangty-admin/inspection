@@ -32,9 +32,9 @@ public interface RemindUnifiedService {
     /**
      * 删除统一新增提醒
      *
-     * @param unifiedRemindDepartment
+     * @param remindOmissionId
      */
-    void deleteRemindById(RemindUnifiedDepartmentIds unifiedRemindDepartment);
+    void deleteRemindById(Long remindOmissionId);
 
     /**
      * 修改统一新增提醒

@@ -34,5 +34,5 @@ public class RemindUnified implements Serializable {
     private String remindTime;
 
     @ApiModelProperty(hidden = true)
-    private List<Department> departmentList;
+    private List<Department> departments;
 }

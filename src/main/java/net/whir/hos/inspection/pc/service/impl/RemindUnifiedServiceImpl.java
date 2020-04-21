@@ -3,7 +3,6 @@ package net.whir.hos.inspection.pc.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartment;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.List;
 
 /**
  * @Author: zty
@@ -63,14 +61,14 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
     /**
      * 删除统一新增提醒
      *
-     * @param unifiedRemindDepartment
+     * @param remindOmissionId
      */
     @Override
-    public void deleteRemindById(RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    public void deleteRemindById(Long remindOmissionId) {
         //删除部门和提醒的中间表
-        if (!delete(unifiedRemindDepartment)) return;
+        if (!delete(remindOmissionId)) return;
         //删除统一提醒
-        remindDao.deleteByPrimaryKey(unifiedRemindDepartment.getUnifiedRemind().getId());
+        remindDao.deleteByPrimaryKey(remindOmissionId);
     }
 
     /**
@@ -81,7 +79,7 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
     @Override
     public void updateRemind(RemindUnifiedDepartmentIds unifiedRemindDepartment) {
         //修改部门和提醒的中间表
-        if (!delete(unifiedRemindDepartment)) return;
+        if (!delete(unifiedRemindDepartment.getUnifiedRemind().getId())) return;
         MappingTableUtil.relateMapping(unifiedRemindDepartmentDao, new RemindUnifiedDepartment(),
                 unifiedRemindDepartment.getUnifiedRemind().getId(), unifiedRemindDepartment.getDepartmentIds(), "insert");
 
@@ -92,16 +90,15 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
     /**
      * 删除中间表信息
      *
-     * @param unifiedRemindDepartment
+     * @param remindOmissionId
      * @return
      */
-    private boolean delete(RemindUnifiedDepartmentIds unifiedRemindDepartment) {
-        Long id = unifiedRemindDepartment.getUnifiedRemind().getId();
-        if (StringUtils.isEmpty(id)) {
+    private boolean delete(Long remindOmissionId) {
+        if (StringUtils.isEmpty(remindOmissionId)) {
             return false;
         }
         Example example = new Example(RemindUnifiedDepartment.class);
-        example.createCriteria().andEqualTo("unifiedRemindId", id);
+        example.createCriteria().andEqualTo("unifiedRemindId", remindOmissionId);
         unifiedRemindDepartmentDao.deleteByExample(example);
         return true;
     }

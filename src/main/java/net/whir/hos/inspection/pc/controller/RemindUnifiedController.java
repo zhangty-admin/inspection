@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @CrossOrigin
-@Api(description = "提醒时间")
+@Api(description = "统一消息")
 @RequestMapping("/unifiedRemind")
 public class RemindUnifiedController {
 
@@ -53,10 +53,10 @@ public class RemindUnifiedController {
     }
 
     @ApiOperation(value = "删除统一新增提醒")
-    @DeleteMapping("/delete")
-    private Result deleteRemind(@RequestBody RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    @DeleteMapping("/delete/{remindOmissionId}")
+    private Result deleteRemind(@PathVariable Long remindOmissionId) {
         try {
-            remindService.deleteRemindById(unifiedRemindDepartment);
+            remindService.deleteRemindById(remindOmissionId);
         } catch (Exception e) {
             log.warn("删除失败: " + e.getMessage());
             return new Result(true, StatusCode.ERROR, "删除失败");

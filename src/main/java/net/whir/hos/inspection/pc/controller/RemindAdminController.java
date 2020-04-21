@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @CrossOrigin
-@Api(description = "提醒时间")
+@Api(description = "管理员")
 @RequestMapping("/adminRemind")
 public class RemindAdminController {
 

@@ -71,15 +71,16 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @return
      */
     @Override
-    public List<Employee> findAll() {
+    public List<Employee> findAll(Employee employee) {
         Example example = new Example(Employee.class);
+        createExample(employee);
         example.setOrderByClause("ID DESC");
         return employeeDao.selectByExample(example);
     }
 
     //分页查询条件
-    public Example createExample(Map<String, Object> map) {
-        Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);
+    public Example createExample(Employee employee) {
+//        Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);
         Example example = new Example(Employee.class);
         Example.Criteria criteria = example.createCriteria();
         if (employee == null) {

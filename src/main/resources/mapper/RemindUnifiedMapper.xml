@@ -5,7 +5,7 @@
 
     <resultMap id="UnifiedRemindMap" type="net.whir.hos.inspection.pc.bean.RemindUnified" autoMapping="true">
         <id column="id" property="id"/>
-        <collection property="departmentList" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
+        <collection property="departments" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
                     select="queryDepartment" column="id" autoMapping="true">
         </collection>
     </resultMap>
