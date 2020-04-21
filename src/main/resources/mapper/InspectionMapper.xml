@@ -5,6 +5,9 @@
     <resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
         <id column="id" property="id"/>
         <id column="department_id" property="departmentId"/>
+        <association property="actualDays" javaType="java.lang.Integer"
+                     select="getActualDays" column="id">
+        </association>
         <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
                      select="queryDepartment" column="department_id">
         </association>
@@ -55,6 +58,12 @@
             </if>
         </where>
         order by id desc
+    </select>
+
+    <!--一对一-->
+    <select id="getActualDays" resultType="java.lang.Integer">
+        select count(1) as actualDays from (
+        select count(create_time) from inspection_history where inspection_id = #{id} group by date_format(create_time,'%Y-%m-%d' ))as create_time
     </select>
 
     <!--一对一-->

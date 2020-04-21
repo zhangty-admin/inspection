@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: zty
@@ -61,5 +62,8 @@ public class Employee implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private Inspection inspection;
+
+    @ApiModelProperty(hidden = true)
+    private List<Item> items;
 
 }

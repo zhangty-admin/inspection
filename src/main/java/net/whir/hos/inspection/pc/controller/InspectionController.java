@@ -78,6 +78,13 @@ public class InspectionController {
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }
 
+    @ApiOperation(value = "查询全部巡检计划")
+    @GetMapping("/findAll")
+    private Result findAll() {
+        List<Inspection> inspections = inspectionService.findAll();
+        return new Result(true, StatusCode.OK, "查询成功", inspections);
+    }
+
     @ApiOperation(value = "下载")
     @PostMapping("/code")
     private Result generateQRCode() {

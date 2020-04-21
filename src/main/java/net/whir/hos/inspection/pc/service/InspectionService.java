@@ -42,4 +42,11 @@ public interface InspectionService {
      * @param pageRequest
      */
     Page<Inspection> findPage(PageRequest<Inspection> pageRequest);
+
+    /**
+     * 查询全部巡检计划
+     *
+     * @return
+     */
+    List<Inspection> findAll();
 }

@@ -102,4 +102,14 @@ public class InspectionServiceImpl implements InspectionService {
         return (Page<Inspection>) inspections;
     }
 
+    /**
+     * 查询全部巡检计划
+     *
+     * @return
+     */
+    @Override
+    public List<Inspection> findAll() {
+        return inspectionDao.selectAll();
+    }
+
 }
