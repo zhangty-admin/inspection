@@ -9,7 +9,7 @@
                      select="getActualDays" column="id">
         </association>
         <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
-                     select="queryDepartment" column="department_id">
+                                   select="queryDepartment" column="department_id">
         </association>
         <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
                      select="queryEmployee" column="employee_id">

@@ -20,4 +20,11 @@ public interface EmployeeDao extends Mapper<Employee> {
      */
     List<Employee> findPage(Employee employee);
 
+    /**
+     * 查询历史巡检计划
+     *
+     * @param obj
+     * @return
+     */
+    List<Employee> selectByInspectionId(Long obj);
 }
