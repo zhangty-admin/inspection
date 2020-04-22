@@ -2,9 +2,9 @@ package net.whir.hos.inspection.pc.service;
 
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.pc.bean.Employee;
-import net.whir.hos.inspection.pc.bean.InspectionHistory;
-import net.whir.hos.inspection.pc.bean.ItemEmployee;
+import net.whir.hos.inspection.pc.bean.Inspection;
 
 /**
  * @Author: zty
@@ -19,7 +19,7 @@ public interface InspectionHistoryService {
      * @param inspectionHistoryPageResult
      * @return
      */
-    Page<InspectionHistory> findPage(PageRequest<InspectionHistory> inspectionHistoryPageResult);
+    PageResult findPage(PageRequest<Inspection> inspectionHistoryPageResult);
 
     /**
      * 历史巡检根据巡检ID分页检查项

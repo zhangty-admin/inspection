@@ -3,17 +3,17 @@ package net.whir.hos.inspection.pc.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.Employee;
-import net.whir.hos.inspection.pc.bean.InspectionHistory;
-import net.whir.hos.inspection.pc.bean.Item;
-import net.whir.hos.inspection.pc.bean.ItemEmployee;
+import net.whir.hos.inspection.commons.entity.PageResult;
+import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
+import net.whir.hos.inspection.pc.dao.InspectionDao;
 import net.whir.hos.inspection.pc.dao.InspectionHistoryDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.InspectionHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
     private InspectionHistoryDao historyInspectionDao;
 
     @Autowired
-    private ItemDao itemDao;
+    private InspectionDao inspectionDao;
 
     @Autowired
     private EmployeeDao employeeDao;
@@ -42,9 +42,22 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
      * @return
      */
     @Override
-    public Page<InspectionHistory> findPage(PageRequest<InspectionHistory> inspectionHistoryPageResult) {
+    public PageResult findPage(PageRequest<Inspection> inspectionHistoryPageResult) {
         PageHelper.startPage(inspectionHistoryPageResult.getPageNum(), inspectionHistoryPageResult.getPageSize());
-        return (Page<InspectionHistory>) historyInspectionDao.findPage(inspectionHistoryPageResult.getObj());
+        Page<InspectionHistory> page = (Page<InspectionHistory>) historyInspectionDao.findPage(inspectionHistoryPageResult.getObj());
+
+        List<InspectionHistory> result = page.getResult();
+        for (InspectionHistory inspectionHistory : result) {
+            Inspection obj = inspectionHistoryPageResult.getObj();
+            if (StringUtils.isEmpty(obj)) {
+                obj = new Inspection();
+                obj.setId(inspectionHistory.getInspectionId());
+            }
+            List<Inspection> inspections = inspectionDao.selectInspectionPage(obj);
+            inspectionHistory.setInspection(inspections);
+        }
+
+        return new PageResult(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult());
     }
 
     /**

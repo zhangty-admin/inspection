@@ -43,6 +43,7 @@ public class InspectionHistory implements Serializable {
     private Long employeeId;
 
     @ApiModelProperty(hidden = true)
-    private Inspection inspection;
+    @Transient
+    private List<Inspection> inspection;
 
 }

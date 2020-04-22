@@ -5,16 +5,16 @@
 
     <resultMap id="InspectionHistoryMap" type="net.whir.hos.inspection.pc.bean.InspectionHistory" autoMapping="true">
         <id column="id" property="id"/>
-        <association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true"
+        <!--<association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true"
                      select="getInspection" column="inspection_id">
-        </association>
+        </association>-->
     </resultMap>
 
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultMap="InspectionHistoryMap">
         select * from inspection_history order by id desc
     </select>
 
-    <resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
+    <!--<resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
         <id column="id" property="id"/>
         <collection property="item" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Item"
                     autoMapping="true" select="getItem" column="id">
@@ -27,6 +27,6 @@
 
     <select id="getItem" parameterType="map" resultType="net.whir.hos.inspection.pc.bean.Item">
         select i.* from item i inner join inspection_item ii on ii.item_id = i.id where ii.inspection_id = #{id}
-    </select>
+    </select>-->
 
 </mapper>

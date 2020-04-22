@@ -1,5 +1,6 @@
 package net.whir.hos.inspection.pc.dao;
 
+import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionHistory;
 import tk.mybatis.mapper.common.Mapper;
 
@@ -18,5 +19,5 @@ public interface InspectionHistoryDao extends Mapper<InspectionHistory> {
      * @param obj
      * @return
      */
-    List<InspectionHistory> findPage(InspectionHistory obj);
+    List<InspectionHistory> findPage(Inspection obj);
 }
