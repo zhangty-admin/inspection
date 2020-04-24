@@ -63,7 +63,6 @@ public class Inspection implements Serializable {
     @ApiModelProperty(value = "创建人ID")
     private Long founder;
 
-
     @Transient
     @ApiModelProperty(value = "结束日期")
     private String endTime;

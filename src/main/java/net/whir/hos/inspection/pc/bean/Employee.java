@@ -57,6 +57,9 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "是否是负责人（0/false，1/true）")
     private Integer isPrincipal;
 
+    @ApiModelProperty(value = "工号")
+    private String jobNumber;
+
     @ApiModelProperty(hidden = true)
     private Department department;
 

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
 
     @Autowired
     private EmployeeDao employeeDao;
+
+    @Autowired
+    private ItemDao itemDao;
 
     /**
      * 历史巡检分页查询
@@ -70,6 +74,35 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
     public Page<Employee> findItemsById(PageRequest<Long> pageRequest) {
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
         return (Page<Employee>) employeeDao.selectByInspectionId(pageRequest.getObj());
+    }
+
+    /**
+     * 历史巡检根据巡检ID和人员ID检查项
+     *
+     * @param empId
+     * @param insId
+     * @return
+     */
+    @Override
+    public List<Item> findItemsByEmpIdAndItemId(Long empId, Long insId) {
+        return itemDao.selectItemsByEmpIdAndItemId(empId, insId);
+    }
+
+    /**
+     * 根据巡检ID和人员ID检查项删除历史巡检
+     *
+     * @param employeeInspectionIds
+     */
+    @Override
+    public void deleteItemsByEmpIdAndItemId(List<EmployeeInspectionId> employeeInspectionIds) {
+        Example example = new Example(InspectionHistory.class);
+        if (!StringUtils.isEmpty(employeeInspectionIds)) {
+            for (EmployeeInspectionId employeeInspectionId : employeeInspectionIds) {
+                example.createCriteria().andEqualTo("inspectionId", employeeInspectionId.getInsId())
+                        .andEqualTo("employeeId", employeeInspectionId.getEmpId());
+                historyInspectionDao.deleteByExample(example);
+            }
+        }
     }
 
 }

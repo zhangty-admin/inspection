@@ -32,8 +32,11 @@
             <if test="name != null and name != '' ">
                 and name like CONCAT('%',#{name},'%')
             </if>
-            <if test="createTime != null and createTime != '' and endTime != null and endTime != ''">
-                and create_time &gt;= STR_TO_DATE('createTime','%Y-%m-%d') and create_time &lt;= STR_TO_DATE(endTime,'%Y-%m-%d')
+            <if test="createTime != null and createTime != ''">
+                and create_time &gt;= STR_TO_DATE('createTime','%Y-%m-%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                create_time &lt;= STR_TO_DATE('endTime','%Y-%m-%d')
             </if>
             <if test="departmentId >-1 and departmentId !=null">
                 and department_id = #{departmentId}

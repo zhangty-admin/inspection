@@ -11,7 +11,7 @@
     </resultMap>
 
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultMap="InspectionHistoryMap">
-        select * from inspection_history order by id desc
+        select inspection_id,employee_id,create_time,max(id) id from inspection_history group by employee_id,inspection_id,create_time order by create_time desc
     </select>
 
     <!--<resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">

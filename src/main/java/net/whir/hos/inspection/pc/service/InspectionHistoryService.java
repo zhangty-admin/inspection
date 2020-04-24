@@ -4,7 +4,11 @@ import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.pc.bean.Employee;
+import net.whir.hos.inspection.pc.bean.EmployeeInspectionId;
 import net.whir.hos.inspection.pc.bean.Inspection;
+import net.whir.hos.inspection.pc.bean.Item;
+
+import java.util.List;
 
 /**
  * @Author: zty
@@ -28,4 +32,20 @@ public interface InspectionHistoryService {
      * @return
      */
     Page<Employee> findItemsById(PageRequest<Long> pageRequest);
+
+    /**
+     * 历史巡检根据巡检ID和人员ID检查项
+     *
+     * @param empId
+     * @param insId
+     * @return
+     */
+    List<Item> findItemsByEmpIdAndItemId(Long empId, Long insId);
+
+    /**
+     * 根据巡检ID和人员ID检查项删除历史巡检
+     *
+     * @param employeeInspectionIds
+     */
+    void deleteItemsByEmpIdAndItemId(List<EmployeeInspectionId> employeeInspectionIds);
 }
