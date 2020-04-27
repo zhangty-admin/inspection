@@ -11,7 +11,19 @@
     </resultMap>
 
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultMap="InspectionHistoryMap">
-        select inspection_id,employee_id,create_time,max(id) id from inspection_history group by employee_id,inspection_id,create_time order by create_time desc
+        select inspection_id,employee_id,create_time,max(id) id from inspection_history
+        <where>
+            <if test="createTime != null and createTime != ''">
+                and create_time &gt;= STR_TO_DATE(#{createTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and create_time &lt;= STR_TO_DATE(#{endTime},'%Y-%m-%d')
+            </if>
+            <if test="id != null and id != ''">
+                and employee_id = #{id}
+            </if>
+        </where>
+         group by employee_id,inspection_id,create_time order by employee_id desc
     </select>
 
     <!--<resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">

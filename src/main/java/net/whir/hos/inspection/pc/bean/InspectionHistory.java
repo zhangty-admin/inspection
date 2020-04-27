@@ -42,6 +42,10 @@ public class InspectionHistory implements Serializable {
     @ApiModelProperty(value = "巡检人ID")
     private Long employeeId;
 
+    @Transient
+    @ApiModelProperty(value = "结束时间")
+    private String endTime;
+
     @ApiModelProperty(hidden = true)
     @Transient
     private List<Inspection> inspection;

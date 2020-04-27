@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Map;
+
 /**
  * @Author: zty
  * @Date: 2020/4/10 9:22 上午
@@ -14,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "分页请求")
-public  class PageRequest<T> {
+public class PageRequest<T> {
 
     @ApiModelProperty(value = "当前页码")
     private int pageNum = 1;
@@ -25,4 +27,6 @@ public  class PageRequest<T> {
     @ApiModelProperty(value = "查询条件")
     private T obj;
 
+    @ApiModelProperty(value = "查询条件")
+    private Map<String, Object> map;
 }

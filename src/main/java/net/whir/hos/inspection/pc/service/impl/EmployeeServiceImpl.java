@@ -72,9 +72,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Employee> findAll(Employee employee) {
-        Example example = new Example(Employee.class);
-        createExample(employee);
-        example.setOrderByClause("ID DESC");
+        Example example = createExample(employee);
         return employeeDao.selectByExample(example);
     }
 
@@ -82,6 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Example createExample(Employee employee) {
 //        Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);
         Example example = new Example(Employee.class);
+        example.setOrderByClause("ID DESC");
         Example.Criteria criteria = example.createCriteria();
         if (employee == null) {
             return example;
@@ -116,6 +115,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (employee.getReview() != null && !"".equals(employee.getReview())) {
             criteria.andEqualTo("review", employee.getReview());
         }
+
+        //review
+        if (employee.getIsPrincipal() != null && !"".equals(employee.getIsPrincipal())) {
+            criteria.andEqualTo("isPrincipal", employee.getIsPrincipal());
+        }
+
         return example;
     }
 }

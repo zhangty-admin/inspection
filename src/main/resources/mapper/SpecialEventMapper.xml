@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.whir.hos.inspection.pc.dao.SpecialEventDao">
+
+
+    <resultMap id="selectPage" type="net.whir.hos.inspection.pc.bean.SpecialEvent" autoMapping="true">
+        <id column="department_id" property="departmentId"/>
+        <id column="employee_id" property="employeeId"/>
+        <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
+                     autoMapping="true" select="getDepartment" column="department_id">
+        </association>
+        <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
+                     autoMapping="true" select="getEmployee" column="employee_id">
+        </association>
+        <association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection"
+                     autoMapping="true" select="getInspection" column="inspection_id">
+        </association>
+    </resultMap>
+
+    <select id="selectPage" parameterType="net.whir.hos.inspection.pc.bean.SpecialEvent" resultMap="selectPage">
+        select * from special_event
+        <where>
+            <if test="id!=null and id!=''">
+                and id = #{id}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time &gt;= STR_TO_DATE(#{createTime},'%Y-%m-%d')
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and create_time &lt;= STR_TO_DATE(#{endTime},'%Y-%m-%d')
+            </if>
+            <if test="departmentId!=null and departmentId!=''">
+                and department_id = #{departmentId}
+            </if>
+            <if test="employeeId!=null and employeeId!=''">
+                and employee_id = #{employeeId}
+            </if>
+            <if test="explanation!=null and explanation!=''">
+                and explanation like CONCAT('%',#{explanation},'%')
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--一对一-->
+    <select id="getDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
+        select * from department where id = #{department_id}
+    </select>
+
+    <!--一对一-->
+    <select id="getEmployee" resultType="net.whir.hos.inspection.pc.bean.Employee">
+        select * from employee where id = #{employee_id}
+    </select>
+
+    <!--一对一-->
+    <select id="getInspection" resultType="net.whir.hos.inspection.pc.bean.Inspection">
+        select * from inspection where id = #{inspection_id}
+    </select>
+
+</mapper>

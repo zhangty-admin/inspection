@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,20 +49,32 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
     @Override
     public PageResult findPage(PageRequest<Inspection> inspectionHistoryPageResult) {
         PageHelper.startPage(inspectionHistoryPageResult.getPageNum(), inspectionHistoryPageResult.getPageSize());
-        Page<InspectionHistory> page = (Page<InspectionHistory>) historyInspectionDao.findPage(inspectionHistoryPageResult.getObj());
-
+        Page<InspectionHistory> page = (Page<InspectionHistory>) historyInspectionDao.findPage(inspectionHistoryPageResult.getMap());
         List<InspectionHistory> result = page.getResult();
+
         for (InspectionHistory inspectionHistory : result) {
             Inspection obj = inspectionHistoryPageResult.getObj();
             if (StringUtils.isEmpty(obj)) {
                 obj = new Inspection();
                 obj.setId(inspectionHistory.getInspectionId());
             }
+            obj.setId(inspectionHistory.getInspectionId());
             List<Inspection> inspections = inspectionDao.selectInspectionPage(obj);
             inspectionHistory.setInspection(inspections);
         }
 
-        return new PageResult(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), page.getResult());
+        List<Inspection> inspections = new ArrayList<>();
+        List<InspectionHistory> inspectionHistories = new ArrayList<>();
+        for (InspectionHistory inspectionHistory : result) {
+            for (Inspection inspection : inspectionHistory.getInspection()) {
+                if (!StringUtils.isEmpty(inspection)) {
+                    inspections.add(inspection);
+                    inspectionHistories.add(inspectionHistory);
+                }
+            }
+        }
+
+        return new PageResult(page.getTotal(), page.getPages(), page.getPageNum(), page.getPageSize(), inspectionHistories);
     }
 
     /**
