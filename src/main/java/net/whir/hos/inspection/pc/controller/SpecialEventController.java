@@ -26,6 +26,7 @@ import java.util.List;
  */
 
 @RestController
+@CrossOrigin
 @Slf4j
 @RequestMapping("/SpecialEvent")
 @Api(description = "特殊事件")

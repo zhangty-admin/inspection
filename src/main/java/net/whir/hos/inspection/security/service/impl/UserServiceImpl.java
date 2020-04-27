@@ -22,14 +22,13 @@ public class UserServiceImpl implements UserService {
      * 验证登陆
      *
      * @param username
-     * @param password
      * @return
      */
     @Override
-    public User login(String username, String password) {
+    public User login(String username) {
         Example example = new Example(User.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("username", username).andEqualTo("password",password);
+        criteria.andEqualTo("username", username);
         return userDao.selectOneByExample(example);
     }
 }
