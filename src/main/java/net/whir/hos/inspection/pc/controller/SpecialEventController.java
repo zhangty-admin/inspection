@@ -46,28 +46,13 @@ public class SpecialEventController {
     @ApiOperation(value = "上传图片")
     @PostMapping("/upload")
     private Result upload(@RequestParam SpecialEventFile specialEventFile) {
-        //图片上传 转beat64保存数据库
-//        try {
+        //图片上传 beat64保存数据库
         for (Files files : specialEventFile.getFile()) {
             files.setFiles(files.getFiles());
             files.setTitle(files.getTitle());
             files.setSpecialId(specialEventFile.getSpecialEvent().getId());
             fileService.insert(files);
         }
-
-            /*for (MultipartFile multipartFile : specialEventFile.getFile()) {
-                Files file = new Files();
-                InputStream inputStream = multipartFile.getInputStream();
-                byte[] pictureData = new byte[(int) multipartFile.getSize()];
-                int read = inputStream.read(pictureData);
-                file.setFiles(pictureData);
-                file.setTitle(multipartFile.getOriginalFilename());
-                file.setSpecialId(specialEventFile.getSpecialEvent().getId());
-                fileService.insert(file);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
@@ -110,61 +95,6 @@ public class SpecialEventController {
         }
         return new Result(true, StatusCode.OK, "查询成功", bytesList);
     }
-
-
-    @ApiOperation(value = "转换")
-    @PostMapping(value = "/multipartFiles")
-    public Result insert1(@RequestParam MultipartFile multipartFiles) throws Exception {
-        try {
-            //图片上传 转beat64保存数据库
-                String s = multipartFileToBASE64(multipartFiles);
-                System.out.println(s);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new Result(true, StatusCode.OK, "添加成功");
-    }
-
-    // MultipartFile转BASE64字符串
-    public static String multipartFileToBASE64(MultipartFile mFile) throws Exception {
-        BASE64Encoder bEncoder = new BASE64Encoder();
-        String[] suffixArra = mFile.getOriginalFilename().split("\\.");
-        String preffix = "data:image/jpg;base64,".replace("jpg", suffixArra[suffixArra.length - 1]);
-        String base64EncoderImg = preffix + bEncoder.encode(mFile.getBytes()).replaceAll("[\\s*\t\n\r]", "");
-        return base64EncoderImg;
-    }
-
-   /* @RequestMapping("/multipleImageUpload")
-    public Result multipleImageUpload(@RequestParam("uploadFiles") MultipartFile[] files, Model model, HttpServletRequest request) {
-        for (MultipartFile file : files) {
-
-            if (file.isEmpty()) {
-                System.out.println("文件为空空");
-            }
-            try {
-                ClassPathResource classPathResource = new ClassPathResource("static");
-                String path1 = classPathResource.getPath();
-                String fileName = file.getOriginalFilename();  // 文件名
-                String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
-                String filePath = "D:/temp-rainy/"; // 上传后的路径
-                fileName = UUID.randomUUID() + suffixName; // 新文件名
-                File dest = new File(filePath + fileName);
-                File file1 = new File("D:/temp-rainy");
-                if (!file1.exists()) {
-                    file1.mkdirs();
-                }
-                //保存文件
-                byte[] bytes = file.getBytes();
-                FileOutputStream fos = new FileOutputStream(dest);
-                fos.write(bytes);
-                fos.flush();
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }*/
 
 
 }
