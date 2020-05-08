@@ -59,11 +59,18 @@
     </resultMap>
 
     <select id="selectByInspectionId" parameterType="java.lang.Long" resultMap="employeeItemMap">
-        select e.* from inspection_history ih inner join employee e on ih.employee_id = e.id where ih.inspection_id = #{id} group by e.id
+        select e.* from inspection_history ih inner join employee e on ih.employee_id = e.id where ih.inspection_id = #{obj} group by e.id
     </select>
 
     <select id="getItems" resultType="net.whir.hos.inspection.pc.bean.Item" parameterType="map">
         select i.* from inspection_history ih inner join item i on ih.item_id = i.id where ih.inspection_id = #{inspection_id} and employee_id = #{id}
+    </select>
+
+    <select id="selectByDepartment" parameterType="java.util.List" resultMap="employeeMap" >
+       select e.* from remind_unified ru
+       inner join department_unifiedremind dur on ru.id = dur.unifiedRemind_id
+       inner join employee e on dur.department_id = e.department_id
+       where ru.id = #{id} group by e.id
     </select>
 
 </mapper>

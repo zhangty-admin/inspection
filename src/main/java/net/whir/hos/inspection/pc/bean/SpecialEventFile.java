@@ -26,9 +26,6 @@ public class SpecialEventFile {
     private SpecialEvent specialEvent;
 
     @ApiModelProperty(value = "文件")
-    private File file;
-
-    @ApiModelProperty(value = "图片和语音")
-    private MultipartFile[] files;
+    private List<Files> file;
 
 }

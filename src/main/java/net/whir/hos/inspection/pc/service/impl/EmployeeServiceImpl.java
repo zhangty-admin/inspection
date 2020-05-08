@@ -76,6 +76,22 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeDao.selectByExample(example);
     }
 
+    /**
+     * 新增用户信息
+     *
+     * @param employee
+     */
+    @Override
+    public void insert(Employee employee) {
+        employee.setReview(0);
+        employeeDao.insert(employee);
+    }
+
+    @Override
+    public List<Employee> selectByunifiedremindId(Long id) {
+         return employeeDao.selectByDepartment(id);
+    }
+
     //分页查询条件
     public Example createExample(Employee employee) {
 //        Employee employee = JSON.parseObject(JSON.toJSONString(map), Employee.class);

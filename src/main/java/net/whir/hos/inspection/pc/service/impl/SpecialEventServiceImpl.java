@@ -3,7 +3,7 @@ package net.whir.hos.inspection.pc.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.File;
+import net.whir.hos.inspection.pc.bean.Files;
 import net.whir.hos.inspection.pc.bean.SpecialEvent;
 import net.whir.hos.inspection.pc.dao.FileDao;
 import net.whir.hos.inspection.pc.dao.SpecialEventDao;
@@ -54,7 +54,7 @@ public class SpecialEventServiceImpl implements SpecialEventService {
     public void deleteByIds(List<Long> ids) {
         for (Long id : ids) {
             specialEventDao.deleteByPrimaryKey(id);
-            Example example = new Example(File.class);
+            Example example = new Example(Files.class);
             example.createCriteria().andEqualTo("specialId", id);
             fileDao.deleteByExample(example);
         }

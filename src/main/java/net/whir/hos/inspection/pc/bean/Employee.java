@@ -60,6 +60,9 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "工号")
     private String jobNumber;
 
+    @ApiModelProperty(value = "微信ID")
+    private String wxId;
+
     @ApiModelProperty(hidden = true)
     private Department department;
 

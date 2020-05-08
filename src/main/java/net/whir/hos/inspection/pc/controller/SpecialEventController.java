@@ -5,20 +5,17 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.*;
-import net.whir.hos.inspection.pc.bean.File;
+import net.whir.hos.inspection.pc.bean.Files;
 import net.whir.hos.inspection.pc.bean.SpecialEvent;
 import net.whir.hos.inspection.pc.bean.SpecialEventFile;
 import net.whir.hos.inspection.pc.service.FileService;
 import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import sun.misc.BASE64Encoder;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: zty
@@ -39,34 +36,44 @@ public class SpecialEventController {
     private FileService fileService;
 
     @ApiOperation(value = "添加特殊事件")
-    @PostMapping("/add/{multipartFiles}")
-    public Result insert(@RequestBody SpecialEventFile specialEventFile,@PathVariable List<MultipartFile> multipartFiles) throws Exception {
-        try {
-            //特殊事件添加
-            SpecialEvent specialEvent = specialEventFile.getSpecialEvent();
-            specialEventService.insert(specialEvent);
+    @PostMapping("/add")
+    public Result insert(@RequestBody SpecialEvent specialEvent) throws Exception {
+        //特殊事件添加
+        specialEventService.insert(specialEvent);
+        return new Result(true, StatusCode.OK, "添加成功");
+    }
 
-            //图片上传 转beat64保存数据库
-            for (MultipartFile multipartFile : multipartFiles) {
-                File file = specialEventFile.getFile();
+    @ApiOperation(value = "上传图片")
+    @PostMapping("/upload")
+    private Result upload(@RequestParam SpecialEventFile specialEventFile) {
+        //图片上传 转beat64保存数据库
+//        try {
+        for (Files files : specialEventFile.getFile()) {
+            files.setFiles(files.getFiles());
+            files.setTitle(files.getTitle());
+            files.setSpecialId(specialEventFile.getSpecialEvent().getId());
+            fileService.insert(files);
+        }
+
+            /*for (MultipartFile multipartFile : specialEventFile.getFile()) {
+                Files file = new Files();
                 InputStream inputStream = multipartFile.getInputStream();
                 byte[] pictureData = new byte[(int) multipartFile.getSize()];
-                inputStream.read(pictureData);
+                int read = inputStream.read(pictureData);
                 file.setFiles(pictureData);
                 file.setTitle(multipartFile.getOriginalFilename());
-                file.setSpecialId(specialEvent.getId());
+                file.setSpecialId(specialEventFile.getSpecialEvent().getId());
                 fileService.insert(file);
             }
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
 
     @ApiOperation(value = "删除特殊事件")
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     private Result deleteSpecialEvent(@RequestBody List<Long> ids) {
         try {
             specialEventService.deleteByIds(ids);
@@ -93,23 +100,71 @@ public class SpecialEventController {
     }
 
     @ApiOperation(value = "根据特殊事件ID 查询详细信息")
-    @PostMapping(value = "/image/{id}", produces = MediaType.IMAGE_PNG_VALUE)
-    public Result getImage(@PathVariable Long id) throws Exception {
-        List<byte[]> bytesList = new ArrayList<>();
+    @GetMapping(value = "/image")
+    public Result getImage(@RequestParam Long id) throws Exception {
+        List bytesList = new ArrayList<>();
 
-        byte[] bytes;
-        List<File> file = fileService.selectById(id);
-        for (File file1 : file) {
+        List<Files> file = fileService.selectById(id);
+        for (Files file1 : file) {
             bytesList.add(file1.getFiles());
         }
-
-        final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_PNG);
         return new Result(true, StatusCode.OK, "查询成功", bytesList);
     }
 
 
+    @ApiOperation(value = "转换")
+    @PostMapping(value = "/multipartFiles")
+    public Result insert1(@RequestParam MultipartFile multipartFiles) throws Exception {
+        try {
+            //图片上传 转beat64保存数据库
+                String s = multipartFileToBASE64(multipartFiles);
+                System.out.println(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new Result(true, StatusCode.OK, "添加成功");
+    }
 
+    // MultipartFile转BASE64字符串
+    public static String multipartFileToBASE64(MultipartFile mFile) throws Exception {
+        BASE64Encoder bEncoder = new BASE64Encoder();
+        String[] suffixArra = mFile.getOriginalFilename().split("\\.");
+        String preffix = "data:image/jpg;base64,".replace("jpg", suffixArra[suffixArra.length - 1]);
+        String base64EncoderImg = preffix + bEncoder.encode(mFile.getBytes()).replaceAll("[\\s*\t\n\r]", "");
+        return base64EncoderImg;
+    }
+
+   /* @RequestMapping("/multipleImageUpload")
+    public Result multipleImageUpload(@RequestParam("uploadFiles") MultipartFile[] files, Model model, HttpServletRequest request) {
+        for (MultipartFile file : files) {
+
+            if (file.isEmpty()) {
+                System.out.println("文件为空空");
+            }
+            try {
+                ClassPathResource classPathResource = new ClassPathResource("static");
+                String path1 = classPathResource.getPath();
+                String fileName = file.getOriginalFilename();  // 文件名
+                String suffixName = fileName.substring(fileName.lastIndexOf("."));  // 后缀名
+                String filePath = "D:/temp-rainy/"; // 上传后的路径
+                fileName = UUID.randomUUID() + suffixName; // 新文件名
+                File dest = new File(filePath + fileName);
+                File file1 = new File("D:/temp-rainy");
+                if (!file1.exists()) {
+                    file1.mkdirs();
+                }
+                //保存文件
+                byte[] bytes = file.getBytes();
+                FileOutputStream fos = new FileOutputStream(dest);
+                fos.write(bytes);
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }*/
 
 
 }

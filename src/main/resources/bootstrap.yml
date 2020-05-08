@@ -30,6 +30,7 @@ mybatis:
 logging:
   level:
     net.whir.hos.inspection.pc.dao: DEBUG
+
 #eureka:
 # client:
 #  service-url:

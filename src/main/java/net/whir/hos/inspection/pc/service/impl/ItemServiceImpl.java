@@ -4,6 +4,7 @@ import com.alibaba.excel.metadata.BaseRowModel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import net.whir.hos.inspection.commons.entity.User;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.commons.entity.PageRequest;
@@ -11,6 +12,7 @@ import net.whir.hos.inspection.pc.bean.excel.ItemDB;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;
+import net.whir.hos.inspection.security.dao.UserDao;
 import net.whir.hos.inspection.utils.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private InspectionItemDao inspectionItemDao;
+
+    @Autowired
+    private UserDao userDao;
 
 
     /**
@@ -87,6 +92,10 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage(pageRequest.getPageNum(), pageRequest.getPageSize());
         Example example = createExample(pageRequest);
         List<Item> items = itemDao.selectByExample(example);
+        for (Item item : items) {
+            User user = userDao.selectByPrimaryKey(item.getFounder());
+            item.setUser(user);
+        }
         return (Page<Item>) items;
     }
 

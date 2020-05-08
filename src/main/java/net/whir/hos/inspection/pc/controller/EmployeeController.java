@@ -39,11 +39,11 @@ public class EmployeeController {
         return new Result(true, StatusCode.OK, "查询成功", pageResult);
     }
 
-    // TODO 新增用户展示没有  回头补上
     @ApiOperation(value = "新增用户信息")
     @PostMapping("/add")
-    public Result add() {
-        return new Result();
+    public Result add(@RequestBody Employee employee) {
+        employeeService.insert(employee);
+        return new Result(true, StatusCode.OK, "注册成功");
     }
 
     @ApiOperation(value = "修改用户信息/审核用户信息")

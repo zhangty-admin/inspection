@@ -42,4 +42,13 @@ public interface EmployeeService {
      * @return
      */
     List<Employee> findAll(Employee employee);
+
+    /**
+     * 新增用户信息
+     *
+     * @param employee
+     */
+    void insert(Employee employee);
+
+    List<Employee> selectByunifiedremindId(Long id);
 }

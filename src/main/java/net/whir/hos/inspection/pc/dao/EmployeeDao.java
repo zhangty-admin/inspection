@@ -27,4 +27,11 @@ public interface EmployeeDao extends Mapper<Employee> {
      * @return
      */
     List<Employee> selectByInspectionId(Long obj);
+
+    /**
+     * 根据部门ID查询出当前所有人
+     * @param id
+     * @return
+     */
+    List<Employee> selectByDepartment(Long id);
 }

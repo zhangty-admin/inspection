@@ -22,7 +22,7 @@ import java.io.Serializable;
 @Builder
 @Table(name = "FILE")
 @ApiModel(value = "文件存储")
-public class File implements Serializable {
+public class Files implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,7 @@ public class File implements Serializable {
     private String createTime;
 
     @ApiModelProperty(value = "二进制文件")
-    private byte[] files;
+    private String files;
 
     @ApiModelProperty(value = "文件类型")
     private Long type;

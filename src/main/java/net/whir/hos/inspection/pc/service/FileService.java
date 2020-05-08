@@ -1,6 +1,6 @@
 package net.whir.hos.inspection.pc.service;
 
-import net.whir.hos.inspection.pc.bean.File;
+import net.whir.hos.inspection.pc.bean.Files;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public interface FileService {
      * @param id
      * @return
      */
-    List<File> selectById(Long id);
+    List<Files> selectById(Long id);
 
     /**
      *
      * @param files
      */
-    void insert(File files);
+    void insert(Files files);
 }

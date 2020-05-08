@@ -33,7 +33,6 @@ public class UserController {
     @GetMapping
     public Result login(HttpServletRequest request, HttpServletResponse response, @RequestParam String username, @RequestParam String password) {
         boolean boo = preHandle(request, response);
-        if (boo) {
             User user = userService.login(username);
             if (StringUtils.isEmpty(user)) {
                 return new Result(false, StatusCode.LOGINERROR, "账号不存在");
@@ -51,8 +50,7 @@ public class UserController {
             request.getSession().setAttribute("loginName", user.getUsername());
 
             return new Result(true, StatusCode.OK, "登陆成功", user);
-        }
-        return new Result(false, StatusCode.ACCESSERROR, "未登录");
+        /*return new Result(false, StatusCode.ACCESSERROR, "未登录");*/
     }
 
     /**

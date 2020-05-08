@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.whir.hos.inspection.commons.entity.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -35,5 +36,8 @@ public class Item implements Serializable {
 
     @ApiModelProperty(value = "创建人ID")
     private Long founder;
+
+    @ApiModelProperty(hidden = true)
+    private User user;
 
 }

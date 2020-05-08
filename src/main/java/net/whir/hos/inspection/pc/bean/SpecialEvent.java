@@ -42,7 +42,7 @@ public class SpecialEvent implements Serializable {
     private Long InspectionId;
 
     @ApiModelProperty(value = "特殊事件说明")
-    private byte[] explanation;
+    private String explanation;
 
     @ApiModelProperty(hidden = true)
     private Employee employee;
