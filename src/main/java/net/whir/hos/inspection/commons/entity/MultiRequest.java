@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.app.utils;
+package net.whir.hos.inspection.commons.entity;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;

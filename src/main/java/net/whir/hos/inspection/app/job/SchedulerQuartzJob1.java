@@ -1,8 +1,8 @@
 package net.whir.hos.inspection.app.job;
 
 import com.alibaba.fastjson.JSONObject;
-import net.whir.hos.inspection.app.utils.MultiRequest;
-import net.whir.hos.inspection.app.utils.WXToken;
+import net.whir.hos.inspection.commons.entity.MultiRequest;
+import net.whir.hos.inspection.commons.entity.WXToken;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.quartz.Job;
@@ -28,12 +28,6 @@ public class SchedulerQuartzJob1 implements Job {
     @Autowired
     private EmployeeService employeeService;
 
-    /*@Value("${WX.corpid}")*/
-    private String corpId = "ww7d1b766a3b9fcfb7";
-
-    /*@Value("${WX.corpsecret}")*/
-    private String corpsecret = "dXkvUsnh94K2UEaZhKB77XBNhgxDfXSj9J-HY-Ye6f8";
-
     private void before() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println("任务开始执行: " + simpleDateFormat.format(new Date()));
@@ -43,15 +37,20 @@ public class SchedulerQuartzJob1 implements Job {
     public void execute(JobExecutionContext arg0) {
         before();
         System.out.println("开始：" + arg0.getTrigger().getKey().getName() + ":" + arg0.getTrigger().getKey().getGroup());
+
         // TODO 业务
         Long id = (Long) arg0.getTrigger().getJobDataMap().get("id");
         if (!StringUtils.isEmpty(id)) {
-            List<Employee> employees = this.employeeService.selectByunifiedremindId(id);
             //获取企业微信token
-            StringBuilder sb = new StringBuilder();
-            JSONObject token = WXToken.getToken(corpId, corpsecret, "https://qyapi.weixin.qq.com/cgi-bin/gettoken");
+            JSONObject token = WXToken.getToken(WXToken.corpId, WXToken.corpsecret, WXToken.url);
             String access_token = (String) token.get("access_token");
+            //获取url
             String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + access_token;
+
+            //查询人员 发送消息 拼接模版
+            List<Employee> employees = this.employeeService.selectByunifiedremindId(id);
+            StringBuilder sb = new StringBuilder();
+
             for (Employee employee : employees) {
                 String wxId = employee.getWxId();
                 if (!StringUtils.isEmpty(wxId)) {
