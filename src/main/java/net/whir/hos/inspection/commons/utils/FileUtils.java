@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.utils;
+package net.whir.hos.inspection.commons.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 

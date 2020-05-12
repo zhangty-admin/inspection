@@ -1,6 +1,5 @@
 package net.whir.hos.inspection.pc.service.impl;
 
-import com.alibaba.excel.metadata.BaseRowModel;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
@@ -8,22 +7,16 @@ import net.whir.hos.inspection.commons.entity.User;
 import net.whir.hos.inspection.pc.bean.InspectionItem;
 import net.whir.hos.inspection.pc.bean.Item;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.excel.ItemDB;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.dao.ItemDao;
 import net.whir.hos.inspection.pc.service.ItemService;
 import net.whir.hos.inspection.security.dao.UserDao;
-import net.whir.hos.inspection.utils.ExcelUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * @Author: zty

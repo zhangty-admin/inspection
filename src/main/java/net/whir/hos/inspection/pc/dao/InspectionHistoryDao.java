@@ -20,4 +20,12 @@ public interface InspectionHistoryDao extends Mapper<InspectionHistory> {
      * @return
      */
     List<InspectionHistory> findPage(Map<String, Object> map);
+
+    /**
+     * 计算当天有无操作
+     *
+     * @param date
+     * @return
+     */
+    InspectionHistory findByCreateTime(String date,Long id);
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @Author: zty
@@ -44,6 +45,9 @@ public class SpecialEvent implements Serializable {
     @ApiModelProperty(value = "特殊事件说明")
     private String explanation;
 
+    @ApiModelProperty(value = "是否查阅(0/false,1/true)")
+    private Boolean isCheck;
+
     @ApiModelProperty(hidden = true)
     private Employee employee;
 
@@ -52,6 +56,9 @@ public class SpecialEvent implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private Inspection inspection;
+
+    @ApiModelProperty(hidden = true)
+    private List<Files> files;
 
     @Transient
     @ApiModelProperty(value = "结束时间")

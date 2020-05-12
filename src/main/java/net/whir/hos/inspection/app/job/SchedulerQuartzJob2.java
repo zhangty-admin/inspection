@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 @DependsOn("springContextUtil")
-public class SchedulerQuartzJob1 implements Job {
+public class SchedulerQuartzJob2 implements Job {
 
     @Autowired
     private EmployeeService employeeService;
@@ -48,7 +48,7 @@ public class SchedulerQuartzJob1 implements Job {
             String url = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=" + access_token;
 
             //查询人员 发送消息 拼接模版
-            List<Employee> employees = this.employeeService.selectByUnifiedRemindId(id);
+            List<Employee> employees = this.employeeService.selectByOmissionId(id);
             StringBuilder sb = new StringBuilder();
 
             for (Employee employee : employees) {
@@ -85,8 +85,8 @@ public class SchedulerQuartzJob1 implements Job {
                 "  \"agentid\": 1000002,\n" +
                 "  \"markdown\": {\n" +
                 "    \"content\": \"安全巡检系统\n" +
-                "    待检查提醒\n" +
-                "    请扫码巡检\n" +
+                "    漏检提醒\n" +
+                "    检查未扫码、请及时完成\n" +
                 "    检查场所: " + employee.getDepartment().getName() + "\n" +
                 "    计划巡检日期: " + format + "\n" +
                 "    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +

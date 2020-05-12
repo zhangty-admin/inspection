@@ -10,14 +10,14 @@ import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.dao.InspectionDao;
 import net.whir.hos.inspection.pc.dao.InspectionItemDao;
 import net.whir.hos.inspection.pc.service.InspectionService;
-import net.whir.hos.inspection.utils.MappingTableUtil;
+import net.whir.hos.inspection.commons.utils.MappingTableUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,6 +110,21 @@ public class InspectionServiceImpl implements InspectionService {
     @Override
     public List<Inspection> findAll() {
         return inspectionDao.selectAll();
+    }
+
+    /**
+     * 根据统一提醒查询巡检计划
+     *
+     * @param ids
+     * @return
+     */
+    @Override
+    public List<Inspection> findById(List<Long> ids) {
+        List<Inspection> inspections = new ArrayList<>();
+        for (Long id : ids) {
+            inspections.add(inspectionDao.selectByPrimaryKey(id));
+        }
+        return inspections;
     }
 
 }

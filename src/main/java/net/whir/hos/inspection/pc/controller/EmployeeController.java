@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
+import net.whir.hos.inspection.commons.utils.MultiRequest;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.EmployeeService;
@@ -41,8 +42,8 @@ public class EmployeeController {
 
     @ApiOperation(value = "新增用户信息")
     @PostMapping("/add")
-    public Result add(@RequestBody Employee employee) {
-        employeeService.insert(employee);
+    public Result addEmployee(@RequestBody Employee employee) {
+        employeeService.insertEmployee(employee);
         return new Result(true, StatusCode.OK, "注册成功");
     }
 
@@ -65,6 +66,13 @@ public class EmployeeController {
     private Result findAllEmployee(@RequestBody Employee employee) {
         List<Employee> employees = employeeService.findAll(employee);
         return new Result(true, StatusCode.OK, "查询成功", employees);
+    }
+
+    @ApiOperation(value = "审批通知管理员")
+    @GetMapping("/sendAdminApprove")
+    private Result sendAdminApprove(@RequestParam Boolean review, @RequestParam Long empId) {
+        employeeService.sendAdminApprove(review, empId);
+        return new Result();
     }
 
 }

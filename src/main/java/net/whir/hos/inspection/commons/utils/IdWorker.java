@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.app.utils;
+package net.whir.hos.inspection.commons.utils;
 
 /**
  * @Author: zty

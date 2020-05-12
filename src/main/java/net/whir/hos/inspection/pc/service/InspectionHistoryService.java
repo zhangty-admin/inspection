@@ -45,4 +45,17 @@ public interface InspectionHistoryService {
      * @param employeeInspectionIds
      */
     void deleteItemsByEmpIdAndItemId(List<EmployeeInspectionId> employeeInspectionIds);
+
+    /**
+     * 计算当天有无操作
+     * @param date
+     * @return
+     */
+    InspectionHistory findByCreateTime(String date, Long id);
+
+    /**
+     * 新增历史巡检信息
+     * @param inspectionHistory
+     */
+    void saveInspectionHistory(InspectionHistory inspectionHistory);
 }

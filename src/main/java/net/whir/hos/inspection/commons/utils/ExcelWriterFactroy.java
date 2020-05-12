@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.utils;
+package net.whir.hos.inspection.commons.utils;
 
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.BaseRowModel;

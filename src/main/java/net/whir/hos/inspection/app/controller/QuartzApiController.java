@@ -4,18 +4,23 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.whir.hos.inspection.app.bean.TaskList;
 import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.dao.TaskListDao;
 import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.commons.entity.Result;
+import net.whir.hos.inspection.pc.bean.Inspection;
+import net.whir.hos.inspection.pc.bean.RemindUnified;
+import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
+import net.whir.hos.inspection.pc.service.InspectionService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
 /**
- *
- *
  * @author yvan
  */
 @RestController
@@ -27,15 +32,16 @@ public class QuartzApiController {
     @Autowired
     private MyQuartzScheduler quartzScheduler;
     @Autowired
-    private TaskListService unifiedNotificationService;
-    @Autowired
     private TaskListService taskListService;
+    @Autowired
+    private InspectionService inspectionService;
+
 
     @ApiOperation("启动全部任务")
     @GetMapping("/start")
     public void startQuartzJob() {
         try {
-            List<TaskList> taskList = unifiedNotificationService.findByStatus();
+            List<TaskList> taskList = taskListService.findByStatus();
             quartzScheduler.startJob(taskList);
         } catch (SchedulerException e) {
             e.printStackTrace();
@@ -54,13 +60,6 @@ public class QuartzApiController {
         return allJobInfo;
     }
 
-
-    @ApiOperation(value = "新增巡检消息提醒")
-    @PostMapping("/add")
-    public Result addQuartzJob(@RequestBody TaskList taskList) {
-        unifiedNotificationService.addRemindUnified(taskList, quartzScheduler);
-        return new Result();
-    }
 
     @ApiOperation("获取单个任务")
     @PostMapping("/info")

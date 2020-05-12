@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import java.util.List;
 
 /**
  * @Author: zty
@@ -21,18 +22,18 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "DEPARTMENT_REMINDOMISSION")
-@ApiModel(value = "漏检提醒和部门人员中间表")
-public class RemindOmissionDepartment {
+@Table(name = "inspection_unifiedremind")
+@ApiModel(value = "统一提醒和部门人员中间表")
+public class RemindUnifiedInspection {
 
     @ApiModelProperty(value = "ID")
     private Long id;
 
-    @ApiModelProperty(value = "漏检提醒ID")
-    @Column(name = "remindOmission_id")
-    private Long remindOmissionId;
+    @ApiModelProperty(value = "统一提醒ID")
+    @Column(name = "unifiedRemind_id")
+    private Long unifiedRemindId;
 
     @ApiModelProperty(value = "部门ID")
-    private Long departmentId;
+    private Long inspectionId;
 
 }

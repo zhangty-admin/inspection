@@ -42,6 +42,9 @@ public class InspectionHistory implements Serializable {
     @ApiModelProperty(value = "巡检人ID")
     private Long employeeId;
 
+    @ApiModelProperty(value = "每天巡检次数")
+    private Integer frequency;
+
     @Transient
     @ApiModelProperty(value = "结束时间")
     private String endTime;

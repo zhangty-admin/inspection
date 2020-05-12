@@ -30,8 +30,23 @@ public interface EmployeeDao extends Mapper<Employee> {
 
     /**
      * 根据部门ID查询出当前所有人
+     *
      * @param id
      * @return
      */
     List<Employee> selectByDepartment(Long id);
+
+    /**
+     * 根据漏检查询人员信息
+     *
+     * @param id
+     * @return
+     */
+    List<Employee> selectByOmissionId(Long id);
+
+    /**
+     * 根据管理人查询用户信息
+     * @return
+     */
+    List<Employee> selectAllByRemindAdmin();
 }

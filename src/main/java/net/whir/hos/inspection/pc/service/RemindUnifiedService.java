@@ -2,11 +2,8 @@ package net.whir.hos.inspection.pc.service;
 
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
-import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
-
-import java.util.List;
+import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 
 /**
  * @Author: zty
@@ -27,7 +24,7 @@ public interface RemindUnifiedService {
      *
      * @param unifiedRemindDepartment
      */
-    void add(RemindUnifiedDepartmentIds unifiedRemindDepartment);
+    void addRemindUnified(RemindUnifiedInspectionIds unifiedRemindDepartment);
 
     /**
      * 删除统一新增提醒
@@ -41,5 +38,5 @@ public interface RemindUnifiedService {
      *
      * @param unifiedRemindDepartment
      */
-    void updateRemind(RemindUnifiedDepartmentIds unifiedRemindDepartment);
+    void updateRemind(RemindUnifiedInspectionIds unifiedRemindDepartment);
 }

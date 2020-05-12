@@ -10,7 +10,8 @@
         </association>-->
     </resultMap>
 
-    <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultMap="InspectionHistoryMap">
+    <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory"
+            resultMap="InspectionHistoryMap">
         select inspection_id,employee_id,create_time,max(id) id from inspection_history
         <where>
             <if test="createTime != null and createTime != ''">
@@ -23,7 +24,11 @@
                 and employee_id = #{id}
             </if>
         </where>
-         group by employee_id,inspection_id,create_time order by employee_id desc
+        group by employee_id,inspection_id,create_time order by employee_id desc
+    </select>
+
+    <select id="findByCreateTime" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultType="net.whir.hos.inspection.pc.bean.InspectionHistory">
+        select MAX(create_time) create_time, MAX(frequency) frequency from inspection_history where create_time = #{date} and inspection_id = #{id} group by frequency
     </select>
 
     <!--<resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">

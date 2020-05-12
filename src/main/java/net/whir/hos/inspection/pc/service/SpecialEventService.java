@@ -18,7 +18,7 @@ public interface SpecialEventService {
      *
      * @param specialEvent
      */
-    void insert(SpecialEvent specialEvent);
+    void insertSpecialEvent(SpecialEvent specialEvent);
 
     SpecialEvent selectById(Long id);
 
@@ -36,4 +36,12 @@ public interface SpecialEventService {
      * @return
      */
     Page<SpecialEvent> findPage(PageRequest<SpecialEvent> pageRequest);
+
+    /**
+     * 根据ID查询特殊事件
+     *
+     * @param id
+     * @return
+     */
+    SpecialEvent findSpecialEventById(Long id);
 }

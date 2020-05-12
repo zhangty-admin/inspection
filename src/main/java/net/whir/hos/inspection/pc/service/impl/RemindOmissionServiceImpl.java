@@ -2,19 +2,18 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.dao.RemindOmissionDao;
-import net.whir.hos.inspection.pc.dao.RemindOmissionDepartmentDao;
+import net.whir.hos.inspection.pc.dao.RemindOmissionInspectionDao;
 import net.whir.hos.inspection.pc.service.RemindOmissionService;
-import net.whir.hos.inspection.utils.MappingTableUtil;
+import net.whir.hos.inspection.commons.utils.MappingTableUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import tk.mybatis.mapper.entity.Example;
-
-import java.util.List;
 
 /**
  * @Author: zty
@@ -28,7 +27,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     @Autowired
     private RemindOmissionDao remindOmissionDao;
     @Autowired
-    private RemindOmissionDepartmentDao remindOmissionDepartmentDao;
+    private RemindOmissionInspectionDao remindOmissionInspectionDao;
+    @Autowired
+    private TaskListService taskListService;
 
     /**
      * 分页查询漏检提醒
@@ -45,15 +46,17 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     /**
      * 新增漏检提醒
      *
-     * @param remindOmissionDepartmentIds
+     * @param remindOmissionInspectionIds
      */
     @Override
-    public void add(RemindOmissionDepartmentIds remindOmissionDepartmentIds) {
+    public void addRemind(RemindOmissionInspectionIds remindOmissionInspectionIds) {
         //添加漏检提醒
-        remindOmissionDao.insert(remindOmissionDepartmentIds.getRemindOmission());
+        remindOmissionDao.insert(remindOmissionInspectionIds.getRemindOmission());
         //添加中间表信息
-        MappingTableUtil.relateMapping(remindOmissionDepartmentDao, new RemindOmissionDepartment(),
-                Long.valueOf(remindOmissionDepartmentIds.getRemindOmission().getId()), remindOmissionDepartmentIds.getDepartmentIds(), "insert");
+        MappingTableUtil.relateMapping(remindOmissionInspectionDao, new RemindOmissionInspection(),
+                Long.valueOf(remindOmissionInspectionIds.getRemindOmission().getId()), remindOmissionInspectionIds.getInspectionIds(), "insert");
+        //添加漏检任务列表到数据库
+        taskListService.addTaskListOmission(remindOmissionInspectionIds);
     }
 
     /**
@@ -75,12 +78,12 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
      * @param remindOmissionDepartmentIds
      */
     @Override
-    public void updateRemind(RemindOmissionDepartmentIds remindOmissionDepartmentIds) {
+    public void updateRemind(RemindOmissionInspectionIds remindOmissionDepartmentIds) {
         //删除中间表信息
         delete(remindOmissionDepartmentIds.getRemindOmission().getId());
         //新增中间表信息
-        MappingTableUtil.relateMapping(remindOmissionDepartmentDao, new RemindOmissionDepartment(),
-                Long.valueOf(remindOmissionDepartmentIds.getRemindOmission().getId()), remindOmissionDepartmentIds.getDepartmentIds(), "insert");
+        MappingTableUtil.relateMapping(remindOmissionInspectionDao, new RemindOmissionInspection(),
+                Long.valueOf(remindOmissionDepartmentIds.getRemindOmission().getId()), remindOmissionDepartmentIds.getInspectionIds(), "insert");
         //修改漏检信息
         remindOmissionDao.updateByPrimaryKeySelective(remindOmissionDepartmentIds.getRemindOmission());
     }
@@ -96,9 +99,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         if (StringUtils.isEmpty(remindOmissionId)) {
             return false;
         }
-        Example example = new Example(RemindOmissionDepartment.class);
+        Example example = new Example(RemindOmissionInspection.class);
         example.createCriteria().andEqualTo("remindOmissionId", remindOmissionId);
-        remindOmissionDepartmentDao.deleteByExample(example);
+        remindOmissionInspectionDao.deleteByExample(example);
         return true;
     }
 }

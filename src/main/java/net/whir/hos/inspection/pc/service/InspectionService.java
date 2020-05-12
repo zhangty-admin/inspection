@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.RemindUnified;
 
 import java.util.List;
 
@@ -49,4 +50,12 @@ public interface InspectionService {
      * @return
      */
     List<Inspection> findAll();
+
+    /**
+     * 根据统一提醒查询巡检计划
+     *
+     * @param ids
+     * @return
+     */
+    List<Inspection> findById(List<Long> ids);
 }

@@ -21,12 +21,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ApiModel(value = "统一提醒和部门人ID")
-public class RemindUnifiedDepartmentIds {
+public class RemindUnifiedInspectionIds {
 
     @ApiModelProperty(value = "统一提醒")
     private RemindUnified unifiedRemind;
 
     @ApiModelProperty(value = "部门ID")
-    private List<Long> departmentIds;
+    private List<Long> inspectionIds;
 
 }

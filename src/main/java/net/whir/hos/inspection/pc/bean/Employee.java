@@ -48,8 +48,8 @@ public class Employee implements Serializable {
     @ApiModelProperty(value = "区域ID")
     private Long inspectionId;
 
-    @ApiModelProperty(value = "照片ID")
-    private Long photoId;
+    @ApiModelProperty(value = "照片beast64")
+    private String photo;
 
     @ApiModelProperty(value = "审核（0/false，1/true）")
     private Integer review;

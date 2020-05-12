@@ -1,7 +1,8 @@
-package net.whir.hos.inspection.commons.entity;
+package net.whir.hos.inspection.commons.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import net.whir.hos.inspection.commons.utils.MultiRequest;
 
 import java.util.HashMap;
 

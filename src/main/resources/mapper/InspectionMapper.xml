@@ -89,4 +89,12 @@
         select i.* from inspection_item ii inner join item i on ii.item_id = i.id where ii.inspection_id = #{id}
     </select>
 
+    <!--根据统一提醒查询巡检计划-->
+    <select id="findByUnifiedId" parameterType="java.util.List" resultMap="InspectionMap">
+        select i.* from remind_unified ru
+    inner join inspection_unifiedremind iu on ru.id = iu.unifiedRemind_id
+    inner join inspection i on iu.inspection_id = i.id
+    where ru.id = #{id}
+    </select>
+
 </mapper>

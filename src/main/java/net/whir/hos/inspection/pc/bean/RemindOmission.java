@@ -36,7 +36,7 @@ public class RemindOmission {
     private Long employeeId;
 
     @ApiModelProperty(hidden = true)
-    private List<Department> departments;
+    private List<Inspection> inspections;
 
     @ApiModelProperty(hidden = true)
     private Employee employee;

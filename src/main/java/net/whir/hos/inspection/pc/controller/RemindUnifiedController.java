@@ -8,14 +8,11 @@ import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
-import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
+import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 import net.whir.hos.inspection.pc.service.RemindUnifiedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: zty
@@ -42,9 +39,9 @@ public class RemindUnifiedController {
 
     @ApiOperation(value = "新增统一提醒")
     @PostMapping("/add")
-    private Result addRemind(@RequestBody RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    private Result addRemind(@RequestBody RemindUnifiedInspectionIds unifiedRemindDepartment) {
         try {
-            remindService.add(unifiedRemindDepartment);
+            remindService.addRemindUnified(unifiedRemindDepartment);
         } catch (Exception e) {
             log.warn("添加失败: " + e.getMessage());
             return new Result(true, StatusCode.ERROR, "添加失败");
@@ -66,7 +63,7 @@ public class RemindUnifiedController {
 
     @ApiOperation(value = "修改统一新增提醒")
     @PutMapping("/update")
-    private Result updateRemind(@RequestBody RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    private Result updateRemind(@RequestBody RemindUnifiedInspectionIds unifiedRemindDepartment) {
         try {
             remindService.updateRemind(unifiedRemindDepartment);
         } catch (Exception e) {

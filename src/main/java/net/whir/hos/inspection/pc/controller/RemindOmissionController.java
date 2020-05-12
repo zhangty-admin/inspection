@@ -9,12 +9,10 @@ import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.RemindOmission;
-import net.whir.hos.inspection.pc.bean.RemindOmissionDepartmentIds;
+import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 import net.whir.hos.inspection.pc.service.RemindOmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * @Author: zty
@@ -41,9 +39,9 @@ public class RemindOmissionController {
 
     @ApiOperation(value = "新增漏检提醒")
     @PostMapping("/add")
-    private Result addRemind(@RequestBody RemindOmissionDepartmentIds remindOmissionDepartmentIds) {
+    private Result addRemind(@RequestBody RemindOmissionInspectionIds remindOmissionDepartmentIds) {
         try {
-            remindOmissionService.add(remindOmissionDepartmentIds);
+            remindOmissionService.addRemind(remindOmissionDepartmentIds);
         } catch (Exception e) {
             log.warn("添加失败: " + e.getMessage());
             return new Result(true, StatusCode.ERROR, "添加失败");
@@ -65,7 +63,7 @@ public class RemindOmissionController {
 
     @ApiOperation(value = "修改漏检新增提醒")
     @PutMapping("/update")
-    private Result updateRemind(@RequestBody RemindOmissionDepartmentIds remindOmissionDepartmentIds) {
+    private Result updateRemind(@RequestBody RemindOmissionInspectionIds remindOmissionDepartmentIds) {
         try {
             remindOmissionService.updateRemind(remindOmissionDepartmentIds);
         } catch (Exception e) {

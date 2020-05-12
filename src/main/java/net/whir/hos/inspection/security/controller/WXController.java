@@ -3,12 +3,9 @@ package net.whir.hos.inspection.security.controller;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.whir.hos.inspection.commons.entity.MultiRequest;
-import net.whir.hos.inspection.commons.entity.WXToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import net.whir.hos.inspection.commons.utils.MultiRequest;
+import net.whir.hos.inspection.commons.utils.WXToken;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +22,7 @@ import java.util.Map;
 public class WXController {
 
     @ApiOperation(value = "获取用户信息")
-    @PostMapping()
+    @GetMapping
     private String getIdentity(String code) {
         JSONObject token = WXToken.getToken(WXToken.corpId, WXToken.corpsecret, WXToken.url);
         String access_token = (String) token.get("access_token");
@@ -33,7 +30,9 @@ public class WXController {
         map.put("access_token", access_token);
         map.put("code", code);
         //"https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=ACCESS_TOKEN&code=CODE";
-        return MultiRequest.get(map, "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo");
+        String s = MultiRequest.get(map, "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo");
+        System.out.println(s);
+        return /*MultiRequest.get(map, "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo")*/s;
     }
 
 }

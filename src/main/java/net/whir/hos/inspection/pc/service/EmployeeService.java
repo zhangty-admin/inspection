@@ -48,7 +48,28 @@ public interface EmployeeService {
      *
      * @param employee
      */
-    void insert(Employee employee);
+    void insertEmployee(Employee employee);
 
-    List<Employee> selectByunifiedremindId(Long id);
+    /**
+     * 根据统一查询人员信息
+     *
+     * @param id
+     * @return
+     */
+    List<Employee> selectByUnifiedRemindId(Long id);
+
+    /**
+     * 根据漏检查询人员信息
+     *
+     * @param id
+     * @return
+     */
+    List<Employee> selectByOmissionId(Long id);
+
+    /**
+     * 审批通知管理员
+     *
+     * @param review
+     */
+    void sendAdminApprove(Boolean review, Long empId);
 }

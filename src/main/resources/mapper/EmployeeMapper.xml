@@ -73,4 +73,15 @@
        where ru.id = #{id} group by e.id
     </select>
 
+    <select id="selectByOmissionId" parameterType="java.util.List" resultMap="employeeMap">
+        select e.* from remind_omission ro
+        inner join employee e on ro.employee_id = e.id
+        where ro.id = #{id}
+    </select>
+
+    <select id="selectAllByRemindAdmin" parameterType="java.util.List" resultMap="employeeMap">
+        select e.* from remind_admin ra
+        inner join employee e on ra.employee_id = e.id
+    </select>
+
 </mapper>

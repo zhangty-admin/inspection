@@ -2,14 +2,15 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartment;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
+import net.whir.hos.inspection.pc.bean.RemindUnifiedInspection;
+import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 import net.whir.hos.inspection.pc.dao.RemindUnifiedDao;
-import net.whir.hos.inspection.pc.dao.RemindUnifiedDepartmentDao;
+import net.whir.hos.inspection.pc.dao.RemindUnifiedInspectionDao;
 import net.whir.hos.inspection.pc.service.RemindUnifiedService;
-import net.whir.hos.inspection.utils.MappingTableUtil;
+import net.whir.hos.inspection.commons.utils.MappingTableUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,9 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
     @Autowired
     private RemindUnifiedDao remindDao;
     @Autowired
-    private RemindUnifiedDepartmentDao unifiedRemindDepartmentDao;
+    private RemindUnifiedInspectionDao unifiedRemindInspectionDao;
+    @Autowired
+    private TaskListService taskListService;
 
     /**
      * 分页查询提醒
@@ -49,13 +52,14 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
      * @param unifiedRemindDepartment
      */
     @Override
-    public void add(RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    public void addRemindUnified(RemindUnifiedInspectionIds unifiedRemindDepartment) {
         //统一提醒新增
         remindDao.insertSelective(unifiedRemindDepartment.getUnifiedRemind());
         //新增部门和提醒的中间表
-        MappingTableUtil.relateMapping(unifiedRemindDepartmentDao, new RemindUnifiedDepartment(),
-                unifiedRemindDepartment.getUnifiedRemind().getId(), unifiedRemindDepartment.getDepartmentIds(), "insert");
-
+        MappingTableUtil.relateMapping(unifiedRemindInspectionDao, new RemindUnifiedInspection(),
+                unifiedRemindDepartment.getUnifiedRemind().getId(), unifiedRemindDepartment.getInspectionIds(), "insert");
+        //添加统一提醒任务列表
+        taskListService.addTaskList(unifiedRemindDepartment);
     }
 
     /**
@@ -77,11 +81,11 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
      * @param unifiedRemindDepartment
      */
     @Override
-    public void updateRemind(RemindUnifiedDepartmentIds unifiedRemindDepartment) {
+    public void updateRemind(RemindUnifiedInspectionIds unifiedRemindDepartment) {
         //修改部门和提醒的中间表
         if (!delete(unifiedRemindDepartment.getUnifiedRemind().getId())) return;
-        MappingTableUtil.relateMapping(unifiedRemindDepartmentDao, new RemindUnifiedDepartment(),
-                unifiedRemindDepartment.getUnifiedRemind().getId(), unifiedRemindDepartment.getDepartmentIds(), "insert");
+        MappingTableUtil.relateMapping(unifiedRemindInspectionDao, new RemindUnifiedInspection(),
+                unifiedRemindDepartment.getUnifiedRemind().getId(), unifiedRemindDepartment.getInspectionIds(), "insert");
 
         //修改统一新增
         remindDao.updateByPrimaryKeySelective(unifiedRemindDepartment.getUnifiedRemind());
@@ -97,9 +101,9 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
         if (StringUtils.isEmpty(remindOmissionId)) {
             return false;
         }
-        Example example = new Example(RemindUnifiedDepartment.class);
+        Example example = new Example(RemindUnifiedInspection.class);
         example.createCriteria().andEqualTo("unifiedRemindId", remindOmissionId);
-        unifiedRemindDepartmentDao.deleteByExample(example);
+        unifiedRemindInspectionDao.deleteByExample(example);
         return true;
     }
 }

@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import net.whir.hos.inspection.app.bean.TaskList;
+import net.whir.hos.inspection.app.bean.TaskListOmission;
 import net.whir.hos.inspection.app.job.SchedulerQuartzJob1;
+import net.whir.hos.inspection.app.job.SchedulerQuartzJob2;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,13 +36,39 @@ public class MyQuartzScheduler {
         scheduler.start();
     }
 
+    public void addJob(TaskListOmission taskListOmission) throws SchedulerException {
+        startJob1(scheduler, taskListOmission);
+        scheduler.start();
+    }
     /**
-     * 开始执行所有任务
+     * 新增执行任务
+     *
+     * @throws SchedulerException
+     */
+    public void addOmissionJob(TaskListOmission taskList) throws SchedulerException {
+        startJob1(scheduler, taskList);
+        scheduler.start();
+    }
+
+    /**
+     * 开始执行统一消息所有任务
      *
      * @throws SchedulerException
      */
     public void startJob(List<TaskList> taskList) throws SchedulerException {
         for (TaskList list : taskList) {
+            startJob1(scheduler, list);
+        }
+        scheduler.start();
+    }
+
+    /**
+     * 开始执行漏检消息所有任务
+     *
+     * @throws SchedulerException
+     */
+    public void startJobOmission(List<TaskListOmission> taskList) throws SchedulerException {
+        for (TaskListOmission list : taskList) {
             startJob1(scheduler, list);
         }
         scheduler.start();
@@ -173,11 +201,17 @@ public class MyQuartzScheduler {
         scheduler.scheduleJob(jobDetail, cronTrigger);
     }
 
-    /*private void startJob2(Scheduler scheduler) throws SchedulerException {
-        JobDetail jobDetail = JobBuilder.newJob(SchedulerQuartzJob2.class).withIdentity("job2", "group2").build();
-        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule("0 0/5 * * * ?");
-        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity("job2", "group2")
-                .withSchedule(cronScheduleBuilder).build();
+
+    private void startJob1(Scheduler scheduler, TaskListOmission taskList) throws SchedulerException {
+        // 通过JobBuilder构建JobDetail实例，JobDetail规定只能是实现Job接口的实例
+        // JobDetail 是具体Job实例
+        JobDetail jobDetail = JobBuilder.newJob(SchedulerQuartzJob2.class).withIdentity(taskList.getTaskName(), taskList.getClazz()).build();
+        //        // 基于表达式构建触发器
+        CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(taskList.getCron());
+        // CronTrigger表达式触发器 继承于Trigger
+        // TriggerBuilder 用于构建触发器实例
+        CronTrigger cronTrigger = TriggerBuilder.newTrigger().withIdentity(taskList.getTaskName(), taskList.getClazz())
+                .withSchedule(cronScheduleBuilder).usingJobData("id", taskList.getMissedId()).build();
         scheduler.scheduleJob(jobDetail, cronTrigger);
-    }*/
+    }
 }

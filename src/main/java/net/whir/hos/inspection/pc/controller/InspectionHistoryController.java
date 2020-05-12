@@ -11,8 +11,11 @@ import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.service.InspectionHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -81,6 +84,29 @@ public class InspectionHistoryController {
             return new Result(false, StatusCode.ERROR, "删除失败");
         }
         return new Result(true, StatusCode.OK, "删除成功");
+    }
+
+    @ApiOperation(value = "提交巡检")
+    @PostMapping("/submit")
+    private Result saveInspectionHistory(@RequestBody InspectionItemIds inspectionItemIds) {
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        InspectionHistory history = historyInspectionService.findByCreateTime(date, inspectionItemIds.getInspection().getId());
+
+        Integer frequency = history.getFrequency();
+        if (StringUtils.isEmpty(frequency)) {
+            frequency = 0;
+        }
+
+        InspectionHistory inspectionHistory = null;
+        for (Long itemId : inspectionItemIds.getItemIds()) {
+            inspectionHistory = InspectionHistory.builder()
+                    .inspectionId(inspectionItemIds.getInspection().getId()).frequency(frequency + 1)
+                    .employeeId(inspectionItemIds.getInspection().getEmployeeId()).createTime(date)
+                    .itemId(itemId)
+                    .build();
+        }
+        historyInspectionService.saveInspectionHistory(inspectionHistory);
+        return new Result(true, StatusCode.OK, "提交成功");
     }
 
 }

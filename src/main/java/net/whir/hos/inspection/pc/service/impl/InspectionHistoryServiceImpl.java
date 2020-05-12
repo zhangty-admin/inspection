@@ -118,4 +118,25 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
         }
     }
 
+    /**
+     * 计算当天有无操作
+     *
+     * @param date
+     * @return
+     */
+    @Override
+    public InspectionHistory findByCreateTime(String date, Long id) {
+        return historyInspectionDao.findByCreateTime(date,id);
+    }
+
+    /**
+     * 新增历史巡检信息
+     *
+     * @param inspectionHistory
+     */
+    @Override
+    public void saveInspectionHistory(InspectionHistory inspectionHistory) {
+        historyInspectionDao.insertSelective(inspectionHistory);
+    }
+
 }

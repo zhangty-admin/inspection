@@ -12,8 +12,6 @@ import net.whir.hos.inspection.pc.service.FileService;
 import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import sun.misc.BASE64Encoder;
 
 import java.util.*;
 
@@ -37,15 +35,15 @@ public class SpecialEventController {
 
     @ApiOperation(value = "添加特殊事件")
     @PostMapping("/add")
-    public Result insert(@RequestBody SpecialEvent specialEvent) throws Exception {
+    public Result insertSpecialEvent(@RequestBody SpecialEvent specialEvent) throws Exception {
         //特殊事件添加
-        specialEventService.insert(specialEvent);
+        specialEventService.insertSpecialEvent(specialEvent);
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
     @ApiOperation(value = "上传图片")
     @PostMapping("/upload")
-    private Result upload(@RequestParam SpecialEventFile specialEventFile) {
+    private Result uploadSpecialEvent(@RequestParam SpecialEventFile specialEventFile) {
         //图片上传 beat64保存数据库
         for (Files files : specialEventFile.getFile()) {
             files.setFiles(files.getFiles());
@@ -87,13 +85,21 @@ public class SpecialEventController {
     @ApiOperation(value = "根据特殊事件ID 查询详细信息")
     @GetMapping(value = "/image")
     public Result getImage(@RequestParam Long id) throws Exception {
-        List bytesList = new ArrayList<>();
+        List<String> bytesList = new ArrayList<>();
 
         List<Files> file = fileService.selectById(id);
         for (Files file1 : file) {
             bytesList.add(file1.getFiles());
         }
         return new Result(true, StatusCode.OK, "查询成功", bytesList);
+    }
+
+
+    @ApiOperation(value = "根据ID查询特殊事件(bol true/是小程序 false/pc)")
+    @GetMapping(value = "/findSpecialEventById")
+    private Result findSpecialEventById(@RequestParam Long id) {
+        SpecialEvent specialEvent = specialEventService.findSpecialEventById(id);
+        return new Result(true, StatusCode.OK, "查询成功", specialEvent);
     }
 
 

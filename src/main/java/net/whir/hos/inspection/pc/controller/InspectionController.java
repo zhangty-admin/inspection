@@ -12,7 +12,7 @@ import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.InspectionItemIds;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.InspectionService;
-import net.whir.hos.inspection.utils.QRCodeUtil;
+import net.whir.hos.inspection.commons.utils.QRCodeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

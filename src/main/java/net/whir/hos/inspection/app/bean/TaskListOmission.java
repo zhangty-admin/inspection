@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 /**
- * 统一任务表
+ * 漏检任务表
  *
  * @author plf 2019年5月5日上午11:19:57
  */
@@ -20,9 +20,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "TASK_LIST")
+@Table(name = "TASK_LIST_OMISSION")
 @ApiModel("定时任务")
-public class TaskList {
+public class TaskListOmission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,7 +62,7 @@ public class TaskList {
     @ApiModelProperty(value = "创建时间", required = false, example = "2019-05-07 12:00:00")
     private String createTime;
 
-    @ApiModelProperty(value = "对应的统一消息提醒ID")
-    private Long unifiedId;
+    @ApiModelProperty(value = "对应的漏检消息提醒ID")
+    private Long missedId;
 
 }

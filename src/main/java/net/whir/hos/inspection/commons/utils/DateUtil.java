@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.utils;
+package net.whir.hos.inspection.commons.utils;
 
 
 import org.apache.commons.lang3.StringUtils;

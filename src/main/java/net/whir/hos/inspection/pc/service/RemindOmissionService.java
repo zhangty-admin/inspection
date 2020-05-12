@@ -3,10 +3,7 @@ package net.whir.hos.inspection.pc.service;
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.RemindOmission;
-import net.whir.hos.inspection.pc.bean.RemindOmissionDepartmentIds;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedDepartmentIds;
-
-import java.util.List;
+import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 
 /**
  * @Author: zty
@@ -27,7 +24,7 @@ public interface RemindOmissionService {
      *
      * @param remindOmissionDepartmentIds
      */
-    void add(RemindOmissionDepartmentIds remindOmissionDepartmentIds);
+    void addRemind(RemindOmissionInspectionIds remindOmissionDepartmentIds);
 
     /**
      * 删除漏检新增提醒
@@ -41,5 +38,5 @@ public interface RemindOmissionService {
      *
      * @param remindOmissionDepartmentIds
      */
-    void updateRemind(RemindOmissionDepartmentIds remindOmissionDepartmentIds);
+    void updateRemind(RemindOmissionInspectionIds remindOmissionDepartmentIds);
 }
