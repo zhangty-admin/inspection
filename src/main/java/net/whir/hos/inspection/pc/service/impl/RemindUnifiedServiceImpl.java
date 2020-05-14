@@ -65,14 +65,16 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
     /**
      * 删除统一新增提醒
      *
-     * @param remindOmissionId
+     * @param remindUnifiedId
      */
     @Override
-    public void deleteRemindById(Long remindOmissionId) {
+    public void deleteRemindById(Long remindUnifiedId) {
         //删除部门和提醒的中间表
-        if (!delete(remindOmissionId)) return;
+        if (!delete(remindUnifiedId)) return;
         //删除统一提醒
-        remindDao.deleteByPrimaryKey(remindOmissionId);
+        remindDao.deleteByPrimaryKey(remindUnifiedId);
+        //删除统一提醒任务
+        taskListService.deleteTaskList(remindUnifiedId);
     }
 
     /**
@@ -89,6 +91,10 @@ public class RemindUnifiedServiceImpl implements RemindUnifiedService {
 
         //修改统一新增
         remindDao.updateByPrimaryKeySelective(unifiedRemindDepartment.getUnifiedRemind());
+        //修改定时任务(删除重新添加)
+        taskListService.deleteTaskList(unifiedRemindDepartment.getUnifiedRemind().getId());
+        //添加新任务
+        taskListService.addTaskList(unifiedRemindDepartment);
     }
 
     /**

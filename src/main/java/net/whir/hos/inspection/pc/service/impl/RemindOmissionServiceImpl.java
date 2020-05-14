@@ -2,7 +2,8 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import net.whir.hos.inspection.app.service.TaskListService;
+import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.service.TaskListOmissionService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.dao.RemindOmissionDao;
@@ -29,7 +30,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     @Autowired
     private RemindOmissionInspectionDao remindOmissionInspectionDao;
     @Autowired
-    private TaskListService taskListService;
+    private TaskListOmissionService taskListOmissionService;
+    @Autowired
+    private MyQuartzScheduler myQuartzScheduler;
 
     /**
      * 分页查询漏检提醒
@@ -56,7 +59,8 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         MappingTableUtil.relateMapping(remindOmissionInspectionDao, new RemindOmissionInspection(),
                 Long.valueOf(remindOmissionInspectionIds.getRemindOmission().getId()), remindOmissionInspectionIds.getInspectionIds(), "insert");
         //添加漏检任务列表到数据库
-        taskListService.addTaskListOmission(remindOmissionInspectionIds);
+        //新增漏检巡检消息定时任务
+        taskListOmissionService.addTaskListOmission(remindOmissionInspectionIds);
     }
 
     /**
@@ -70,6 +74,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         delete(remindOmissionId);
         //删除漏检信息
         remindOmissionDao.deleteByPrimaryKey(remindOmissionId);
+        //删除漏检
+        //删除正在定时的任务
+        taskListOmissionService.deleteTaskListOmission(remindOmissionId);
     }
 
     /**
@@ -86,6 +93,11 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
                 Long.valueOf(remindOmissionDepartmentIds.getRemindOmission().getId()), remindOmissionDepartmentIds.getInspectionIds(), "insert");
         //修改漏检信息
         remindOmissionDao.updateByPrimaryKeySelective(remindOmissionDepartmentIds.getRemindOmission());
+
+        //修改定时任务(删除重新添加)
+        taskListOmissionService.deleteTaskListOmission(remindOmissionDepartmentIds.getRemindOmission().getId());
+        //添加新任务
+        taskListOmissionService.addTaskListOmission(remindOmissionDepartmentIds);
     }
 
 

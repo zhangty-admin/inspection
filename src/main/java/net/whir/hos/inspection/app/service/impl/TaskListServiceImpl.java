@@ -1,13 +1,10 @@
 package net.whir.hos.inspection.app.service.impl;
 
 import net.whir.hos.inspection.app.bean.TaskList;
-import net.whir.hos.inspection.app.bean.TaskListOmission;
 import net.whir.hos.inspection.app.config.MyQuartzScheduler;
 import net.whir.hos.inspection.app.dao.TaskListDao;
-import net.whir.hos.inspection.app.dao.TaskListOmissionDao;
 import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.pc.bean.Inspection;
-import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 import net.whir.hos.inspection.pc.service.InspectionService;
 import org.quartz.SchedulerException;
@@ -32,13 +29,11 @@ public class TaskListServiceImpl implements TaskListService {
     @Autowired
     private TaskListDao taskListDao;
     @Autowired
-    private MyQuartzScheduler quartzScheduler;
+    private MyQuartzScheduler myQuartzScheduler;
     @Autowired
     private TaskListService taskListService;
     @Autowired
     private InspectionService inspectionService;
-    @Autowired
-    private TaskListOmissionDao taskListOmissionDao;
 
     /**
      * 保存执行统一巡检消息
@@ -51,22 +46,6 @@ public class TaskListServiceImpl implements TaskListService {
         //执行
         try {
             quartzScheduler.addJob(taskList);
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 新增漏检巡检消息定时任务
-     *
-     * @param taskListOmission
-     * @param quartzScheduler
-     */
-    @Override
-    public void addRemindOmissionTask(TaskListOmission taskListOmission, MyQuartzScheduler quartzScheduler) {
-        //执行
-        try {
-            quartzScheduler.addJob(taskListOmission);
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
@@ -118,40 +97,33 @@ public class TaskListServiceImpl implements TaskListService {
             //保存数据库
             taskListDao.insertSelective(taskList);
             //新增统一巡检消息定时任务
-            taskListService.addRemindUnified(taskList, quartzScheduler);
+            taskListService.addRemindUnified(taskList, myQuartzScheduler);
         }
     }
 
     /**
-     * 添加漏检任务列表到数据库
-     * 新增漏检巡检消息定时任务
+     * 删除统一提醒任务
+     * 删除正在定时的任务
      *
-     * @param remindOmissionInspectionIds
+     * @param remindUnifiedId
      */
     @Override
-    public void addTaskListOmission(RemindOmissionInspectionIds remindOmissionInspectionIds) {
-        List<Inspection> inspections = inspectionService.findById(remindOmissionInspectionIds.getInspectionIds());
-
-        for (Inspection inspection : inspections) {
-            //应查天数
-            Integer heaven = inspection.getHeaven();
-            //获取时间
-            String reminderTime = remindOmissionInspectionIds.getRemindOmission().getReminderTime();
-            String[] split = reminderTime.split(":");
-            String time = split[0];
-            String minute = split[1];
-            //创建时间
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String format = simpleDateFormat.format(new Date());
-
-            //获取任务信息
-            TaskListOmission taskListOmission = getTask(remindOmissionInspectionIds, inspection, heaven, time, minute, format);
-            //保存数据库
-            taskListOmissionDao.insertSelective(taskListOmission);
-            //新增统一巡检消息定时任务
-            addRemindOmissionTask(taskListOmission, quartzScheduler);
+    public void deleteTaskList(Long remindUnifiedId) {
+        //删除统一提醒任务
+        Example example = new Example(TaskList.class);
+        example.createCriteria().andEqualTo("unifiedId", remindUnifiedId);
+        taskListDao.deleteByExample(example);
+        //删除正在定时的任务
+        List<TaskList> taskLists = taskListDao.selectByExample(example);
+        for (TaskList taskList : taskLists) {
+            try {
+                myQuartzScheduler.deleteJob(taskList.getTaskName(), taskList.getClazz());
+            } catch (SchedulerException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 
     /**
      * 获取任务信息
@@ -191,42 +163,5 @@ public class TaskListServiceImpl implements TaskListService {
         return taskList;
     }
 
-    /**
-     * 获取漏检任务信息
-     *
-     * @param remindOmissionInspectionIds
-     * @param inspection
-     * @param heaven
-     * @param time
-     * @param minute
-     * @param format
-     * @return
-     */
-    private TaskListOmission getTask(RemindOmissionInspectionIds remindOmissionInspectionIds, Inspection inspection, Integer heaven, String time, String minute, String format) {
-        String cron;
-        TaskListOmission taskList = new TaskListOmission();
-        switch (heaven) {
-            case 5:
-                cron = "0 " + minute + " " + time + " ? * MON-FRI";
-                taskList = TaskListOmission.builder().taskName(inspection.getName() + remindOmissionInspectionIds.getRemindOmission().getId())
-                        .missedId(remindOmissionInspectionIds.getRemindOmission().getId().longValue()).createTime(format).status(1)
-                        .clazz(inspection.getDepartmentId().toString() + remindOmissionInspectionIds.getRemindOmission().getId()).cron(cron).build();
-                break;
-            case 7:
-                cron = "0 " + minute + " " + time + " 1/1 * ? ";
-                taskList = TaskListOmission.builder().taskName(inspection.getName() + remindOmissionInspectionIds.getRemindOmission().getId())
-                        .missedId(remindOmissionInspectionIds.getRemindOmission().getId().longValue()).createTime(format).status(1)
-                        .clazz(inspection.getDepartmentId().toString() + remindOmissionInspectionIds.getRemindOmission().getId()).cron(cron).build();
-                break;
-            case 1:
-                //每月底最近的工作日
-                cron = "0 " + minute + " " + time + " 30W * ? ";
-                taskList = TaskListOmission.builder().taskName(inspection.getName() + remindOmissionInspectionIds.getRemindOmission().getId())
-                        .missedId(remindOmissionInspectionIds.getRemindOmission().getId().longValue()).createTime(format).status(1)
-                        .clazz(inspection.getDepartmentId().toString() + remindOmissionInspectionIds.getRemindOmission().getId()).cron(cron).build();
-                break;
-        }
-        return taskList;
-    }
 
 }

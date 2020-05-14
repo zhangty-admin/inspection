@@ -3,6 +3,7 @@ package net.whir.hos.inspection.pc.service;
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.SpecialEvent;
+import net.whir.hos.inspection.pc.bean.SpecialEventFile;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public interface SpecialEventService {
     /**
      * 添加特殊事件
      *
-     * @param specialEvent
+     * @param specialEventFile
      */
-    void insertSpecialEvent(SpecialEvent specialEvent);
+    void insertSpecialEvent(SpecialEventFile specialEventFile);
 
     SpecialEvent selectById(Long id);
 

@@ -4,6 +4,8 @@ import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
@@ -28,6 +30,11 @@ public class RemindUnifiedController {
 
     @Autowired
     private RemindUnifiedService remindService;
+    @Autowired
+    private MyQuartzScheduler myQuartzScheduler;
+    @Autowired
+    private TaskListService taskListService;
+
 
     @ApiOperation(value = "分页查询统一提醒")
     @PostMapping("/findPage")
@@ -67,6 +74,7 @@ public class RemindUnifiedController {
         try {
             remindService.updateRemind(unifiedRemindDepartment);
         } catch (Exception e) {
+
             log.warn("修改失败: " + e.getMessage());
             return new Result(true, StatusCode.ERROR, "修改失败");
         }

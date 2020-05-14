@@ -4,14 +4,12 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.commons.utils.MultiRequest;
-import net.whir.hos.inspection.pc.bean.Employee;
-import net.whir.hos.inspection.pc.bean.Files;
-import net.whir.hos.inspection.pc.bean.Inspection;
-import net.whir.hos.inspection.pc.bean.SpecialEvent;
+import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
 import net.whir.hos.inspection.pc.dao.FileDao;
 import net.whir.hos.inspection.pc.dao.SpecialEventDao;
 import net.whir.hos.inspection.pc.service.EmployeeService;
+import net.whir.hos.inspection.pc.service.FileService;
 import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,26 +32,33 @@ public class SpecialEventServiceImpl implements SpecialEventService {
 
     @Autowired
     private SpecialEventDao specialEventDao;
-
     @Autowired
     private FileDao fileDao;
-
     @Autowired
     private EmployeeServiceImpl employeeService;
-
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private FileService fileService;
 
     /**
      * 添加特殊事件
      *
-     * @param specialEvent
+     * @param specialEventFile
      */
     @Override
-    public void insertSpecialEvent(SpecialEvent specialEvent) {
+    public void insertSpecialEvent(SpecialEventFile specialEventFile) {
         //添加特殊事件
+        SpecialEvent specialEvent = specialEventFile.getSpecialEvent();
         specialEvent.setIsCheck(false);
         specialEventDao.insert(specialEvent);
+        //图片上传 beat64保存数据库
+        for (Files files : specialEventFile.getFile()) {
+            files.setFiles(files.getFiles());
+            files.setTitle(files.getTitle());
+            files.setSpecialId(specialEventFile.getSpecialEvent().getId());
+            fileService.insert(files);
+        }
         //消息提醒
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format = simpleDateFormat.format(new Date());

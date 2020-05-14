@@ -89,7 +89,7 @@ public class InspectionController {
     @PostMapping("/code")
     private Result generateQRCode() {
         try {
-            boolean flag = QRCodeUtil.generateCode("https://www.baidu.com/?uudi=", "518", "巡检计划");
+            boolean flag = QRCodeUtil.generateCode("https://open.work.weixin.qq.com/wwopen/sso/qrConnect?appid=ww7d1b766a3b9fcfb7&agentid=1000002&redirect_uri=http%3a%2f%2fkangkang.vaiwan.com%2f&state=STATE/", "3", "巡检3的撒大苏打");
             if (flag) {
                 System.out.println("成功生成二维码");
             }

@@ -35,15 +35,15 @@ public class SpecialEventController {
 
     @ApiOperation(value = "添加特殊事件")
     @PostMapping("/add")
-    public Result insertSpecialEvent(@RequestBody SpecialEvent specialEvent) throws Exception {
+    public Result insertSpecialEvent(@RequestBody SpecialEventFile specialEventFile) throws Exception {
         //特殊事件添加
-        specialEventService.insertSpecialEvent(specialEvent);
+        specialEventService.insertSpecialEvent(specialEventFile);
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
     @ApiOperation(value = "上传图片")
     @PostMapping("/upload")
-    private Result uploadSpecialEvent(@RequestParam SpecialEventFile specialEventFile) {
+    private Result uploadSpecialEvent(@RequestBody SpecialEventFile specialEventFile) {
         //图片上传 beat64保存数据库
         for (Files files : specialEventFile.getFile()) {
             files.setFiles(files.getFiles());

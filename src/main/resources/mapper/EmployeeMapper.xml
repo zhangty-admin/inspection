@@ -35,6 +35,9 @@
             <if test=" review > -1 and review != null ">
                 and review = #{review}
             </if>
+            <if test=" wxId !=null  and wxId!='' ">
+                and wx_id = #{wxId}
+            </if>
             <if test=" isPrincipal!=null and isPrincipal!='' ">
                 and is_principal = #{isPrincipal}
             </if>

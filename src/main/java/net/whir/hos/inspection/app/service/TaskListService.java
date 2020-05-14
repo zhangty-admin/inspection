@@ -1,9 +1,7 @@
 package net.whir.hos.inspection.app.service;
 
 import net.whir.hos.inspection.app.bean.TaskList;
-import net.whir.hos.inspection.app.bean.TaskListOmission;
 import net.whir.hos.inspection.app.config.MyQuartzScheduler;
-import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 
 import java.util.List;
@@ -21,13 +19,6 @@ public interface TaskListService {
      * @param quartzScheduler
      */
     void addRemindUnified(TaskList taskList, MyQuartzScheduler quartzScheduler);
-
-    /**
-     * 新增漏检巡检消息定时任务
-     * @param taskListOmission
-     * @param quartzScheduler
-     */
-    void addRemindOmissionTask(TaskListOmission taskListOmission, MyQuartzScheduler quartzScheduler);
 
     /**
      * 查询全部状态为1的统一提醒
@@ -50,10 +41,13 @@ public interface TaskListService {
      */
     void addTaskList(RemindUnifiedInspectionIds unifiedRemindDepartment);
 
+
     /**
-     * 添加漏检任务列表到数据库
+     * 删除统一提醒任务
+     * 删除正在定时的任务
      *
-     * @param remindOmissionInspectionIds
+     * @param remindUnifiedId
      */
-    void addTaskListOmission(RemindOmissionInspectionIds remindOmissionInspectionIds);
+    void deleteTaskList(Long remindUnifiedId);
+
 }
