@@ -12,6 +12,7 @@ import net.whir.hos.inspection.pc.bean.RemindOmission;
 import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 import net.whir.hos.inspection.pc.service.RemindOmissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 /**

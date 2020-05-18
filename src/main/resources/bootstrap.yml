@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   resources:
-    static-locations: classpath:/public,classpath:/static,file:D:/Home/Projects/Web/ppt-report/public
+    static-locations: classpath:/public,classpath:/static,file:D:/Home/Projects/Web/ppt-report/public #访问前端路径
   application:
     name: inspection
   datasource:
