@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress SqlNoDataSourceInspection -->
 <mapper namespace="net.whir.hos.inspection.pc.dao.EmployeeDao">
-    <resultMap id="employeeMap" type="net.whir.hos.inspection.pc.bean.Employee"  autoMapping="true">
+    <resultMap id="employeeMap" type="net.whir.hos.inspection.pc.bean.Employee" autoMapping="true">
         <id column="id" property="id"/>
         <id column="department_id" property="departmentId"/>
         <id column="inspection_id" property="inspectionId"/>
@@ -69,10 +70,10 @@
         select i.* from inspection_history ih inner join item i on ih.item_id = i.id where ih.inspection_id = #{inspection_id} and employee_id = #{id}
     </select>
 
-    <select id="selectByDepartment" parameterType="java.util.List" resultMap="employeeMap" >
+    <select id="selectByDepartment" parameterType="java.util.List" resultMap="employeeMap">
        select e.* from remind_unified ru
-       inner join department_unifiedremind dur on ru.id = dur.unifiedRemind_id
-       inner join employee e on dur.department_id = e.department_id
+       inner join inspection_unifiedremind dur on ru.id = dur.unifiedRemind_id
+       inner join employee e on dur.inspection_id = e.inspection_id
        where ru.id = #{id} group by e.id
     </select>
 

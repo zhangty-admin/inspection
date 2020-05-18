@@ -1,6 +1,8 @@
 server:
   port: 8080
 spring:
+  resources:
+    static-locations: classpath:/public,classpath:/static,file:D:/Home/Projects/Web/ppt-report/public
   application:
     name: inspection
   datasource:
@@ -14,7 +16,7 @@ spring:
 #  host: 192.168.200.128
 # Swagger界面内容配置
 swagger:
-  title: 安康专属API接口文档
+  title: 巡检API接口文档
   description: Safety Inspection Api Documentation
   version: 1.0.0
   termsOfServiceUrl: https://github.com/zuyunbo
@@ -24,12 +26,13 @@ swagger:
     email: sy829322@163.com
 mybatis:
   mapperLocations: classpath:mapper/*.xml #映射位置
-  type-aliases-package: net.whir.hos.inspection.pc.bean  #对应实体类的路径
+  type-aliases-package: net.whir.hos.inspection.pc.bean,net.whir.hos.inspection.app.bean  #对应实体类的路径
   configuration:
     mapUnderscoreToCamelCase: true #自动转驼峰
 logging:
   level:
     net.whir.hos.inspection.pc.dao: DEBUG
+    net.whir.hos.inspection.app.dao: DEBUG
 
 #eureka:
 # client:

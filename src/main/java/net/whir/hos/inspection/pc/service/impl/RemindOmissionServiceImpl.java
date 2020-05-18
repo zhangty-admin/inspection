@@ -2,7 +2,7 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.service.MyQuartzScheduler;
 import net.whir.hos.inspection.app.service.TaskListOmissionService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.bean.*;

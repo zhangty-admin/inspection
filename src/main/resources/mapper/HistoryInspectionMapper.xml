@@ -28,7 +28,7 @@
     </select>
 
     <select id="findByCreateTime" parameterType="net.whir.hos.inspection.pc.bean.InspectionHistory" resultType="net.whir.hos.inspection.pc.bean.InspectionHistory">
-        select MAX(create_time) create_time, MAX(frequency) frequency from inspection_history where create_time = #{date} and inspection_id = #{id} group by frequency
+        select MAX(create_time) create_time, MAX(frequency) frequency from inspection_history where create_time = #{date} and inspection_id = #{id} group by create_time
     </select>
 
     <!--<resultMap id="InspectionMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">

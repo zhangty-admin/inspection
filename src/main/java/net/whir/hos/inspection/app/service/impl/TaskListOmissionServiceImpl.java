@@ -1,7 +1,7 @@
 package net.whir.hos.inspection.app.service.impl;
 
 import net.whir.hos.inspection.app.bean.TaskListOmission;
-import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.service.MyQuartzScheduler;
 import net.whir.hos.inspection.app.dao.TaskListOmissionDao;
 import net.whir.hos.inspection.app.service.TaskListOmissionService;
 import net.whir.hos.inspection.pc.bean.Inspection;

@@ -1,4 +1,4 @@
-package net.whir.hos.inspection.app.config;
+package net.whir.hos.inspection.app.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -36,6 +36,11 @@ public class MyQuartzScheduler {
         scheduler.start();
     }
 
+    /**
+     * 新增执行漏检
+     * @param taskListOmission
+     * @throws SchedulerException
+     */
     public void addJob(TaskListOmission taskListOmission) throws SchedulerException {
         startJob1(scheduler, taskListOmission);
         scheduler.start();

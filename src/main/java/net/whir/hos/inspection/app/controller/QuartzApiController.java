@@ -3,20 +3,13 @@ package net.whir.hos.inspection.app.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.whir.hos.inspection.app.bean.TaskList;
-import net.whir.hos.inspection.app.config.MyQuartzScheduler;
-import net.whir.hos.inspection.app.dao.TaskListDao;
+import net.whir.hos.inspection.app.service.MyQuartzScheduler;
 import net.whir.hos.inspection.app.service.TaskListService;
-import net.whir.hos.inspection.commons.entity.Result;
-import net.whir.hos.inspection.pc.bean.Inspection;
-import net.whir.hos.inspection.pc.bean.RemindUnified;
-import net.whir.hos.inspection.pc.bean.RemindUnifiedInspectionIds;
 import net.whir.hos.inspection.pc.service.InspectionService;
 import org.quartz.SchedulerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 

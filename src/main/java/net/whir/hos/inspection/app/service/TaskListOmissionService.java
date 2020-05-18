@@ -1,8 +1,6 @@
 package net.whir.hos.inspection.app.service;
 
-import net.whir.hos.inspection.app.bean.TaskList;
 import net.whir.hos.inspection.app.bean.TaskListOmission;
-import net.whir.hos.inspection.app.config.MyQuartzScheduler;
 import net.whir.hos.inspection.pc.bean.RemindOmissionInspectionIds;
 
 import java.util.List;

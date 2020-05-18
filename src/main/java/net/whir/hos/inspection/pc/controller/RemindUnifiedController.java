@@ -4,7 +4,7 @@ import com.github.pagehelper.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import net.whir.hos.inspection.app.config.MyQuartzScheduler;
+import net.whir.hos.inspection.app.service.MyQuartzScheduler;
 import net.whir.hos.inspection.app.service.TaskListService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.commons.entity.PageResult;

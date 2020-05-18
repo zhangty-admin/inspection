@@ -91,11 +91,13 @@ public class InspectionHistoryController {
     private Result saveInspectionHistory(@RequestBody InspectionItemIds inspectionItemIds) {
         String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
         InspectionHistory history = historyInspectionService.findByCreateTime(date, inspectionItemIds.getInspection().getId());
-
-        Integer frequency = history.getFrequency();
-        if (StringUtils.isEmpty(frequency)) {
+        Integer frequency;
+        if (StringUtils.isEmpty(history)) {
             frequency = 0;
+        } else {
+            frequency = history.getFrequency();
         }
+
 
         InspectionHistory inspectionHistory = null;
         for (Long itemId : inspectionItemIds.getItemIds()) {
@@ -104,8 +106,8 @@ public class InspectionHistoryController {
                     .employeeId(inspectionItemIds.getInspection().getEmployeeId()).createTime(date)
                     .itemId(itemId)
                     .build();
+            historyInspectionService.saveInspectionHistory(inspectionHistory);
         }
-        historyInspectionService.saveInspectionHistory(inspectionHistory);
         return new Result(true, StatusCode.OK, "提交成功");
     }
 

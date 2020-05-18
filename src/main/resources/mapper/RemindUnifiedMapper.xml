@@ -5,8 +5,8 @@
 
     <resultMap id="UnifiedRemindMap" type="net.whir.hos.inspection.pc.bean.RemindUnified" autoMapping="true">
         <id column="id" property="id"/>
-        <collection property="departments" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
-                    select="queryDepartment" column="id" autoMapping="true">
+        <collection property="inspections" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Inspection"
+                    select="queryInspection" column="id" autoMapping="true">
         </collection>
     </resultMap>
 
@@ -17,8 +17,8 @@
     </select>
 
     <!--一对多-->
-    <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department" parameterType="map">
-        select d.* from department d inner join department_unifiedRemind dr on d.id = dr.department_id where dr.unifiedRemind_id = #{id}
+    <select id="queryInspection" resultType="net.whir.hos.inspection.pc.bean.Inspection" parameterType="map">
+        select i.* from inspection i inner join inspection_unifiedremind iu on i.id = iu.inspection_id where iu.unifiedRemind_id = #{id}
     </select>
 
 </mapper>

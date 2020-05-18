@@ -8,8 +8,8 @@
         <association property="employee" javaType="net.whir.hos.inspection.pc.bean.Employee"
                      autoMapping="true" select="getEmployee" column="employee_id">
         </association>
-        <collection property="departments" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Department"
-                    autoMapping="true" select="getDepartments" column="id">
+        <collection property="inspections" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Inspection"
+                    autoMapping="true" select="getInspections" column="id">
         </collection>
     </resultMap>
 
@@ -21,8 +21,8 @@
         select * from employee where id = #{employee_id}
     </select>
 
-    <select id="getDepartments" resultType="net.whir.hos.inspection.pc.bean.Department" parameterType="map">
-        select d.* from department d inner join department_remindomission dr on d.id = dr.department_id where dr.remindOmission_id = #{id}
+    <select id="getInspections" resultType="net.whir.hos.inspection.pc.bean.Inspection" parameterType="map">
+        select i.* from inspection i inner join inspection_remindomission ir on i.id = ir.inspection_id where ir.remindOmission_id = #{id}
     </select>
 
 </mapper>
