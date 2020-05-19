@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   resources:
-    static-locations: classpath:/public,classpath:/static,file:D:/Home/Projects/Web/ppt-report/public #访问前端路径
+    static-locations: classpath:/public,classpath:/static,file:/home  #访问前端路径
   application:
     name: inspection
   datasource:
@@ -65,4 +65,3 @@ logging:
 # level:
 #  root: error  #打印日志到控制台  调试程序时可修改为 debug
 #
-##简单类型数据 String Integer  数组类型 集合类型 对象类型

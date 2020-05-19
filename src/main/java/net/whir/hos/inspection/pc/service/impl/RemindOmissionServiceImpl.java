@@ -1,16 +1,15 @@
 package net.whir.hos.inspection.pc.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import net.whir.hos.inspection.app.service.TaskListOmissionService;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.commons.utils.MultiRequest;
+import net.whir.hos.inspection.commons.utils.WXToken;
 import net.whir.hos.inspection.pc.bean.*;
-import net.whir.hos.inspection.pc.dao.InspectionDao;
-import net.whir.hos.inspection.pc.dao.InspectionHistoryDao;
-import net.whir.hos.inspection.pc.dao.RemindOmissionDao;
-import net.whir.hos.inspection.pc.dao.RemindOmissionInspectionDao;
+import net.whir.hos.inspection.pc.dao.*;
 import net.whir.hos.inspection.pc.service.RemindOmissionService;
 import net.whir.hos.inspection.commons.utils.MappingTableUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +44,10 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     private InspectionHistoryDao inspectionHistoryDao;
     @Autowired
     private InspectionDao inspectionDao;
+    @Autowired
+    private EmployeeDao employeeDao;
+
+    private static final String wxUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 
     /**
      * 分页查询漏检提醒
@@ -133,7 +136,7 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
      * 周期执行 8:00
      */
     @Scheduled(cron = "0 0 8 ? * MON-FRI")
-    private void PeriodicExecution() {
+    public void PeriodicExecution() {
         System.out.println("昨日漏检统计周期执行 8:00");
         //获取日期
         String date = getDate(true);
@@ -141,16 +144,15 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         List<Inspection> inspectionList = getInspectionOmissions(date, 5);
         //数据JSON传给前端
         String json = JSON.toJSONString(inspectionList);
-        // TODO 发消息
-
+        //发消息
+        sendWxMsg();
     }
-
 
     /**
      * 每天执行 8:00
      */
     @Scheduled(cron = "0 0 8 ? * *")
-    private void ExecuteEveryDay() {
+    public void ExecuteEveryDay() {
         System.out.println("昨日漏检统计每天执行 8:00");
         //获取日期
         String date = getDate(false);
@@ -158,23 +160,24 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         List<Inspection> inspectionOmissions = getInspectionOmissions(date, 7);
         //数据JSON传给前端
         String json = JSON.toJSONString(inspectionOmissions);
-        // TODO 发消息
-
+        //发消息
+        sendWxMsg();
     }
 
     /**
-     * 每月最后的周五 8:00
+     * 每月第28天 8:00
      */
-    @Scheduled(cron = "0 0 8 ? * 6L")
-    private void LastFridayOfEveryMonth() {
-        System.out.println("昨日漏检统计每月最后的周五 8:00");
+    @Scheduled(cron = "0 0 8 28 * ?")
+    public void LastFridayOfEveryMonth() {
+        System.out.println("昨日漏检统计每月第28天 8:00");
         //获取日期
         String date = getDate(false);
         //获取昨天漏检的信息
         List<Inspection> inspectionOmissions = getInspectionOmissions(date, 1);
         //数据JSON传给前端
         String json = JSON.toJSONString(inspectionOmissions);
-        // TODO 发消息
+        ///发消息
+        sendWxMsg();
     }
 
 
@@ -228,6 +231,53 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
             }
         }
         return inspectionList;
+    }
+
+    private void sendWxMsg() {
+        //获取企业微信token
+        JSONObject token = WXToken.getToken(WXToken.corpId, WXToken.corpsecret, WXToken.url);
+        String access_token = (String) token.get("access_token");
+        //获取url
+        String url = wxUrl + access_token;
+        //获取管理员信息
+        List<Employee> employees = employeeDao.selectAllByUser();
+        StringBuilder sb = new StringBuilder();
+
+        for (Employee employee : employees) {
+            String wxId = employee.getWxId();
+            if (!StringUtils.isEmpty(wxId)) {
+                //拼接消息信息
+                SplicingJson(sb, employee);
+            }
+        }
+        try {
+            //发送消息
+            MultiRequest.doPostData(url, sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SplicingJson(StringBuilder sb, Employee employee) {
+        if (StringUtils.isEmpty(sb.toString())) {
+            sb.append("{\n" +
+                    "  \"touser\": ").append("\"" + employee.getWxId());
+        } else {
+            sb.append("|").append(employee.getWxId());
+        }
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(new Date());
+        sb.append("\",\n" +
+                "  \"msgtype\": \"markdown\",\n" +
+                "  \"agentid\": 1000002,\n" +
+                "  \"markdown\": {\n" +
+                "    \"content\": \"安全巡检系统\n" +
+                "    漏检汇总\n" +
+                "    昨日漏检汇总\n" +
+                "    检查场所: " + employee.getDepartment().getName() + "\n" +
+                "    计划巡检日期: " + format + "\n" +
+                "    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +
+                "    \"");
     }
 
 }

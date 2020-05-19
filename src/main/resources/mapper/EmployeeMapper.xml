@@ -88,4 +88,10 @@
         inner join employee e on ra.employee_id = e.id
     </select>
 
+
+    <select id="selectAllByUser" parameterType="java.util.List" resultMap="employeeMap">
+        select e.* from employee e
+        inner join user u on u.employee_id = e.id
+    </select>
+
 </mapper>

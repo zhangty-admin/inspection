@@ -49,4 +49,10 @@ public interface EmployeeDao extends Mapper<Employee> {
      * @return
      */
     List<Employee> selectAllByRemindAdmin();
+
+    /**
+     * 获取管理员信息
+     * @return
+     */
+    List<Employee> selectAllByUser();
 }
