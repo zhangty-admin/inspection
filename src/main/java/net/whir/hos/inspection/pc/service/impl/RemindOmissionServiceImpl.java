@@ -211,6 +211,13 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     }
 
 
+    /**
+     * 返回昨日漏检计划
+     *
+     * @param date
+     * @param heaven
+     * @return
+     */
     private List<Inspection> getInspectionOmissions(String date, int heaven) {
         //获取工作日检查的巡检
         Example inspectionExample = new Example(Inspection.class);
@@ -233,6 +240,9 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         return inspectionList;
     }
 
+    /**
+     * 发送消息
+     */
     private void sendWxMsg() {
         //获取企业微信token
         JSONObject token = WXToken.getToken(WXToken.corpId, WXToken.corpsecret, WXToken.url);
@@ -258,6 +268,12 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         }
     }
 
+    /**
+     * 拼接消息内容
+     *
+     * @param sb
+     * @param employee
+     */
     private void SplicingJson(StringBuilder sb, Employee employee) {
         if (StringUtils.isEmpty(sb.toString())) {
             sb.append("{\n" +
