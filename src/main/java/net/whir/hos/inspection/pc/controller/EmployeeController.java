@@ -13,8 +13,12 @@ import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -68,11 +72,43 @@ public class EmployeeController {
         return new Result(true, StatusCode.OK, "查询成功", employees);
     }
 
-    @ApiOperation(value = "审批通知管理员")
+    @ApiOperation(value = "审批通知人员")
     @GetMapping("/sendAdminApprove")
     private Result sendAdminApprove(@RequestParam Boolean review, @RequestParam Long empId) {
         employeeService.sendAdminApprove(review, empId);
         return new Result();
+    }
+
+    /**
+     *  测试图片上传
+     * @return
+     */
+    @PostMapping
+    public Map<String, String> redisDemo(MultipartFile file) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式  HH:mm:ss
+        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+        String path = "C:/var/uploaded_files/"+date+"/";
+        UUID uuid=UUID.randomUUID();
+        String originalFilename = file.getOriginalFilename();
+        // String fileName = uuid.toString() + originalFilename;
+        String extendName = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
+        String fileName = uuid.toString() + extendName;
+        File dir = new File(path, fileName);
+        File filepath = new File(path);
+        if(!filepath.exists()){
+            filepath.mkdirs();
+        }
+        try {
+            file.transferTo(new File(dir.getAbsolutePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("filePath", path);
+        map.put("fileName", fileName);
+
+        return map;
     }
 
 }
