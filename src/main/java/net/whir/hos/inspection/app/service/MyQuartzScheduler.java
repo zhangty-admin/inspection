@@ -38,6 +38,7 @@ public class MyQuartzScheduler {
 
     /**
      * 新增执行漏检
+     *
      * @param taskListOmission
      * @throws SchedulerException
      */
@@ -45,6 +46,7 @@ public class MyQuartzScheduler {
         startJob1(scheduler, taskListOmission);
         scheduler.start();
     }
+
     /**
      * 新增执行任务
      *
