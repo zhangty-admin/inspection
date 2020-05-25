@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@RestController
-@CrossOrigin
-@RequestMapping("/login")
-@Api(description = "账户操作")
 
 /**
  * @Author: zty
  * @Date: 2020/4/7 10:14 上午
  */
+
+@RestController
+@CrossOrigin
+@RequestMapping("/login")
+@Api(description = "账户操作")
 public class UserController {
 
     @Autowired

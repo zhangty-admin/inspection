@@ -1,6 +1,5 @@
 package net.whir.hos.inspection.pc.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -21,7 +20,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -40,10 +38,6 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     private RemindOmissionInspectionDao remindOmissionInspectionDao;
     @Autowired
     private TaskListOmissionService taskListOmissionService;
-    @Autowired
-    private InspectionHistoryDao inspectionHistoryDao;
-    @Autowired
-    private InspectionDao inspectionDao;
     @Autowired
     private EmployeeDao employeeDao;
 
@@ -135,7 +129,7 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     /**
      * 周期执行 8:00
      */
-    @Scheduled(cron = "0 0 8 ? * MON-FRI")
+    /*@Scheduled(cron = "0 0 8 ? * MON-FRI")
     public void PeriodicExecution() {
         System.out.println("昨日漏检统计周期执行 8:00");
         //获取日期
@@ -146,7 +140,7 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         String json = JSON.toJSONString(inspectionList);
         //发消息
         sendWxMsg();
-    }
+    }*/
 
     /**
      * 每天执行 8:00
@@ -154,12 +148,6 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     @Scheduled(cron = "0 0 8 ? * *")
     public void ExecuteEveryDay() {
         System.out.println("昨日漏检统计每天执行 8:00");
-        //获取日期
-        String date = getDate(false);
-        //获取昨天漏检的信息
-        List<Inspection> inspectionOmissions = getInspectionOmissions(date, 7);
-        //数据JSON传给前端
-        String json = JSON.toJSONString(inspectionOmissions);
         //发消息
         sendWxMsg();
     }
@@ -167,7 +155,7 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
     /**
      * 每月第28天 8:00
      */
-    @Scheduled(cron = "0 0 8 28 * ?")
+    /*@Scheduled(cron = "0 0 8 28 * ?")
     public void LastFridayOfEveryMonth() {
         System.out.println("昨日漏检统计每月第28天 8:00");
         //获取日期
@@ -178,67 +166,8 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
         String json = JSON.toJSONString(inspectionOmissions);
         ///发消息
         sendWxMsg();
-    }
+    }*/
 
-
-    /**
-     * 获取日期
-     *
-     * @param bool 是否需要检查为周一
-     * @return
-     */
-    private String getDate(Boolean bool) {
-        String date;
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
-        int week = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        //判断是不是周一
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-
-        if (bool) {
-            if (week == 1) {
-                //获取上周五的日期
-                int day = cal.get(Calendar.DATE) - 2;
-                date = year + "-" + month + "-" + day;
-                return date;
-            }
-        }
-        //获取当天的日期
-        int day = cal.get(Calendar.DATE) - 1;
-        date = year + "-" + month + "-" + day;
-        return date;
-    }
-
-
-    /**
-     * 返回昨日漏检计划
-     *
-     * @param date
-     * @param heaven
-     * @return
-     */
-    private List<Inspection> getInspectionOmissions(String date, int heaven) {
-        //获取工作日检查的巡检
-        Example inspectionExample = new Example(Inspection.class);
-        inspectionExample.createCriteria().andEqualTo("heaven", heaven);
-        List<Inspection> inspections = inspectionDao.selectByExample(inspectionExample);
-
-        List<Inspection> inspectionList = new ArrayList<>();
-        //判断每个巡检任务有无漏检
-        for (Inspection inspection : inspections) {
-            Example inspectionHistoryExample = new Example(InspectionHistory.class);
-            inspectionHistoryExample.createCriteria().andEqualTo("createTime", date)
-                    .andEqualTo("frequency", inspection.getFrequency()).andEqualTo("inspectionId", inspection.getId());
-            List<InspectionHistory> inspectionHistories = inspectionHistoryDao.selectByExample(inspectionHistoryExample);
-            //不为空说明巡检计划频率对了
-            if (StringUtils.isEmpty(inspectionHistories)) {
-                //为空说明漏检了
-                inspectionList.add(inspection);
-            }
-        }
-        return inspectionList;
-    }
 
     /**
      * 发送消息

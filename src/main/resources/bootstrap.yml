@@ -34,6 +34,12 @@ logging:
     net.whir.hos.inspection.pc.dao: DEBUG
     net.whir.hos.inspection.app.dao: DEBUG
 
+#用户审核网页
+emp:
+  url: http://192.168.3.102:8082/#/Register
+#特殊事件
+event:
+  url: http://localhost:8082/#/SpecialDetails
 #eureka:
 # client:
 #  service-url:

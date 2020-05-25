@@ -4,12 +4,12 @@ import com.github.pagehelper.Page;
 import net.whir.hos.inspection.pc.bean.Employee;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author: zty
  * @Date: 2020/4/7 10:14 上午
  */
+
 public interface EmployeeService {
 
     /**

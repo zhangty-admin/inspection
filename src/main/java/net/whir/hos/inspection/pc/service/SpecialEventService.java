@@ -44,5 +44,5 @@ public interface SpecialEventService {
      * @param id
      * @return
      */
-    SpecialEvent findSpecialEventById(Long id);
+    SpecialEvent findSpecialEventById(Long id,Boolean bool);
 }

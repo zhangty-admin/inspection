@@ -4,20 +4,29 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.extern.slf4j.Slf4j;
+import net.whir.hos.inspection.commons.utils.BASE64DecodedMultipartFile;
+import net.whir.hos.inspection.commons.utils.GetPhotoUrl;
 import net.whir.hos.inspection.commons.utils.MultiRequest;
 import net.whir.hos.inspection.commons.utils.WXToken;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @Author: zty
@@ -30,6 +39,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeDao employeeDao;
+    @Value("${emp.url}")
+    private String empUrl;
+    @Value("${server.port}")
+    private String port;
 
     /**
      * 分页条件查询用户信息
@@ -84,11 +97,16 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void insertEmployee(Employee emp) {
+        //base64转文件
+        MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(emp.getPhoto());
+        //保存图片 返回url
+        String url = GetPhotoUrl.getEmpPhotoUrl(file, "D:/Emp/", port);
+        emp.setPhoto(url);
+        emp.setId(emp.getId());
         emp.setReview(0);
         employeeDao.insert(emp);
-
         //查询人员 发送消息 拼接模版
-        List<Employee> employees = employeeDao.selectAllByRemindAdmin();
+        List<Employee> employees = employeeDao.selectAllByUser();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format = simpleDateFormat.format(new Date());
         for (Employee employee : employees) {
@@ -103,11 +121,10 @@ public class EmployeeServiceImpl implements EmployeeService {
                         "    日期: " + format + "\n" +
                         "    审批提醒\n" +
                         "    请及时审批\n" +
-                        "    请点击进入：[审批](" + employee.getInspection().getCodeUrl() + ")\n" +
+                        "    请点击进入：[审批](" + empUrl + ")\n" +
                         "    \"").toString());
             }
         }
-
     }
 
 
@@ -247,4 +264,39 @@ public class EmployeeServiceImpl implements EmployeeService {
         sb.append(msg);
         return sb;
     }
+
+    /**
+     * 保存图片 返回url
+     *
+     * @param file
+     * @return
+     */
+    /*private String getEmpPhotoUrl(MultipartFile file) {
+        String path = "D:/Emp/";
+        UUID uuid = UUID.randomUUID();
+        String originalFilename = file.getOriginalFilename();
+        // String fileName = uuid.toString() + originalFilename;
+        String extendName = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
+        String fileName = uuid.toString() + extendName;
+        File dir = new File(path, fileName);
+        File filepath = new File(path);
+        if (!filepath.exists()) {
+            filepath.mkdirs();
+        }
+        try {
+            file.transferTo(new File(dir.getAbsolutePath()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        InetAddress address = null;
+        try {
+            address = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+        String hostAddress = address.getHostAddress();
+        return hostAddress + ":" + port + "/Emp/" + fileName;
+    }*/
+
 }

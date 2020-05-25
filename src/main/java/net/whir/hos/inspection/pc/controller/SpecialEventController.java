@@ -97,8 +97,8 @@ public class SpecialEventController {
 
     @ApiOperation(value = "根据ID查询特殊事件(bol true/是小程序 false/pc)")
     @GetMapping(value = "/findSpecialEventById")
-    private Result findSpecialEventById(@RequestParam Long id) {
-        SpecialEvent specialEvent = specialEventService.findSpecialEventById(id);
+    private Result findSpecialEventById(@RequestParam Long id,@RequestParam Boolean bool) {
+        SpecialEvent specialEvent = specialEventService.findSpecialEventById(id,bool);
         return new Result(true, StatusCode.OK, "查询成功", specialEvent);
     }
 

@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageResult;
 import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
-import net.whir.hos.inspection.commons.utils.MultiRequest;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.commons.entity.PageRequest;
 import net.whir.hos.inspection.pc.service.EmployeeService;
@@ -45,7 +44,7 @@ public class EmployeeController {
     }
 
     @ApiOperation(value = "新增用户信息")
-    @PostMapping("/add")
+    @PostMapping(value = "/add", consumes = "application/json")
     public Result addEmployee(@RequestBody Employee employee) {
         employeeService.insertEmployee(employee);
         return new Result(true, StatusCode.OK, "注册成功");
@@ -80,22 +79,23 @@ public class EmployeeController {
     }
 
     /**
-     *  测试图片上传
+     * 测试图片上传
+     *
      * @return
      */
     @PostMapping
     public Map<String, String> redisDemo(MultipartFile file) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式  HH:mm:ss
         String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
-        String path = "C:/var/uploaded_files/"+date+"/";
-        UUID uuid=UUID.randomUUID();
+        String path = "C:/var/uploaded_files/" + date + "/";
+        UUID uuid = UUID.randomUUID();
         String originalFilename = file.getOriginalFilename();
         // String fileName = uuid.toString() + originalFilename;
         String extendName = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
         String fileName = uuid.toString() + extendName;
         File dir = new File(path, fileName);
         File filepath = new File(path);
-        if(!filepath.exists()){
+        if (!filepath.exists()) {
             filepath.mkdirs();
         }
         try {
