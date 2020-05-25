@@ -5,14 +5,19 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.*;
+import net.whir.hos.inspection.commons.utils.BASE64DecodedMultipartFile;
+import net.whir.hos.inspection.commons.utils.GetPhotoUrl;
 import net.whir.hos.inspection.pc.bean.Files;
 import net.whir.hos.inspection.pc.bean.SpecialEvent;
 import net.whir.hos.inspection.pc.bean.SpecialEventFile;
 import net.whir.hos.inspection.pc.service.FileService;
 import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -29,9 +34,10 @@ public class SpecialEventController {
 
     @Autowired
     private SpecialEventService specialEventService;
-
     @Autowired
     private FileService fileService;
+    @Value("${server.port}")
+    private String port;
 
     @ApiOperation(value = "添加特殊事件")
     @PostMapping("/add")
@@ -44,12 +50,16 @@ public class SpecialEventController {
     @ApiOperation(value = "上传图片")
     @PostMapping("/upload")
     private Result uploadSpecialEvent(@RequestBody SpecialEventFile specialEventFile) {
-        //图片上传 beat64保存数据库
+        //图片上传 url保存数据库
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
+        String format = simpleDateFormat.format(new Date());
         for (Files files : specialEventFile.getFile()) {
-            files.setFiles(files.getFiles());
-            files.setTitle(files.getTitle());
-            files.setSpecialId(specialEventFile.getSpecialEvent().getId());
-            fileService.insert(files);
+            MultipartFile multipartFile = BASE64DecodedMultipartFile.base64ToMultipart(files.getFiles());
+            String empPhotoUrl = GetPhotoUrl.getEmpPhotoUrl(multipartFile, "D:/SpecialEvent/", port);
+            Files build = Files.builder()
+                    .files(empPhotoUrl).title(files.getTitle()).specialId(specialEventFile.getSpecialEvent().getId()).createTime(format)
+                    .build();
+            fileService.insert(build);
         }
         return new Result(true, StatusCode.OK, "添加成功");
     }

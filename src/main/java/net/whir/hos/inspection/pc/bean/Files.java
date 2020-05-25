@@ -32,7 +32,7 @@ public class Files implements Serializable {
     @ApiModelProperty(value = "文件创建时间")
     private String createTime;
 
-    @ApiModelProperty(value = "二进制文件")
+    @ApiModelProperty(value = "base64文件")
     private String files;
 
     @ApiModelProperty(value = "文件类型")
