@@ -2,6 +2,8 @@ package net.whir.hos.inspection.pc.service;
 
 import com.github.pagehelper.Page;
 import net.whir.hos.inspection.pc.bean.Employee;
+import net.whir.hos.inspection.pc.bean.EmployeeIdInspectionId;
+import net.whir.hos.inspection.pc.bean.EmployeeInspectionIds;
 
 import java.util.List;
 
@@ -32,9 +34,9 @@ public interface EmployeeService {
     /**
      * 修改用户信息/审核用户信息
      *
-     * @param employee
+     * @param employeeInspectionIds
      */
-    void updateByEmployee(Employee employee);
+    void updateByEmployee(EmployeeInspectionIds employeeInspectionIds);
 
     /**
      * 查询全部用户
@@ -46,12 +48,12 @@ public interface EmployeeService {
     /**
      * 新增用户信息
      *
-     * @param employee
+     * @param employeeInspectionIds
      */
-    void insertEmployee(Employee employee);
+    void insertEmployee(EmployeeInspectionIds employeeInspectionIds);
 
     /**
-     * 根据统一查询人员信息
+     * 根据统一提醒查询人员信息
      *
      * @param id
      * @return

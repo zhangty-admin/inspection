@@ -89,7 +89,7 @@ public class SchedulerQuartzJob2 implements Job {
                 "    检查未扫码、请及时完成\n" +
                 "    检查场所: " + employee.getDepartment().getName() + "\n" +
                 "    计划巡检日期: " + format + "\n" +
-                "    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +
+                /*"    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +*/
                 "    \"");
     }
 

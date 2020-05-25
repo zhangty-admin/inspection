@@ -68,7 +68,7 @@ public class Employee implements Serializable {
     private Department department;
 
     @ApiModelProperty(hidden = true)
-    private Inspection inspection;
+    private List<Inspection> inspections;
 
     @ApiModelProperty(hidden = true)
     private List<Item> items;

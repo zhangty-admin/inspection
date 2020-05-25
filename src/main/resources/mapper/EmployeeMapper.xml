@@ -10,9 +10,12 @@
         <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
                      select="queryDepartment" column="department_id">
         </association>
-        <association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection"
+        <collection property="inspections" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Inspection"
+                    autoMapping="true" select="queryInspection" column="employee_id">
+        </collection>
+        <!--<association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection"
                      select="queryInspection" column="inspection_id">
-        </association>
+        </association>-->
     </resultMap>
 
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.Employee" resultMap="employeeMap">
@@ -51,7 +54,7 @@
     </select>
 
     <select id="queryInspection" resultType="net.whir.hos.inspection.pc.bean.Inspection">
-        select * from inspection where id = #{inspection_id}
+        select i.* from inspection i inner join inspection_employee ie on i.id = ie.inspection_id where ie.employee_id = #{employee_id}
     </select>
 
 

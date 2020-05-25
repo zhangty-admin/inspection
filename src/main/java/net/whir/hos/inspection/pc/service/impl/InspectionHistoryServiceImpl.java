@@ -107,12 +107,12 @@ public class InspectionHistoryServiceImpl implements InspectionHistoryService {
      * @param employeeInspectionIds
      */
     @Override
-    public void deleteItemsByEmpIdAndItemId(List<EmployeeInspectionId> employeeInspectionIds) {
+    public void deleteItemsByEmpIdAndItemId(List<EmployeeIdInspectionId> employeeInspectionIds) {
         Example example = new Example(InspectionHistory.class);
         if (!StringUtils.isEmpty(employeeInspectionIds)) {
-            for (EmployeeInspectionId employeeInspectionId : employeeInspectionIds) {
-                example.createCriteria().andEqualTo("inspectionId", employeeInspectionId.getInsId())
-                        .andEqualTo("employeeId", employeeInspectionId.getEmpId());
+            for (EmployeeIdInspectionId employeeInspectionId : employeeInspectionIds) {
+                example.createCriteria().andEqualTo("inspectionId", employeeInspectionId.getInspectionId())
+                        .andEqualTo("employeeId", employeeInspectionId.getEmployeeId());
                 historyInspectionDao.deleteByExample(example);
             }
         }

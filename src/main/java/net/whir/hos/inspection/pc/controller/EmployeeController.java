@@ -9,6 +9,7 @@ import net.whir.hos.inspection.commons.entity.Result;
 import net.whir.hos.inspection.commons.entity.StatusCode;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.pc.bean.EmployeeInspectionIds;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,15 +46,15 @@ public class EmployeeController {
 
     @ApiOperation(value = "新增用户信息")
     @PostMapping(value = "/add", consumes = "application/json")
-    public Result addEmployee(@RequestBody Employee employee) {
-        employeeService.insertEmployee(employee);
+    public Result addEmployee(@RequestBody EmployeeInspectionIds employeeInspectionIds) {
+        employeeService.insertEmployee(employeeInspectionIds);
         return new Result(true, StatusCode.OK, "注册成功");
     }
 
     @ApiOperation(value = "修改用户信息/审核用户信息")
     @PutMapping("/update")
-    public Result update(@RequestBody Employee employee) {
-        employeeService.updateByEmployee(employee);
+    public Result update(@RequestBody EmployeeInspectionIds employeeInspectionIds) {
+        employeeService.updateByEmployee(employeeInspectionIds);
         return new Result(true, StatusCode.OK, "保存成功");
     }
 

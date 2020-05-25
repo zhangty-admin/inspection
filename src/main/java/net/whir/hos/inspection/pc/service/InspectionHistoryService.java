@@ -44,7 +44,7 @@ public interface InspectionHistoryService {
      *
      * @param employeeInspectionIds
      */
-    void deleteItemsByEmpIdAndItemId(List<EmployeeInspectionId> employeeInspectionIds);
+    void deleteItemsByEmpIdAndItemId(List<EmployeeIdInspectionId> employeeInspectionIds);
 
     /**
      * 计算当天有无操作

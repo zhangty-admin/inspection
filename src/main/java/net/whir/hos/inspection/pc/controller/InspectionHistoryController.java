@@ -76,7 +76,7 @@ public class InspectionHistoryController {
 
     @ApiOperation(value = "根据巡检ID和人员ID检查项删除历史巡检")
     @DeleteMapping("/deleteInspectionHistory")
-    private Result deleteItemsByEmpIdAndItemId(@RequestBody List<EmployeeInspectionId> employeeInspectionIds) {
+    private Result deleteItemsByEmpIdAndItemId(@RequestBody List<EmployeeIdInspectionId> employeeInspectionIds) {
         try {
             historyInspectionService.deleteItemsByEmpIdAndItemId(employeeInspectionIds);
         } catch (Exception e) {

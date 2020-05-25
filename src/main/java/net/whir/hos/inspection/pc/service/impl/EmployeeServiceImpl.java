@@ -9,7 +9,10 @@ import net.whir.hos.inspection.commons.utils.GetPhotoUrl;
 import net.whir.hos.inspection.commons.utils.MultiRequest;
 import net.whir.hos.inspection.commons.utils.WXToken;
 import net.whir.hos.inspection.pc.bean.Employee;
+import net.whir.hos.inspection.pc.bean.EmployeeIdInspectionId;
+import net.whir.hos.inspection.pc.bean.EmployeeInspectionIds;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
+import net.whir.hos.inspection.pc.dao.InspectionEmployeeDao;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,14 +22,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @Author: zty
@@ -39,6 +37,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Autowired
     private EmployeeDao employeeDao;
+    @Autowired
+    private InspectionEmployeeDao inspectionEmployeeDao;
     @Value("${emp.url}")
     private String empUrl;
     @Value("${server.port}")
@@ -75,8 +75,17 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param employee
      */
     @Override
-    public void updateByEmployee(Employee employee) {
+    public void updateByEmployee(EmployeeInspectionIds employeeInspectionIds) {
+        Employee employee = employeeInspectionIds.getEmployee();
+        //更新用户信息
         employeeDao.updateByPrimaryKeySelective(employee);
+        //更新巡检计划对应ID
+        for (Long insId : employeeInspectionIds.getInsIds()) {
+            EmployeeIdInspectionId build = EmployeeIdInspectionId.builder()
+                    .inspectionId(insId).employeeId(employee.getId())
+                    .build();
+            inspectionEmployeeDao.updateByPrimaryKeySelective(build);
+        }
     }
 
     /**
@@ -93,18 +102,25 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * 新增用户信息
      *
-     * @param emp
+     * @param employeeInspectionIds
      */
     @Override
-    public void insertEmployee(Employee emp) {
+    public void insertEmployee(EmployeeInspectionIds employeeInspectionIds) {
+        Employee emp = employeeInspectionIds.getEmployee();
         //base64转文件
         MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(emp.getPhoto());
         //保存图片 返回url
         String url = GetPhotoUrl.getEmpPhotoUrl(file, "D:/Emp/", port);
         emp.setPhoto(url);
-        emp.setId(emp.getId());
         emp.setReview(0);
+        //保存人员信息
         employeeDao.insert(emp);
+        //保存多个巡检计划与人员的
+        for (Long insId : employeeInspectionIds.getInsIds()) {
+            EmployeeIdInspectionId build = EmployeeIdInspectionId.builder().employeeId(emp.getId()).inspectionId(insId).build();
+            inspectionEmployeeDao.insert(build);
+        }
+
         //查询人员 发送消息 拼接模版
         List<Employee> employees = employeeDao.selectAllByUser();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -127,7 +143,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
-
+    /**
+     * 根据统一提醒查询人员信息
+     *
+     * @param id
+     * @return
+     */
     @Override
     public List<Employee> selectByUnifiedRemindId(Long id) {
         return employeeDao.selectByDepartment(id);
@@ -219,7 +240,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             criteria.andEqualTo("review", employee.getReview());
         }
 
-        //review
+        //isPrincipal
         if (employee.getIsPrincipal() != null && !"".equals(employee.getIsPrincipal())) {
             criteria.andEqualTo("isPrincipal", employee.getIsPrincipal());
         }
@@ -264,39 +285,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         sb.append(msg);
         return sb;
     }
-
-    /**
-     * 保存图片 返回url
-     *
-     * @param file
-     * @return
-     */
-    /*private String getEmpPhotoUrl(MultipartFile file) {
-        String path = "D:/Emp/";
-        UUID uuid = UUID.randomUUID();
-        String originalFilename = file.getOriginalFilename();
-        // String fileName = uuid.toString() + originalFilename;
-        String extendName = originalFilename.substring(originalFilename.lastIndexOf("."), originalFilename.length());
-        String fileName = uuid.toString() + extendName;
-        File dir = new File(path, fileName);
-        File filepath = new File(path);
-        if (!filepath.exists()) {
-            filepath.mkdirs();
-        }
-        try {
-            file.transferTo(new File(dir.getAbsolutePath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        InetAddress address = null;
-        try {
-            address = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        String hostAddress = address.getHostAddress();
-        return hostAddress + ":" + port + "/Emp/" + fileName;
-    }*/
 
 }

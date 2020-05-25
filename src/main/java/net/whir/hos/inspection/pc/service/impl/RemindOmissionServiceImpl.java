@@ -221,7 +221,7 @@ public class RemindOmissionServiceImpl implements RemindOmissionService {
                 "    昨日漏检汇总\n" +
                 "    检查场所: " + employee.getDepartment().getName() + "\n" +
                 "    计划巡检日期: " + format + "\n" +
-                "    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +
+                /*"    请点击进入：[安全巡检](" + employee.getInspection().getCodeUrl() + ")\n" +*/
                 "    \"");
     }
 

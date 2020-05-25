@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 
 /**
@@ -18,13 +22,19 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Table(name = "INSPECTION_EMPLOYEE")
 @ApiModel(value = "人员ID和巡检计划ID")
-public class EmployeeInspectionId {
+public class EmployeeIdInspectionId {
 
-    @ApiModelProperty(value = "人员ID")
-    private Long empId;
+    @Id
+    @ApiModelProperty(value = "主键自增ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ApiModelProperty(value = "巡检计划ID")
-    private Long insId;
+    private Long inspectionId;
+
+    @ApiModelProperty(value = "人员ID")
+    private Long employeeId;
 
 }
