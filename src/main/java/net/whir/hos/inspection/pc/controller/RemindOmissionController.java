@@ -162,7 +162,7 @@ public class RemindOmissionController {
                     .andEqualTo("frequency", inspection.getFrequency()).andEqualTo("inspectionId", inspection.getId());
             List<InspectionHistory> inspectionHistories = inspectionHistoryDao.selectByExample(inspectionHistoryExample);
             //不为空说明巡检计划频率对了
-            if (StringUtils.isEmpty(inspectionHistories)) {
+            if (StringUtils.isEmpty(inspectionHistories) || inspectionHistories.size() == 0) {
                 //为空说明漏检了
                 inspectionList.add(inspection);
             }
