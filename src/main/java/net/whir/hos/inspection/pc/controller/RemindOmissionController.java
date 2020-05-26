@@ -21,10 +21,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import tk.mybatis.mapper.entity.Example;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: zty
@@ -150,9 +147,7 @@ public class RemindOmissionController {
      */
     private List<Inspection> getInspectionOmissions(String date, int heaven) {
         //获取工作日检查的巡检
-        Example inspectionExample = new Example(Inspection.class);
-        inspectionExample.createCriteria().andEqualTo("heaven", heaven);
-        List<Inspection> inspections = inspectionDao.selectByExample(inspectionExample);
+        List<Inspection> inspections = inspectionDao.selectByHeaven(heaven);
 
         List<Inspection> inspectionList = new ArrayList<>();
         //判断每个巡检任务有无漏检

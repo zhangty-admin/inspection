@@ -27,4 +27,11 @@ public interface InspectionDao extends Mapper<Inspection> {
      * @return
      */
     List<Inspection> findByUnifiedId(Long id);
+
+    /**
+     * 根据巡检天数查询巡检计划
+     * @param heaven
+     * @return
+     */
+    List<Inspection> selectByHeaven(int heaven);
 }

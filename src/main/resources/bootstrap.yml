@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   resources:
-    static-locations: classpath:/public,classpath:/static,file:/home  #访问前端路径
+    static-locations: file:/Users/zhangtingyu/work/IDEA/admin/inspection/home  #访问前端路径
   application:
     name: inspection
   datasource:
@@ -34,12 +34,20 @@ logging:
     net.whir.hos.inspection.pc.dao: DEBUG
     net.whir.hos.inspection.app.dao: DEBUG
 
-#用户审核网页
+#用户
 emp:
+  #审核网页
   url: http://192.168.3.102:8082/#/Register
+  #图片保存地址
+  imgUrl: home/Emp/
+
 #特殊事件
 event:
+  #查看地址
   url: http://localhost:8082/#/SpecialDetails
+  #特殊事件图片保存地址
+  imgUrl: home/SpecialEvent/
+
 #eureka:
 # client:
 #  service-url:

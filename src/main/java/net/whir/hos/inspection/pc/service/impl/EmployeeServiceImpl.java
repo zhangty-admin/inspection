@@ -43,6 +43,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private String empUrl;
     @Value("${server.port}")
     private String port;
+    @Value("${emp.imgUrl}")
+    private String imgUrl;
 
     /**
      * 分页条件查询用户信息
@@ -110,7 +112,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         //base64转文件
         MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(emp.getPhoto());
         //保存图片 返回url
-        String url = GetPhotoUrl.getEmpPhotoUrl(file, "D:/Emp/", port);
+        String url = GetPhotoUrl.getEmpPhotoUrl(file, imgUrl, port);
         emp.setPhoto(url);
         emp.setReview(0);
         //保存人员信息

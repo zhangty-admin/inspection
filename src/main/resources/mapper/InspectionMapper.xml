@@ -97,4 +97,9 @@
     where ru.id = #{id}
     </select>
 
+    <!--根据巡检天数查询巡检计划-->
+    <select id="selectByHeaven" parameterType="net.whir.hos.inspection.pc.bean.Inspection" resultMap="InspectionMap">
+        select * from inspection where heaven = #{heaven}
+    </select>
+
 </mapper>

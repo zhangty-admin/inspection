@@ -38,6 +38,8 @@ public class SpecialEventController {
     private FileService fileService;
     @Value("${server.port}")
     private String port;
+    @Value("${event.imgUrl}")
+    private String imgUrl;
 
     @ApiOperation(value = "添加特殊事件")
     @PostMapping("/add")
@@ -55,7 +57,7 @@ public class SpecialEventController {
         String format = simpleDateFormat.format(new Date());
         for (Files files : specialEventFile.getFile()) {
             MultipartFile multipartFile = BASE64DecodedMultipartFile.base64ToMultipart(files.getFiles());
-            String empPhotoUrl = GetPhotoUrl.getEmpPhotoUrl(multipartFile, "D:/SpecialEvent/", port);
+            String empPhotoUrl = GetPhotoUrl.getEmpPhotoUrl(multipartFile, imgUrl, port);
             Files build = Files.builder()
                     .files(empPhotoUrl).title(files.getTitle()).specialId(specialEventFile.getSpecialEvent().getId()).createTime(format)
                     .build();
@@ -107,8 +109,8 @@ public class SpecialEventController {
 
     @ApiOperation(value = "根据ID查询特殊事件(bol true/是小程序 false/pc)")
     @GetMapping(value = "/findSpecialEventById")
-    private Result findSpecialEventById(@RequestParam Long id,@RequestParam Boolean bool) {
-        SpecialEvent specialEvent = specialEventService.findSpecialEventById(id,bool);
+    private Result findSpecialEventById(@RequestParam Long id, @RequestParam Boolean bool) {
+        SpecialEvent specialEvent = specialEventService.findSpecialEventById(id, bool);
         return new Result(true, StatusCode.OK, "查询成功", specialEvent);
     }
 
