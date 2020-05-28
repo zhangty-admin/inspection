@@ -22,6 +22,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -74,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * 修改用户信息/审核用户信息
      *
-     * @param employee
+     * @param employeeInspectionIds
      */
     @Override
     public void updateByEmployee(EmployeeInspectionIds employeeInspectionIds) {
@@ -112,11 +114,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         //base64转文件
         MultipartFile file = BASE64DecodedMultipartFile.base64ToMultipart(emp.getPhoto());
         //保存图片 返回url
-        String url = GetPhotoUrl.getEmpPhotoUrl(file, imgUrl, port);
-        emp.setPhoto(url);
-        emp.setReview(0);
-        //保存人员信息
-        employeeDao.insert(emp);
+        String url = null;
+        try {
+            url = GetPhotoUrl.getEmpPhotoUrl(file, imgUrl, port);
+            emp.setPhoto(url);
+            emp.setReview(0);
+            //保存人员信息
+            employeeDao.insert(emp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            String[] split = url.split("/");
+            File file1 = new File(new File(imgUrl, split[split.length - 1]).getAbsolutePath());
+            boolean delete = file1.delete();
+            log.warn("保存失败，删除图片为：" + delete);
+        }
         //保存多个巡检计划与人员的
         for (Long insId : employeeInspectionIds.getInsIds()) {
             EmployeeIdInspectionId build = EmployeeIdInspectionId.builder().employeeId(emp.getId()).inspectionId(insId).build();

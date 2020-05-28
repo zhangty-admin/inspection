@@ -2,7 +2,10 @@ package net.whir.hos.inspection.pc.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.PageRequest;
+import net.whir.hos.inspection.commons.utils.BASE64DecodedMultipartFile;
+import net.whir.hos.inspection.commons.utils.GetPhotoUrl;
 import net.whir.hos.inspection.pc.bean.*;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
 import net.whir.hos.inspection.pc.dao.FileDao;
@@ -14,8 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -26,6 +32,7 @@ import java.util.List;
  */
 
 @Service
+@Slf4j
 @Transactional
 public class SpecialEventServiceImpl implements SpecialEventService {
 
@@ -41,6 +48,10 @@ public class SpecialEventServiceImpl implements SpecialEventService {
     private FileService fileService;
     @Value("${event.url}")
     private String eventUrl;
+    @Value("${server.port}")
+    private String port;
+    @Value("${event.imgUrl}")
+    private String imgUrl;
 
     /**
      * 添加特殊事件
@@ -53,16 +64,29 @@ public class SpecialEventServiceImpl implements SpecialEventService {
         SpecialEvent specialEvent = specialEventFile.getSpecialEvent();
         specialEvent.setIsCheck(false);
         specialEventDao.insert(specialEvent);
-        //图片上传 beat64保存数据库
-        for (Files files : specialEventFile.getFile()) {
-            files.setFiles(files.getFiles());
-            files.setTitle(files.getTitle());
-            files.setSpecialId(specialEventFile.getSpecialEvent().getId());
-            fileService.insert(files);
-        }
-        //消息提醒
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        //图片上传 url保存数据库
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-dd-MM HH:mm:ss");
         String format = simpleDateFormat.format(new Date());
+        for (Files file : specialEventFile.getFile()) {
+            MultipartFile multipartFile = BASE64DecodedMultipartFile.base64ToMultipart(file.getFiles());
+            String empPhotoUrl = null;
+            try {
+                empPhotoUrl = GetPhotoUrl.getEmpPhotoUrl(multipartFile, imgUrl, port);
+                Files build = Files.builder()
+                        .files(empPhotoUrl).title(file.getTitle()).specialId(specialEventFile.getSpecialEvent().getId()).createTime(format)
+                        .build();
+                //保存数据库
+                fileService.insert(build);
+            } catch (Exception e) {
+                e.printStackTrace();
+                String[] split = empPhotoUrl.split("/");
+                File file1 = new File(new File(imgUrl, split[split.length - 1]).getAbsolutePath());
+                boolean delete = file1.delete();
+                log.warn("保存失败，删除图片为：" + delete);
+            }
+        }
+
+        //消息提醒
         List<Employee> employees = employeeDao.selectByInspectionId(specialEvent.getInspectionId());
         StringBuilder stringBuilder = new StringBuilder();
         for (Employee employee : employees) {

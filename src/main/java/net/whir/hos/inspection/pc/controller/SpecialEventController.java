@@ -5,8 +5,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import net.whir.hos.inspection.commons.entity.*;
-import net.whir.hos.inspection.commons.utils.BASE64DecodedMultipartFile;
-import net.whir.hos.inspection.commons.utils.GetPhotoUrl;
 import net.whir.hos.inspection.pc.bean.Files;
 import net.whir.hos.inspection.pc.bean.SpecialEvent;
 import net.whir.hos.inspection.pc.bean.SpecialEventFile;
@@ -15,9 +13,7 @@ import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -49,7 +45,7 @@ public class SpecialEventController {
         return new Result(true, StatusCode.OK, "添加成功");
     }
 
-    @ApiOperation(value = "上传图片")
+    /*@ApiOperation(value = "上传图片")
     @PostMapping("/upload")
     private Result uploadSpecialEvent(@RequestBody SpecialEventFile specialEventFile) {
         //图片上传 url保存数据库
@@ -64,7 +60,7 @@ public class SpecialEventController {
             fileService.insert(build);
         }
         return new Result(true, StatusCode.OK, "添加成功");
-    }
+    }*/
 
 
     @ApiOperation(value = "删除特殊事件")

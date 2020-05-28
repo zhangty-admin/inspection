@@ -22,7 +22,7 @@ public class GetPhotoUrl {
      * @param port
      * @return
      */
-    public static String getEmpPhotoUrl(MultipartFile file, String path, String port) {
+    public static String getEmpPhotoUrl(MultipartFile file, String path, String port) throws IOException {
         UUID uuid = UUID.randomUUID();
         String originalFilename = file.getOriginalFilename();
         // String fileName = uuid.toString() + originalFilename;
@@ -33,20 +33,12 @@ public class GetPhotoUrl {
         if (!filepath.exists()) {
             filepath.mkdirs();
         }
-        try {
-            file.transferTo(new File(dir.getAbsolutePath()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
         InetAddress address = null;
-        try {
-            address = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        file.transferTo(new File(dir.getAbsolutePath()));
+        address = InetAddress.getLocalHost();
+
         String hostAddress = address.getHostAddress();
-        return hostAddress + ":" + port + path.split(":")[1] + fileName;
+        return hostAddress + ":" + port + "/" + path + fileName;
     }
 
 }

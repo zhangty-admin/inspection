@@ -39,14 +39,14 @@ emp:
   #审核网页
   url: http://192.168.3.102:8082/#/Register
   #图片保存地址
-  imgUrl: home/Emp/
+  imgUrl: Emp/
 
 #特殊事件
 event:
   #查看地址
   url: http://localhost:8082/#/SpecialDetails
   #特殊事件图片保存地址
-  imgUrl: home/SpecialEvent/
+  imgUrl: SpecialEvent/
 
 #eureka:
 # client:
