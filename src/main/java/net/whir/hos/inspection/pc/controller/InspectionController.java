@@ -88,14 +88,17 @@ public class InspectionController {
     @ApiOperation(value = "下载")
     @PostMapping("/code")
     private Result generateQRCode() {
-        try {
-            boolean flag = QRCodeUtil.generateCode("http://kangkang.vaiwan.com/", "3", "巡检3的撒大苏打");
-            if (flag) {
-                System.out.println("成功生成二维码");
+        List<Inspection> all = inspectionService.findAll();
+        for (Inspection inspection : all) {
+            try {
+                boolean flag = QRCodeUtil.generateCode("http://kangkang.vaiwan.com/", inspection.getId().toString(), inspection.getName());
+                if (flag) {
+                    System.out.println("成功生成二维码");
+                }
+            } catch (WriterException | IOException e) {
+                log.warn("生成二维码失败: /r/n" + e.getMessage());
+                return new Result(false, StatusCode.ERROR, "生成二维码失败");
             }
-        } catch (WriterException | IOException e) {
-            log.warn("生成二维码失败: /r/n" + e.getMessage());
-            return new Result(false, StatusCode.ERROR, "生成二维码失败");
         }
         return new Result(true, StatusCode.OK, "成功生成二维码");
     }

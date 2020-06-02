@@ -11,7 +11,6 @@ import net.whir.hos.inspection.pc.bean.SpecialEventFile;
 import net.whir.hos.inspection.pc.service.FileService;
 import net.whir.hos.inspection.pc.service.SpecialEventService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -32,10 +31,6 @@ public class SpecialEventController {
     private SpecialEventService specialEventService;
     @Autowired
     private FileService fileService;
-    @Value("${server.port}")
-    private String port;
-    @Value("${event.imgUrl}")
-    private String imgUrl;
 
     @ApiOperation(value = "添加特殊事件")
     @PostMapping("/add")

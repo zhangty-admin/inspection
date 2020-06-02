@@ -34,7 +34,7 @@ public interface EmployeeDao extends Mapper<Employee> {
      * @param id
      * @return
      */
-    List<Employee> selectByDepartment(Long id);
+    List<Employee> selectByUnifiedRemindId(Long id);
 
     /**
      * 根据漏检查询人员信息

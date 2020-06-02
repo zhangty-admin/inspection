@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -164,7 +163,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public List<Employee> selectByUnifiedRemindId(Long id) {
-        return employeeDao.selectByDepartment(id);
+        return employeeDao.selectByUnifiedRemindId(id);
     }
 
     /**

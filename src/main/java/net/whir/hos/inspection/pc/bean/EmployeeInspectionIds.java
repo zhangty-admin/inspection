@@ -23,7 +23,6 @@ public class EmployeeInspectionIds {
 
     @ApiModelProperty(value = "人员")
     private Employee employee;
-
     @ApiModelProperty(value = "巡检计划ID")
     private List<Long> insIds;
 

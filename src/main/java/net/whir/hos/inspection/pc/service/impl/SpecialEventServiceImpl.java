@@ -78,7 +78,7 @@ public class SpecialEventServiceImpl implements SpecialEventService {
                 //保存数据库
                 fileService.insert(build);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.warn(e.getMessage());;
                 String[] split = empPhotoUrl.split("/");
                 File file1 = new File(new File(imgUrl, split[split.length - 1]).getAbsolutePath());
                 boolean delete = file1.delete();
@@ -104,11 +104,6 @@ public class SpecialEventServiceImpl implements SpecialEventService {
             StringBuilder sb = employeeService.splicingJson(employee, stringBuilder.toString());
             employeeService.sendMessage(sb.toString());
         }
-    }
-
-    @Override
-    public SpecialEvent selectById(Long id) {
-        return specialEventDao.selectByPrimaryKey(id);
     }
 
     /**

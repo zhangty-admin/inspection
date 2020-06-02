@@ -21,7 +21,6 @@ public interface SpecialEventService {
      */
     void insertSpecialEvent(SpecialEventFile specialEventFile);
 
-    SpecialEvent selectById(Long id);
 
     /**
      * 删除特殊事件
