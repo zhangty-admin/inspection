@@ -3,6 +3,7 @@ package net.whir.hos.inspection.pc.dao;
 import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.bean.RemindUnified;
 import tk.mybatis.mapper.common.Mapper;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -34,4 +35,10 @@ public interface InspectionDao extends Mapper<Inspection> {
      * @return
      */
     List<Inspection> selectByHeaven(int heaven);
+
+    /**
+     * 根据人员ID查询巡检
+     * @param empId
+     */
+    List<Inspection> selectByEmployeeId(Long empId);
 }

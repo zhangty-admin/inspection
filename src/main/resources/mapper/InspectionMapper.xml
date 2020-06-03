@@ -102,4 +102,14 @@
         select * from inspection where heaven = #{heaven}
     </select>
 
+
+    <resultMap id="inspectionEmployeeMap" type="net.whir.hos.inspection.pc.bean.Inspection" autoMapping="true">
+
+    </resultMap>
+
+    <select id="selectByEmployeeId" parameterType="java.util.List" resultMap="inspectionEmployeeMap">
+        select i.* from inspection i inner join inspection_employee ie on i.id = ie.inspection_id
+        where ie.employee_id = #{empId}
+    </select>
+
 </mapper>

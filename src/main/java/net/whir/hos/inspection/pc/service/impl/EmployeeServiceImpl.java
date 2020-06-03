@@ -11,7 +11,9 @@ import net.whir.hos.inspection.commons.utils.WXToken;
 import net.whir.hos.inspection.pc.bean.Employee;
 import net.whir.hos.inspection.pc.bean.EmployeeIdInspectionId;
 import net.whir.hos.inspection.pc.bean.EmployeeInspectionIds;
+import net.whir.hos.inspection.pc.bean.Inspection;
 import net.whir.hos.inspection.pc.dao.EmployeeDao;
+import net.whir.hos.inspection.pc.dao.InspectionDao;
 import net.whir.hos.inspection.pc.dao.InspectionEmployeeDao;
 import net.whir.hos.inspection.pc.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +26,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: zty
@@ -40,6 +41,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDao employeeDao;
     @Autowired
     private InspectionEmployeeDao inspectionEmployeeDao;
+    @Autowired
+    private InspectionDao inspectionDao;
     @Value("${emp.url}")
     private String empUrl;
     @Value("${server.port}")
@@ -59,6 +62,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Page<Employee> findPage(Employee obj, int page, int size) {
         PageHelper.startPage(page, size);
         List<Employee> employees = employeeDao.findPage(obj);
+
+        for (Employee employee : employees) {
+            List<Inspection> inspections = inspectionDao.selectByEmployeeId(employee.getId());
+            employee.setInspections(inspections);
+        }
         return (Page<Employee>) employees;
     }
 

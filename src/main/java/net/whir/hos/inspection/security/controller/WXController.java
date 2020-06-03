@@ -34,16 +34,15 @@ public class WXController {
         map.put("access_token", access_token);
         map.put("code", code);
         //"https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=ACCESS_TOKEN&code=CODE";
-        String s = MultiRequest.get(map, "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo");
-        JSONObject jsonObject = JSON.parseObject(s);
+        String json = MultiRequest.get(map, "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo");
+        JSONObject jsonObject = JSON.parseObject(json);
         Set<Map.Entry<String, Object>> entries = jsonObject.getInnerMap().entrySet();
         for (Map.Entry<String, Object> entry : entries) {
             if ("errcode".equals(entry.getKey()) && !"0".equals(entry.getValue().toString())) {
                 return new Result(false, StatusCode.ERROR, "失败");
             }
         }
-        System.out.println(s);
-        return new Result(true, StatusCode.OK, "成功");
+        return new Result(true, StatusCode.OK, "成功",jsonObject);
     }
 
 }

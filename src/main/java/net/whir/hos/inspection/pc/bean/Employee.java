@@ -69,4 +69,8 @@ public class Employee implements Serializable {
     @ApiModelProperty(hidden = true)
     private List<Item> items;
 
+    @Transient
+    @ApiModelProperty(value = "巡检计划ID")
+    private Long inspectionId;
+
 }

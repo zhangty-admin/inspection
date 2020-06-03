@@ -4,21 +4,21 @@
 <!--suppress SqlNoDataSourceInspection -->
 <mapper namespace="net.whir.hos.inspection.pc.dao.EmployeeDao">
     <resultMap id="employeeMap" type="net.whir.hos.inspection.pc.bean.Employee" autoMapping="true">
-        <id column="id" property="id"/>
-        <id column="department_id" property="departmentId"/>
         <association property="department" javaType="net.whir.hos.inspection.pc.bean.Department"
                      select="queryDepartment" column="department_id">
         </association>
-        <collection property="inspections" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Inspection"
-                    autoMapping="true" select="queryInspection" column="employee_id">
-        </collection>
+<!--        <collection property="inspections" javaType="java.util.List" ofType="net.whir.hos.inspection.pc.bean.Inspection"-->
+<!--                    autoMapping="true" select="queryInspection" column="id">-->
+<!--        </collection>-->
         <!--<association property="inspection" javaType="net.whir.hos.inspection.pc.bean.Inspection"
                      select="queryInspection" column="inspection_id">
         </association>-->
     </resultMap>
 
     <select id="findPage" parameterType="net.whir.hos.inspection.pc.bean.Employee" resultMap="employeeMap">
-        select * from Employee
+        select e.* from employee e
+        inner join inspection_employee ie on e.id = ie.employee_id
+        inner join inspection i on ie.inspection_id = i.id
         <where>
             <if test=" id > -1 and id != null">
                 and id = #{id}
@@ -33,7 +33,7 @@
                 and department_id = #{departmentId}
             </if>
             <if test=" inspectionId!=null and inspectionId!='' ">
-                and inspection_id = #{inspectionId}
+                and i.id = #{inspectionId}
             </if>
             <if test=" review > -1 and review != null ">
                 and review = #{review}
@@ -45,7 +45,7 @@
                 and is_principal = #{isPrincipal}
             </if>
         </where>
-        order by id desc
+        group by e.id order by id desc
     </select>
 
     <select id="queryDepartment" resultType="net.whir.hos.inspection.pc.bean.Department">
@@ -53,7 +53,7 @@
     </select>
 
     <select id="queryInspection" resultType="net.whir.hos.inspection.pc.bean.Inspection">
-        select i.* from inspection i inner join inspection_employee ie on i.id = ie.inspection_id where ie.employee_id = #{employee_id}
+        select i.* from inspection i inner join inspection_employee ie on i.id = ie.inspection_id where ie.employee_id = #{id}
     </select>
 
 
